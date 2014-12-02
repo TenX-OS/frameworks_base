@@ -76,6 +76,7 @@ import com.android.internal.logging.MetricsLogger;
 import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
 import com.android.internal.util.LatencyTracker;
 import com.android.internal.util.tenx.tenxUtils;
+import com.android.internal.widget.LockPatternUtils;
 import com.android.keyguard.KeyguardClockSwitch;
 import com.android.keyguard.KeyguardStatusView;
 import com.android.keyguard.KeyguardUpdateMonitor;
@@ -324,6 +325,8 @@ public class NotificationPanelViewController extends PanelViewController {
     private float mDownX;
     private float mDownY;
 
+    private boolean mKeyguardOrShadeShowing;
+
     private final KeyguardClockPositionAlgorithm
             mClockPositionAlgorithm =
             new KeyguardClockPositionAlgorithm();
@@ -369,6 +372,9 @@ public class NotificationPanelViewController extends PanelViewController {
     private boolean mAffordanceHasPreview;
     private FalsingManager mFalsingManager;
     private String mLastCameraLaunchSource = KeyguardBottomAreaView.CAMERA_LAUNCH_SOURCE_AFFORDANCE;
+
+    private LockPatternUtils mLockPatternUtils;
+    private boolean mStatusBarLockedOnSecureKeyguard;
 
     private Runnable mHeadsUpExistenceChangedRunnable = () -> {
         setHeadsUpAnimatingAway(false);
@@ -634,6 +640,7 @@ public class NotificationPanelViewController extends PanelViewController {
         }
 
         mSettingsObserver = new SettingsObserver(mHandler);
+        mLockPatternUtils = new LockPatternUtils(mView.getContext());
 
         onFinishInflate();
     }
@@ -1035,10 +1042,15 @@ public class NotificationPanelViewController extends PanelViewController {
         mAnimateNextPositionUpdate = true;
     }
 
+    private boolean isQSEventBlocked() {
+        return mLockPatternUtils.isSecure(KeyguardUpdateMonitor.getCurrentUser())
+            && mStatusBarLockedOnSecureKeyguard && mKeyguardOrShadeShowing;
+    }
+
     public void setQsExpansionEnabled(boolean qsExpansionEnabled) {
-        mQsExpansionEnabled = qsExpansionEnabled;
+        mQsExpansionEnabled = qsExpansionEnabled&& !isQSEventBlocked();
         if (mQs == null) return;
-        mQs.setHeaderClickable(qsExpansionEnabled);
+        mQs.setHeaderClickable(mQsExpansionEnabled);
     }
 
     @Override
@@ -2925,6 +2937,9 @@ public class NotificationPanelViewController extends PanelViewController {
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_SMART_PULLDOWN),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_LOCKED_ON_SECURE_KEYGUARD),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -2948,6 +2963,9 @@ public class NotificationPanelViewController extends PanelViewController {
             mQsSmartPullDown = Settings.System.getIntForUser(resolver,
                     Settings.System.QS_SMART_PULLDOWN, 0,
                     UserHandle.USER_CURRENT);
+            mStatusBarLockedOnSecureKeyguard = Settings.System.getIntForUser(
+                    resolver, Settings.System.STATUS_BAR_LOCKED_ON_SECURE_KEYGUARD, 1,
+                    UserHandle.USER_CURRENT) == 0;
         }
     }
 
@@ -3825,11 +3843,15 @@ public class NotificationPanelViewController extends PanelViewController {
             boolean keyguardFadingAway = mKeyguardStateController.isKeyguardFadingAway();
             int oldState = mBarState;
             boolean keyguardShowing = statusBarState == StatusBarState.KEYGUARD;
+            boolean keyguardOrShadeShowing = statusBarState == StatusBarState.KEYGUARD
+                    || statusBarState == StatusBarState.SHADE_LOCKED;
+
             setKeyguardStatusViewVisibility(statusBarState, keyguardFadingAway, goingToFullShade);
             setKeyguardBottomAreaVisibility(statusBarState, goingToFullShade);
 
             mBarState = statusBarState;
             mKeyguardShowing = keyguardShowing;
+            mKeyguardOrShadeShowing = keyguardOrShadeShowing;
 
             if (oldState == StatusBarState.KEYGUARD && (goingToFullShade
                     || statusBarState == StatusBarState.SHADE_LOCKED)) {
