@@ -24,7 +24,8 @@ import android.content.res.XmlResourceParser;
 import android.os.SystemProperties;
 import android.util.Slog;
 import android.util.proto.ProtoOutputStream;
-
+import android.os.SystemProperties;
+import android.util.Slog;
 import com.android.internal.annotations.VisibleForTesting;
 import com.android.internal.util.XmlUtils;
 
