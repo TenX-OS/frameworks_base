@@ -1,0 +1,365 @@
+/*
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
+ * except in compliance with the License. You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+package com.android.systemui.qs.customize;
+
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLayoutChangeListener;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.view.AccessibilityDelegateCompat;
+import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration;
+import androidx.recyclerview.widget.RecyclerView.State;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
+
+import com.android.internal.logging.UiEventLogger;
+import com.android.systemui.R;
+import com.android.systemui.qs.QSEditEvent;
+import com.android.systemui.qs.QSTileHost;
+import com.android.systemui.qs.customize.TileAdapter.Holder;
+import com.android.systemui.qs.customize.TileQueryHelper.TileInfo;
+import com.android.systemui.qs.customize.TileQueryHelper.TileStateListener;
+import com.android.systemui.qs.external.CustomTile;
+import com.android.systemui.qs.tileimpl.QSIconViewImpl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class TileAdapter extends RecyclerView.Adapter<Holder> implements TileStateListener {
+    private static final long DRAG_LENGTH = 100;
+    private static final float DRAG_SCALE = 1.2f;
+    public static final long MOVE_DURATION = 150;
+
+    private static final int TYPE_TILE = 0;
+    private static final int TYPE_EDIT = 1;
+    private static final int TYPE_ACCESSIBLE_DROP = 2;
+    private static final int TYPE_HEADER = 3;
+    private static final int TYPE_DIVIDER = 4;
+
+    private static final long EDIT_ID = 10000;
+    private static final long DIVIDER_ID = 20000;
+
+    private static final int ACTION_NONE = 0;
+    private static final int ACTION_ADD = 1;
+    private static final int ACTION_MOVE = 2;
+
+    private final Context mContext;
+
+    private final Handler mHandler = new Handler();
+    private final List<TileInfo> mTiles = new ArrayList<>();
+    private final ItemTouchHelper mItemTouchHelper;
+    private final ItemDecoration mDecoration;
+    private final int mMinNumTiles;
+    private int mEditIndex;
+    private int mTileDividerIndex;
+    private int mFocusIndex;
+    private boolean mNeedsFocus;
+    private List<String> mCurrentSpecs;
+    private List<TileInfo> mOtherTiles;
+    private List<TileInfo> mAllTiles;
+
+    private Holder mCurrentDrag;
+    private int mAccessibilityAction = ACTION_NONE;
+    private int mAccessibilityFromIndex;
+    private QSTileHost mHost;
+    private final UiEventLogger mUiEventLogger;
+    // private final AccessibilityDelegateCompat mAccessibilityDelegate;
+    private RecyclerView mRecyclerView;
+
+    public TileAdapter(Context context, UiEventLogger uiEventLogger) {
+        mContext = context;
+        mUiEventLogger = uiEventLogger;
+        mItemTouchHelper = new ItemTouchHelper(mCallbacks);
+        mDecoration = new TileItemDecoration(context);
+        mMinNumTiles = context.getResources().getInteger(R.integer.quick_settings_min_num_tiles);
+        // mAccessibilityDelegate = new TileAdapterDelegate();
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        mRecyclerView = recyclerView;
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
+        mRecyclerView = null;
+    }
+
+    public void setHost(QSTileHost host) {
+        mHost = host;
+    }
+
+    public ItemTouchHelper getItemTouchHelper() {
+        return mItemTouchHelper;
+    }
+
+    public ItemDecoration getItemDecoration() {
+        return mDecoration;
+    }
+
+    public void saveSpecs(QSTileHost host) {
+        List<String> newSpecs = new ArrayList<>();
+        clearAccessibilityState();
+        for (int i = 1; i < mTiles.size() && mTiles.get(i) != null; i++) {
+            newSpecs.add(mTiles.get(i).spec);
+        }
+        host.changeTiles(mCurrentSpecs, newSpecs);
+        mCurrentSpecs = newSpecs;
+    }
+
+    private void clearAccessibilityState() {
+        if (mAccessibilityAction == ACTION_ADD) {
+            // Remove blank tile from last spot
+            mTiles.remove(--mEditIndex);
+            // Update the tile divider position
+            notifyDataSetChanged();
+        }
+        mAccessibilityAction = ACTION_NONE;
+    }
+
+    public void resetTileSpecs(QSTileHost host, List<String> specs) {
+        // Notify the host so the tiles get removed callbacks.
+        host.changeTiles(mCurrentSpecs, specs);
+        setTileSpecs(specs);
+    }
+
+    public void setTileSpecs(List<String> currentSpecs) {
+        if (currentSpecs.equals(mCurrentSpecs)) {
+            return;
+        }
+        mCurrentSpecs = currentSpecs;
+        recalcSpecs();
+    }
+
+    @Override
+    public void onTilesChanged(List<TileInfo> tiles) {
+        mAllTiles = tiles;
+        recalcSpecs();
+    }
+
+    private void recalcSpecs() {
+        if (mCurrentSpecs == null || mAllTiles == null) {
+            return;
+        }
+        mOtherTiles = new ArrayList<TileInfo>(mAllTiles);
+        mTiles.clear();
+        mTiles.add(null);
+        for (int i = 0; i < mCurrentSpecs.size(); i++) {
+            final TileInfo tile = getAndRemoveOther(mCurrentSpecs.get(i));
+            if (tile != null) {
+                mTiles.add(tile);
+            }
+        }
+        mTiles.add(null);
+        for (int i = 0; i < mOtherTiles.size(); i++) {
+            final TileInfo tile = mOtherTiles.get(i);
+            if (tile.isSystem) {
+                mOtherTiles.remove(i--);
+                mTiles.add(tile);
+            }
+        }
+        mTileDividerIndex = mTiles.size();
+        mTiles.add(null);
+        mTiles.addAll(mOtherTiles);
+        updateDividerLocations();
+        notifyDataSetChanged();
+    }
+
+    private TileInfo getAndRemoveOther(String s) {
+        for (int i = 0; i < mOtherTiles.size(); i++) {
+            if (mOtherTiles.get(i).spec.equals(s)) {
+                return mOtherTiles.remove(i);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0) {
+            return TYPE_HEADER;
+        }
+        if (mAccessibilityAction == ACTION_ADD && position == mEditIndex - 1) {
+            return TYPE_ACCESSIBLE_DROP;
+        }
+        if (position == mTileDividerIndex) {
+            return TYPE_DIVIDER;
+        }
+        if (mTiles.get(position) == null) {
+            return TYPE_EDIT;
+        }
+        return TYPE_TILE;
+    }
+
+    @Override
+    public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+        final Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        if (viewType == TYPE_HEADER) {
+            return new Holder(inflater.inflate(R.layout.qs_customize_header, parent, false));
+        }
+        if (viewType == TYPE_DIVIDER) {
+            return new Holder(inflater.inflate(R.layout.qs_customize_tile_divider, parent, false));
+        }
+        if (viewType == TYPE_EDIT) {
+            return new Holder(inflater.inflate(R.layout.qs_customize_divider, parent, false));
+        }
+        FrameLayout frame = (FrameLayout) inflater.inflate(R.laleAdapterDelegate();
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        mRecyclerView = recyclerView;
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
+        mRecyclerView = null;
+    }
+
+    public void setHost(QSTileHost host) {
+        mHost = host;
+    }
+
+    public ItemTouchHelper getItemTouchHelper() {
+        return mItemTouchHelper;
+    }
+
+    public ItemDecoration getItemDecoration() {
+        return mDecoration;
+    }
+
+    public void saveSpecs(QSTileHost host) {
+        List<String> newSpecs = new ArrayList<>();
+        clearAccessibilityState();
+        for (int i = 1; i < mTiles.size() && mTiles.get(i) != null; i++) {
+            newSpecs.add(mTiles.get(i).spec);
+        }
+        host.changeTiles(mCurrentSpecs, newSpecs);
+        mCurrentSpecs = newSpecs;
+    }
+
+    private void clearAccessibilityState() {
+        if (mAccessibilityAction == ACTION_ADD) {
+            // Remove blank tile from last spot
+            mTiles.remove(--mEditIndex);
+            // Update the tile divider position
+            notifyDataSetChanged();
+        }
+        mAccessibilityAction = ACTION_NONE;
+    }
+
+    public void resetTileSpecs(QSTileHost host, List<String> specs) {
+        // Notify the host so the tiles get removed callbacks.
+        host.changeTiles(mCurrentSpecs, specs);
+        setTileSpecs(specs);
+    }
+
+    public void setTileSpecs(List<String> currentSpecs) {
+        if (currentSpecs.equals(mCurrentSpecs)) {
+            return;
+        }
+        mCurrentSpecs = currentSpecs;
+        recalcSpecs();
+    }
+
+    @Override
+    public void onTilesChanged(List<TileInfo> tiles) {
+        mAllTiles = tiles;
+        recalcSpecs();
+    }
+
+    private void recalcSpecs() {
+        if (mCurrentSpecs == null || mAllTiles == null) {
+            return;
+        }
+        mOtherTiles = new ArrayList<TileInfo>(mAllTiles);
+        mTiles.clear();
+        mTiles.add(null);
+        for (int i = 0; i < mCurrentSpecs.size(); i++) {
+            final TileInfo tile = getAndRemoveOther(mCurrentSpecs.get(i));
+            if (tile != null) {
+                mTiles.add(tile);
+            }
+        }
+        mTiles.add(null);
+        for (int i = 0; i < mOtherTiles.size(); i++) {
+            final TileInfo tile = mOtherTiles.get(i);
+            if (tile.isSystem) {
+                mOtherTiles.remove(i--);
+                mTiles.add(tile);
+            }
+        }
+        mTileDividerIndex = mTiles.size();
+        mTiles.add(null);
+        mTiles.addAll(mOtherTiles);
+        updateDividerLocations();
+        notifyDataSetChanged();
+    }
+
+    private TileInfo getAndRemoveOther(String s) {
+        for (int i = 0; i < mOtherTiles.size(); i++) {
+            if (mOtherTiles.get(i).spec.equals(s)) {
+                return mOtherTiles.remove(i);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0) {
+            return TYPE_HEADER;
+        }
+        if (mAccessibilityAction == ACTION_ADD && position == mEditIndex - 1) {
+            return TYPE_ACCESSIBLE_DROP;
+        }
+        if (position == mTileDividerIndex) {
+            return TYPE_DIVIDER;
+        }
+        if (mTiles.get(position) == null) {
+            return TYPE_EDIT;
+        }
+        return TYPE_TILE;
+    }
+
+    @Override
+    public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+        final Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        if (viewType == TYPE_HEADER) {
+            return new Holder(inflater.inflate(R.layout.qs_customize_header, parent, false));
+        }
+        if (viewType == TYPE_DIVIDER) {
+            return new Holder(inflater.inflate(R.layout.qs_customize_tile_divider, parent, false));
+        }
+        if (viewType == TYPE_EDIT) {
+            return new Holder(inflater.inflate(R.layout.qs_customize_divider, parent, false));
+        }
+        FrameLayout frame = (FrameLayout) inflater.inflate(R.la
