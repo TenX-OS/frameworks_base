@@ -35,6 +35,7 @@
     <string name="global_action_restart_recovery">Recovery</string>
     <string name="global_action_restart_bootloader">Bootloader</string>
     <string name="global_action_restart_ui">SystemUI</string>
+    <string name="global_action_onthego">OnTheGo</string>
 
     <!-- Sound search tile -->
     <string name="quick_settings_sound_search">Sound search</string>
@@ -108,5 +109,18 @@
     <string name="qs_data_switch_toast_1">Currently only one SIM card is inserted</string>
     <string name="qs_data_switch_changed_1">Using SIM 1 for Mobile data</string>
     <string name="qs_data_switch_changed_2">Using SIM 2 for Mobile data</string>
+
+    <!-- On The Go -->
+    <string name="onthego_notif_ticker">On-The-Go activated</string>
+    <string name="onthego_notif_title">On-The-Go is active</string>
+    <string name="onthego_notif_stop">Stop</string>
+    <string name="onthego_notif_options">Options</string>
+    <string name="onthego_notif_error">Unable to start On-The-Go</string>
+    <string name="onthego_notif_restart">Restart On-The-Go</string>
+    <string name="onthego_notif_camera_changed">Camera mode changed</string>
+    <string name="onthego_transparency">Transparency</string>
+    <string name="onthego_front_camera">Use front camera</string>
+    <string name="onthego_service_toggle">Automatically restart service</string>
+    <string name="onthego_channel_name">Main</string>
 
 </resources>

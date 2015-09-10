@@ -2772,6 +2772,7 @@
         <item>lockdown</item>
         <item>logout</item>
         <item>screenshot</item>
+        <item>onthego</item>
         <item>users</item>
         <item>silent</item>
     </string-array>
