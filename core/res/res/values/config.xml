@@ -1640,6 +1640,8 @@
         <item>com.android.location.fused</item>
         <!-- Google Play Services or microG (free reimplementation) location provider -->
         <item>com.google.android.gms</item>
+        <!-- microG unifiednlp location provider (standalone) -->
+        <item>org.microg.nlp</item>
     </string-array>
 
     <!-- This string array can be overriden to enable test location providers initially. -->
