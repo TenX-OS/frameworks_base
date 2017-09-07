@@ -6583,6 +6583,18 @@ public final class Settings {
         public static final String STATUS_BAR_CUSTOM_HEADER_HEIGHT = "status_bar_custom_header_height";
 
         /**
+         * Whether to show dashboard conditions in Settings
+         * @hide
+         */
+        public static final String SETTINGS_SHOW_CONDITIONS = "settings_show_conditions";
+
+        /**
+         * Whether to show dashboard suggestions in Settings
+         * @hide
+         */
+        public static final String SETTINGS_SHOW_SUGGESTIONS = "settings_show_suggestions";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
