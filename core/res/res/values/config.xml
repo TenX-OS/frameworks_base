@@ -2766,6 +2766,7 @@
         <item>emergency</item>
         <item>power</item>
         <item>restart</item>
+        <item>torch</item>
         <item>airplane</item>
         <item>settings</item>
         <item>lockdown</item>
