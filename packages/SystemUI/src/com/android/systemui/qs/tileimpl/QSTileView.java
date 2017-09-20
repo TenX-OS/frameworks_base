@@ -188,4 +188,8 @@ public class QSTileView extends QSTileBaseView {
               return false;
         }
     }
+
+    public void setHideLabel(boolean value) {
+        mLabelContainer.setVisibility(value ? View.GONE : View.VISIBLE);
+    }
 }
