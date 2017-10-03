@@ -203,7 +203,7 @@ public class BatteryBarController extends LinearLayout {
         mLocation = Settings.System.getIntForUser(getContext().getContentResolver(),
                 Settings.System.BATTERY_BAR_LOCATION, 0, UserHandle.USER_CURRENT);
 
-        if (mBatteryBarEnabled && isLocationValid(mLocation)) {
+        if (mBatteryBarEnabled && mLocation > 0 && isLocationValid(mLocation)) {
             removeBars();
             addBars();
             // Visibility handled externally
