@@ -112,6 +112,9 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     private SettingsObserver mSettingsObserver = new SettingsObserver(mHandler);
     private ContentResolver mContentResolver;
 
+    // AICP additions
+    private View mBatteryBar;
+
     private SignalCallback mSignalCallback = new SignalCallback() {
         @Override
         public void setIsAirplaneMode(NetworkController.IconState icon) {
@@ -156,6 +159,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         mTenXLogoRight = mStatusBar.findViewById(R.id.tenx_logo_right);
         mCenterClockLayout = (LinearLayout) mStatusBar.findViewById(R.id.center_clock_layout);
         mRightClock = mStatusBar.findViewById(R.id.right_clock);
+        mBatteryBar = mStatusBar.findViewById(R.id.battery_bar);
         showSystemIconArea(false);
         initEmergencyCryptkeeperText();
         animateHide(mClockView, false, false);
@@ -302,6 +306,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         if (mClockStyle == 2) {
             animateHide(mRightClock, animate, true);
         }
+        animateHide(mBatteryBar, animate, true);
     }
 
     public void showSystemIconArea(boolean animate) {
@@ -311,6 +316,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         }
         animateShow(mSystemIconArea, animate);
         animateShow(mTenXLogoRight, animate);
+        animateShow(mBatteryBar, animate);
     }
 
 /*    public void hideClock(boolean animate) {
