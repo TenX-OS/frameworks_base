@@ -169,4 +169,8 @@
     <!-- QS bg image -->
     <string name="photos_not_allowed">You are trying to set QS Panel image with an incompatible app. Please use the stock or another gallery app</string>
 
+    <!-- Smart Pixels QS Tile -->
+    <string name="quick_settings_smart_pixels">Smart Pixels</string>
+    <string name="quick_settings_smart_pixels_on_power_save">Auto-enabled Smart Pixels</string>
+    
 </resources>
