@@ -23,8 +23,16 @@ import android.content.Context;
 import android.content.ContentResolver;
 import android.content.res.ColorUtils;
 import android.content.res.Configuration;
+import android.database.ContentObserver;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.SystemProperties;
+import android.graphics.PorterDuff.Mode;
+import android.os.Handler;
+import android.os.UserHandle;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -70,6 +78,7 @@ public class QSContainerImpl extends FrameLayout {
     private View mBackground;
     private View mBackgroundGradient;
     private View mStatusBarBackground;
+    private Drawable mQsBackGround;
 
     private int mSideMargins;
     private boolean mQsDisabled;
@@ -79,6 +88,9 @@ public class QSContainerImpl extends FrameLayout {
 
     public QSContainerImpl(Context context, AttributeSet attrs) {
         super(context, attrs);
+        Handler mHandler = new Handler();
+        SettingsObserver mSettingsObserver = new SettingsObserver(mHandler);
+        mSettingsObserver.observe();
     }
 
     @Override
@@ -88,12 +100,14 @@ public class QSContainerImpl extends FrameLayout {
         mQSPanelContainer = findViewById(R.id.expanded_qs_scroll_view);
         mQSDetail = findViewById(R.id.qs_detail);
         mHeader = findViewById(R.id.header);
-        mQSCustomizer = findViewById(R.id.qs_customize);
+        mQSCustomizer = (QSCustomizer) findViewById(R.id.qs_customize);
         mDragHandle = findViewById(R.id.qs_drag_handle_view);
         mBackground = findViewById(R.id.quick_settings_background);
         mStatusBarBackground = findViewById(R.id.quick_settings_status_bar_background);
         mBackgroundGradient = findViewById(R.id.quick_settings_gradient_view);
         updateResources();
+        mQsBackGround = getContext().getDrawable(R.drawable.qs_background_primary);
+        updateSettings();
         mHeader.getHeaderQsPanel().setMediaVisibilityChangedListener((visible) -> {
             if (mHeader.getHeaderQsPanel().isShown()) {
                 mAnimateBottomOnNextLayout = true;
@@ -129,6 +143,41 @@ public class QSContainerImpl extends FrameLayout {
         setBackgroundGradientVisibility(newConfig);
         updateResources();
         mSizePoint.set(0, 0); // Will be retrieved on next measure pass.
+    }
+
+    private class SettingsObserver extends ContentObserver {
+        SettingsObserver(Handler handler) {
+            super(handler);
+        }
+
+        void observe() {
+            ContentResolver resolver = getContext().getContentResolver();
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_PANEL_BG_ALPHA), false, this,
+                    UserHandle.USER_ALL);
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            updateSettings();
+        }
+    }
+
+    private void updateSettings() {
+        ContentResolver resolver = getContext().getContentResolver();
+        int mQsBackGroundAlpha = Settings.System.getIntForUser(resolver,
+                Settings.System.QS_PANEL_BG_ALPHA, 255,
+                UserHandle.USER_CURRENT);
+
+        if (mQsBackGroundAlpha < 255 ) {
+            mBackground.setVisibility(View.INVISIBLE);
+            mBackgroundGradient.setVisibility(View.INVISIBLE);
+            mQsBackGround.setAlpha(mQsBackGroundAlpha);
+            setBackground(mQsBackGround);
+        } else {
+            mBackground.setVisibility(View.VISIBLE);
+            mBackgroundGradient.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
