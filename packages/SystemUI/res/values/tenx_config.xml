@@ -26,7 +26,7 @@
 
     <!-- The default tiles to display in QuickSettings -->
     <string name="quick_settings_tiles_extra" translatable="false">
-        caffeine,soundsearch,killapp,heads_up,cpuinfo,fpsinfo,gaming,dataswitch,onthego
+        caffeine,soundsearch,killapp,heads_up,cpuinfo,fpsinfo,gaming,dataswitch,onthego,weather
     </string>
 
     <!-- Whether SystemUI ignores notch -->
