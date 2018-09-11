@@ -26,6 +26,7 @@ import android.content.om.OverlayInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.hardware.fingerprint.FingerprintManager;
 import android.net.ConnectivityManager;
@@ -434,5 +435,11 @@ public class tenxUtils {
     // Check if device has a notch
     public static boolean hasNotch(Context context) {
         return context.getResources().getBoolean(com.android.internal.R.bool.config_haveNotch);
+    }
+
+    // Check for Chinese language
+    public static boolean isChineseLanguage() {
+       return Resources.getSystem().getConfiguration().locale.getLanguage().startsWith(
+               Locale.CHINESE.getLanguage());
     }
 }
