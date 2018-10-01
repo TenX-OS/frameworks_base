@@ -91,6 +91,7 @@ public class BurnInProtectionController {
 
     public void stopShiftTimer() {
         if (!mShiftEnabled) return;
+        if (mTimer == null) return;
         mTimer.cancel();
         mTimer.purge();
         mTimer = null;
