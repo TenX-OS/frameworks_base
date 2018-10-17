@@ -81,6 +81,14 @@ public class ThemesUtils {
             "com.android.theme.materialocean.systemui",
     };
 
+    // QS Tile Styles
+    public static final String[] QS_TILE_THEMES = {
+            "com.android.systemui.qstile.default",
+            "com.android.systemui.qstile.circletrim",
+            "com.android.systemui.qstile.dualtonecircletrim",
+            "com.android.systemui.qstile.squircletrim",
+    };
+
     public String[] getTheme(int theme) {
         switch (theme) {
             case DEVICE_THEME_LIGHT:
@@ -139,5 +147,32 @@ public class ThemesUtils {
             }
         }
     }
-}
 
+    // Switches qs tile style to user selected.
+    public static void updateTileStyle(IOverlayManager om, int userId, int qsTileStyle) {
+        if (qsTileStyle == 0) {
+            stockTileStyle(om, userId);
+        } else {
+            try {
+                om.setEnabled(ThemesUtils.QS_TILE_THEMES[qsTileStyle],
+                        true, userId);
+            } catch (RemoteException e) {
+                Log.w(TAG, "Can't change qs tile icon", e);
+            }
+        }
+    }
+
+    // Switches qs tile style back to stock.
+    public static void stockTileStyle(IOverlayManager om, int userId) {
+        // skip index 0
+        for (int i = 0; i < ThemesUtils.QS_TILE_THEMES.length; i++) {
+            String qstiletheme = ThemesUtils.QS_TILE_THEMES[i];
+            try {
+                om.setEnabled(qstiletheme,
+                        false /*disable*/, userId);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
