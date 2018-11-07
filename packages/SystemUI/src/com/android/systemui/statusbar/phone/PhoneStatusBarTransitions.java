@@ -31,7 +31,8 @@ public final class PhoneStatusBarTransitions extends BarTransitions {
 
     private final float mIconAlphaWhenOpaque;
 
-    private View mLeftSide, mStatusIcons, mBattery, mClock, mCenterClock, mRightClock, mBatteryBar;
+    private View mLeftSide, mStatusIcons, mBattery, mClock, mCenterClock, mRightClock;
+    private View mBatteryBars[] = new View[2];
     private View mTenXLogo, mTenXLogoRight;
     private Animator mCurrentAnimation;
 
@@ -50,7 +51,8 @@ public final class PhoneStatusBarTransitions extends BarTransitions {
         mClock = statusBarView.findViewById(R.id.clock);
         mCenterClock = statusBarView.findViewById(R.id.center_clock);
         mRightClock = statusBarView.findViewById(R.id.right_clock);
-        mBatteryBar = statusBarView.findViewById(R.id.battery_bar);
+        mBatteryBars[0] = statusBarView.findViewById(R.id.battery_bar);
+        mBatteryBars[1] = statusBarView.findViewById(R.id.battery_bar_1);
         applyModeBackground(-1, getMode(), false /*animate*/);
         applyMode(getMode(), false /*animate*/);
     }
@@ -98,7 +100,8 @@ public final class PhoneStatusBarTransitions extends BarTransitions {
                     animateTransitionTo(mClock, newAlphaBC),
                     animateTransitionTo(mCenterClock, newAlphaBC),
                     animateTransitionTo(mRightClock, newAlphaBC),
-                    animateTransitionTo(mBatteryBar, newAlphaBC),
+                    animateTransitionTo(mBatteryBars[0], newAlphaBC),
+                    animateTransitionTo(mBatteryBars[1], newAlphaBC),
                     animateTransitionTo(mTenXLogoRight, newAlpha)
                     );
             if (isLightsOut(mode)) {
@@ -115,7 +118,8 @@ public final class PhoneStatusBarTransitions extends BarTransitions {
             mClock.setAlpha(newAlphaBC);
             mCenterClock.setAlpha(newAlphaBC);
             mRightClock.setAlpha(newAlphaBC);
-            mBatteryBar.setAlpha(newAlphaBC);
+            mBatteryBars[0].setAlpha(newAlphaBC);
+            mBatteryBars[1].setAlpha(newAlphaBC);
         }
     }
 }
