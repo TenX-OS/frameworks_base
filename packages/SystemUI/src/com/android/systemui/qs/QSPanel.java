@@ -98,9 +98,10 @@ import javax.inject.Named;
 public class QSPanel extends LinearLayout implements Tunable, Callback, BrightnessMirrorListener,
         Dumpable {
 
-    private static final String QS_SHOW_AUTO_BRIGHTNESS = "qs_show_auto_brightness";
+    public static final String QS_SHOW_AUTO_BRIGHTNESS = "qs_show_auto_brightness";
     public static final String QS_SHOW_BRIGHTNESS_SLIDER = "qs_show_brightness_slider";
     public static final String QS_SHOW_HEADER = "qs_show_header";
+    public static final String QS_SHOW_BRIGHTNESS_BUTTONS = "qs_show_brightness_buttons";
 
     private static final String TAG = "QSPanel";
 
@@ -118,6 +119,8 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     @Nullable
     protected View mBrightnessView;
     protected ImageView mAutoBrightnessView;
+    protected ImageView mMinBrightness;
+    protected ImageView mMaxBrightness;
     @Nullable
     private BrightnessController mBrightnessController;
 
@@ -274,7 +277,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         mIsAutomaticBrightnessAvailable = getResources().getBoolean(
                 com.android.internal.R.bool.config_automatic_brightness_available);
 
-        ImageView mMinBrightness = mBrightnessView.findViewById(R.id.brightness_left);
+        mMinBrightness = mBrightnessView.findViewById(R.id.brightness_left);
         mMinBrightness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -297,7 +300,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
             }
         });
 
-        ImageView mMaxBrightness = mBrightnessView.findViewById(R.id.brightness_right);
+        mMaxBrightness = mBrightnessView.findViewById(R.id.brightness_right);
         mMaxBrightness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -424,6 +427,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         final TunerService tunerService = Dependency.get(TunerService.class);
         tunerService.addTunable(this, QS_SHOW_AUTO_BRIGHTNESS);
         tunerService.addTunable(this, QS_SHOW_BRIGHTNESS_SLIDER);
+        tunerService.addTunable(this, QS_SHOW_BRIGHTNESS_BUTTONS);
 
         if (mHost != null) {
             setTiles(mHost.getTiles());
@@ -474,6 +478,9 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         }
         if (QS_SHOW_AUTO_BRIGHTNESS.equals(key) && mIsAutomaticBrightnessAvailable) {
             updateViewVisibilityForTuningValue(mAutoBrightnessView, newValue);
+        } else if (QS_SHOW_BRIGHTNESS_BUTTONS.equals(key)) {
+            updateViewVisibilityForTuningValue(mMinBrightness, newValue);
+            updateViewVisibilityForTuningValue(mMaxBrightness, newValue);
         }
     }
 
