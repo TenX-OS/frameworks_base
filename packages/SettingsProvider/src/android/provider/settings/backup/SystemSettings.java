@@ -102,5 +102,7 @@ public class SystemSettings {
         Settings.System.BATTERY_BAR_ENABLED,
         Settings.System.ACCENT_COLOR,
         Settings.System.GRADIENT_COLOR,
+        Settings.System.OMNI_KEYGUARD_SHOW_BATTERY_BAR,
+        Settings.System.OMNI_KEYGUARD_SHOW_BATTERY_BAR_ALWAYS,
     };
 }
