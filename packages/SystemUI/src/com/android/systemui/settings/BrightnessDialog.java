@@ -168,6 +168,14 @@ public class BrightnessDialog extends Activity implements Tunable {
         return super.onKeyDown(keyCode, event);
     }
 
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        // If the BrightnessDialog loses focus, dismiss it.
+        if (!hasFocus) {
+            finish();
+        }
+    }
+
     @Override
     public void onTuningChanged(String key, String newValue) {
         if (QSPanel.QS_SHOW_AUTO_BRIGHTNESS.equals(key)) {
