@@ -19,4 +19,7 @@
     <!-- Whether notify fingerprint client of successful cancelled authentication -->
     <bool name="config_notifyClientOnFingerprintCancelSuccess">false</bool>
 
+    <!-- Smart charging battery percentage -->
+    <integer name="config_smartChargingBatteryLevel">80</integer>
+
 </resources>
