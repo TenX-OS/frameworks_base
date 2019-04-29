@@ -5429,6 +5429,12 @@ public final class Settings {
         public static final String SHOW_FPS_OVERLAY = "show_fps_overlay";
 
         /**
+         * Force full screen for devices with cutout
+         * @hide
+         */
+        public static final String FORCE_FULLSCREEN_CUTOUT_APPS = "force_full_screen_cutout_apps";
+        
+        /**
          * Gaming mode master switch
          * @hide
          */
@@ -6732,6 +6738,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(LOCKSCREEN_WEATHER_SHOW_TEMP);
             PRIVATE_SETTINGS.add(LOCKSCREEN_WEATHER_SHOW_CITY);
 	    PRIVATE_SETTINGS.add(LOCKSCREEN_WEATHER_SHOW_IMAGE);
+	    PRIVATE_SETTINGS.add(FORCE_FULLSCREEN_CUTOUT_APPS);
             PRIVATE_SETTINGS.add(SCREENSHOT_TYPE);
             PRIVATE_SETTINGS.add(SHOW_VOLTE_ICON);
             PRIVATE_SETTINGS.add(VOLTE_ICON_STYLE);

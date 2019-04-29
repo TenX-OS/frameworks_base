@@ -2412,8 +2412,6 @@ public class StatusBar extends SystemUI implements DemoMode,
                 setScreenBrightnessMode();
             } else if (uri.equals(Settings.System.getUriFor(Settings.System.LOCKSCREEN_CHARGING_ANIMATION))) {
                 updateChargingAnimation();
-            } else if (uri.equals(Settings.System.getUriFor(Settings.System.QS_SHOW_BATTERY_ESTIMATE))) {
-                setQsBatteryEstimate();
             } else if (uri.equals(Settings.Secure.getUriFor(Settings.Secure.SYSUI_ROUNDED_FWVALS))) {
                 updateCorners();
             }
