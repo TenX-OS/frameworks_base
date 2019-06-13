@@ -101,6 +101,7 @@ public class MobileSignalController extends SignalController<
 
     private ImsManager mImsManager;
     private FeatureConnector<ImsManager> mFeatureConnector;
+    // Volte Icon
     private boolean mShowVolteIcon;
 
     private boolean mShow4gForLte;
@@ -185,6 +186,9 @@ public class MobileSignalController extends SignalController<
            resolver.registerContentObserver(
                     Settings.System.getUriFor(Settings.System.DATA_DISABLED_ICON), false,
                     this, UserHandle.USER_ALL);
+           resolver.registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.SHOW_VOLTE_ICON), false,
+                    this, UserHandle.USER_ALL);
             updateSettings();
         }
 
@@ -205,6 +209,9 @@ public class MobileSignalController extends SignalController<
                 UserHandle.USER_CURRENT) == 1;
         mDataDisabledIcon = Settings.System.getIntForUser(resolver,
                 Settings.System.DATA_DISABLED_ICON, 1,
+                UserHandle.USER_CURRENT) == 1;
+        mShowVolteIcon = Settings.System.getIntForUser(resolver,
+                Settings.System.SHOW_VOLTE_ICON, 0,
                 UserHandle.USER_CURRENT) == 1;
 
         mapIconSets();
@@ -554,8 +561,7 @@ public class MobileSignalController extends SignalController<
                 && mCurrentState.activityOut;
         showDataIcon &= mCurrentState.isDefault || dataDisabled;
         int typeIcon = (showDataIcon || mConfig.alwaysShowDataRatIcon) ? icons.mDataType : 0;
-        int volteIcon = (mShowVolteIcon && mConfig.showVolteIcon
-                && isVolteSwitchOn()) ? getVolteResId() : 0;
+        int volteIcon = (mShowVolteIcon && isVolteSwitchOn()) ? getVolteResId() : 0;
         MobileIconGroup vowifiIconGroup = getVowifiIconGroup();
         if (mConfig.showVowifiIcon && vowifiIconGroup != null) {
             typeIcon = vowifiIconGroup.mDataType;
