@@ -29,4 +29,7 @@
         caffeine,soundsearch,killapp
     </string>
 
+    <!-- Whether SystemUI ignores notch -->
+    <bool name="hide_view_behind_notch">false</bool>
+
 </resources>
