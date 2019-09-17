@@ -22,7 +22,10 @@
     <!-- Whether notify fingerprint client of successful cancelled authentication -->
     <java-symbol type="bool" name="config_notifyClientOnFingerprintCancelSuccess" />
 
-    <!-- Smart charging battery percentage -->
+    <!-- Smart charging -->
     <java-symbol type="integer" name="config_smartChargingBatteryLevel" />
+    <java-symbol type="string" name="config_SmartChargingSysfsNode" />
+    <java-symbol type="string" name="config_SmartChargingSupspendValue" />
+    <java-symbol type="string" name="config_SmartChargingResumeValue" />
 
 </resources>
