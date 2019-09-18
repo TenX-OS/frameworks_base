@@ -263,5 +263,8 @@ public class SystemSettingsValidators {
         VALIDATORS.put(System.FLASHLIGHT_ON_CALL, ANY_INTEGER_VALIDATOR);
         VALIDATORS.put(System.FLASHLIGHT_ON_CALL_IGNORE_DND, ANY_INTEGER_VALIDATOR);
         VALIDATORS.put(System.FLASHLIGHT_ON_CALL_RATE, ANY_INTEGER_VALIDATOR);
+        VALIDATORS.put(System.INCREASING_RING, BOOLEAN_VALIDATOR);
+        VALIDATORS.put(System.INCREASING_RING_START_VOLUME, new InclusiveFloatRangeValidator(0, 1));
+        VALIDATORS.put(System.INCREASING_RING_RAMP_UP_TIME, new InclusiveFloatRangeValidator(5, 60));
     }
 }
