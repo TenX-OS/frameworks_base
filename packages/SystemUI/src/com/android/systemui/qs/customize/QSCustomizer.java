@@ -21,11 +21,19 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.content.res.Resources;
+import android.content.Intent;
+import android.os.UserHandle;
+import android.provider.Settings;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -39,6 +47,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.internal.logging.UiEventLogger;
 import com.android.internal.logging.UiEventLoggerImpl;
+import com.android.settingslib.Utils;
 import com.android.systemui.R;
 import com.android.systemui.keyguard.ScreenLifecycle;
 import com.android.systemui.plugins.qs.QS;
@@ -89,6 +98,11 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
     private boolean mIsShowingNavBackdrop;
     private UiEventLogger mUiEventLogger = new UiEventLoggerImpl();
 
+    private GridLayoutManager mLayout;
+    private int mDefaultColumns;
+    private Menu mColumnsSubMenu;
+    private Menu mColumnsLandscapeSubMenu;
+
     @Inject
     public QSCustomizer(Context context, AttributeSet attrs,
             LightBarController lightBarController,
@@ -114,23 +128,27 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
         mToolbar.setOnMenuItemClickListener(this);
         mToolbar.getMenu().add(Menu.NONE, MENU_RESET, 0,
                 mContext.getString(com.android.internal.R.string.reset));
-        mToolbar.setTitle(R.string.qs_edit);
-        mRecyclerView = findViewById(android.R.id.list);
+        updateColumnsMenu();
+        int accentColor = Utils.getColorAccentDefaultColor(context);
+        mToolbar.setTitleTextColor(accentColor);
+        mDefaultColumns = Math.max(1,
+                    mContext.getResources().getInteger(R.integer.quick_settings_num_columns));
+        mRecyclerView = (RecyclerView) findViewById(android.R.id.list);
         mTransparentView = findViewById(R.id.customizer_transparent_view);
         mTileAdapter = new TileAdapter(getContext(), uiEventLogger);
         mTileQueryHelper = tileQueryHelper;
         mTileQueryHelper.setListener(mTileAdapter);
         mRecyclerView.setAdapter(mTileAdapter);
         mTileAdapter.getItemTouchHelper().attachToRecyclerView(mRecyclerView);
-        GridLayoutManager layout = new GridLayoutManager(getContext(), 3) {
+        mLayout = new GridLayoutManager(getContext(), mDefaultColumns) {
             @Override
             public void onInitializeAccessibilityNodeInfoForItem(RecyclerView.Recycler recycler,
                     RecyclerView.State state, View host, AccessibilityNodeInfoCompat info) {
                 // Do not read row and column every time it changes.
             }
         };
-        layout.setSpanSizeLookup(mTileAdapter.getSizeLookup());
-        mRecyclerView.setLayoutManager(layout);
+        mLayout.setSpanSizeLookup(mTileAdapter.getSizeLookup());
+        mRecyclerView.setLayoutManager(mLayout);
         mRecyclerView.addItemDecoration(mTileAdapter.getItemDecoration());
         DefaultItemAnimator animator = new DefaultItemAnimator();
         animator.setMoveDuration(TileAdapter.MOVE_DURATION);
@@ -163,6 +181,7 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
             navBackdrop.setVisibility(mIsShowingNavBackdrop ? View.VISIBLE : View.GONE);
         }
         updateNavColors();
+        updateSettings();
     }
 
     private void updateNavColors() {
@@ -270,11 +289,19 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
                 reset();
                 break;
         }
+        updateSettings();
         return false;
     }
 
     private void reset() {
         mTileAdapter.resetTileSpecs(mHost, QSTileHost.getDefaultSpecs(mContext));
+        Settings.System.putIntForUser(mContext.getContentResolver(),
+                Settings.System.OMNI_QS_LAYOUT_COLUMNS, mDefaultColumns,
+                UserHandle.USER_CURRENT);
+        Settings.System.putIntForUser(mContext.getContentResolver(),
+                Settings.System.OMNI_QS_LAYOUT_COLUMNS_LANDSCAPE, mDefaultColumns,
+                UserHandle.USER_CURRENT);
+        updateSettings();
     }
 
     private void setTileSpecs() {
@@ -368,4 +395,27 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
             mNotifQsContainer.setCustomizerAnimating(false);
         }
     };
+
+    public void updateSettings() {
+        final Resources res = mContext.getResources();
+        boolean isPortrait = res.getConfiguration().orientation
+                == Configuration.ORIENTATION_PORTRAIT;
+        int columns = Settings.System.getIntForUser(
+                mContext.getContentResolver(), Settings.System.OMNI_QS_LAYOUT_COLUMNS, mDefaultColumns,
+                UserHandle.USER_CURRENT);
+        int columnsLandscape = Settings.System.getIntForUser(
+                mContext.getContentResolver(), Settings.System.OMNI_QS_LAYOUT_COLUMNS_LANDSCAPE, mDefaultColumns,
+                UserHandle.USER_CURRENT);
+        mTileAdapter.setColumnCount(isPortrait ? columns : columnsLandscape);
+        mLayout.setSpanCount(isPortrait ? columns : columnsLandscape);
+        updateColumnsMenu();
+    }
+     private void updateColumnsMenu() {
+        int columns = Settings.System.getIntForUser(
+                mContext.getContentResolver(), Settings.System.OMNI_QS_LAYOUT_COLUMNS, mDefaultColumns,
+                UserHandle.USER_CURRENT);
+         int columnsLandscape = Settings.System.getIntForUser(
+                mContext.getContentResolver(), Settings.System.OMNI_QS_LAYOUT_COLUMNS_LANDSCAPE, mDefaultColumns,
+                UserHandle.USER_CURRENT);
+    }
 }
