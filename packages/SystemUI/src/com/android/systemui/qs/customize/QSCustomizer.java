@@ -28,6 +28,8 @@ import android.provider.Settings;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import android.os.UserHandle;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
@@ -97,6 +99,8 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
     private int mY;
     private boolean mOpening;
     private boolean mIsShowingNavBackdrop;
+    private boolean mHeaderImageEnabled;
+
     private UiEventLogger mUiEventLogger = new UiEventLoggerImpl();
 
     private GridLayoutManager mLayout;
@@ -163,6 +167,7 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
         mScreenLifecycle = screenLifecycle;
         updateNavBackDrop(getResources().getConfiguration());
         updateSettings();
+        updateQsHeaderImageSettings();
     }
 
     @Override
@@ -176,6 +181,10 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
         LayoutParams lp = (LayoutParams) mTransparentView.getLayoutParams();
         lp.height = mContext.getResources().getDimensionPixelSize(
                 com.android.internal.R.dimen.quick_qs_offset_height);
+        if (mHeaderImageEnabled) {
+            lp.height += mContext.getResources().getDimensionPixelSize(
+                    R.dimen.qs_header_image_offset);
+        }
         mTransparentView.setLayoutParams(lp);
     }
 
@@ -188,6 +197,7 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
         }
         updateNavColors();
         updateSettings();
+        updateQsHeaderImageSettings();
     }
 
     private void updateNavColors() {
@@ -419,7 +429,9 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
         mTileAdapter.setHideLabel(!showTitles);
         mLayout.setSpanCount(isPortrait ? columns : columnsLandscape);
         updateColumnsMenu(defaultColumns);
+
     }
+
     private void updateColumnsMenu(int defaultColumns) {
         int columns = Settings.System.getIntForUser(
                 mContext.getContentResolver(), Settings.System.OMNI_QS_LAYOUT_COLUMNS, defaultColumns,
@@ -430,5 +442,11 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
         int qsColumns = Settings.System.getIntForUser(
                 mContext.getContentResolver(), Settings.System.QS_QUICKBAR_COLUMNS,
                 QuickQSPanel.NUM_QUICK_TILES_DEFAULT, UserHandle.USER_CURRENT);
+    }
+
+    private void updateQsHeaderImageSettings() {
+        mHeaderImageEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.STATUS_BAR_CUSTOM_HEADER, 0,
+                UserHandle.USER_CURRENT) == 1;
     }
 }

@@ -112,7 +112,7 @@ import javax.inject.Named;
  */
 public class QuickStatusBarHeader extends RelativeLayout implements
         View.OnClickListener, NextAlarmController.NextAlarmChangeCallback,
-        ZenModeController.Callback, LifecycleOwner, Tunable {
+        ZenModeController.Callback, LifecycleOwner, TunerService.Tunable {
     private static final String TAG = "QuickStatusBarHeader";
     private static final boolean DEBUG = false;
 
@@ -126,6 +126,9 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     public static final int MAX_TOOLTIP_SHOWN_COUNT = 2;
 
     private final Handler mHandler = new Handler();
+    public static final String STATUS_BAR_CUSTOM_HEADER =
+            "system:" + Settings.System.STATUS_BAR_CUSTOM_HEADER;
+
     private final NextAlarmController mAlarmController;
     private final ZenModeController mZenController;
     private final StatusBarIconController mStatusBarIconController;
@@ -186,6 +189,9 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     private boolean mPermissionsHubEnabled;
     private boolean mAllIndicatorsEnabled;
     private boolean mMicCameraIndicatorsEnabled;
+
+    private boolean mLandscape;
+    private boolean mHeaderImageEnabled;
 
     private PrivacyItemController mPrivacyItemController;
     private final UiEventLogger mUiEventLogger;
@@ -327,8 +333,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mSystemInfoIcon = findViewById(R.id.system_info_icon);
         mSystemInfoText = findViewById(R.id.system_info_text);
 
-        updateResources();
-
         Rect tintArea = new Rect(0, 0, 0, 0);
         int colorForeground = Utils.getColorAttrDefaultColor(getContext(),
                 android.R.attr.colorForeground);
@@ -368,6 +372,12 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mAllIndicatorsEnabled = mPrivacyItemController.getAllIndicatorsAvailable();
         mMicCameraIndicatorsEnabled = mPrivacyItemController.getMicCameraAvailable();
         updateSettings();
+
+        updateResources();
+
+        Dependency.get(TunerService.class).addTunable(this,
+                StatusBarIconController.ICON_BLACKLIST,
+                STATUS_BAR_CUSTOM_HEADER);
     }
 
     public QuickQSPanel getHeaderQsPanel() {
@@ -511,12 +521,8 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     @Override
     protected void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        mLandscape = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE;
         updateResources();
-
-        // Update color schemes in landscape to use wallpaperTextColor
-        boolean shouldUseWallpaperTextColor =
-                newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE;
-        mClockView.useWallpaperTextColor(shouldUseWallpaperTextColor);
     }
 
     @Override
@@ -535,6 +541,11 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         int qqsHeight = mContext.getResources().getDimensionPixelSize(
                 R.dimen.qs_quick_header_panel_height);
 
+        if (mHeaderImageEnabled) {
+            qqsHeight += mContext.getResources().getDimensionPixelSize(
+                    R.dimen.qs_header_image_offset);
+        }
+
         setMinimumHeight(sbHeight + qqsHeight);
     }
 
@@ -551,8 +562,11 @@ public class QuickStatusBarHeader extends RelativeLayout implements
                 resources.getDimensionPixelSize(R.dimen.qs_header_tooltip_height);
         mHeaderTextContainerView.setLayoutParams(mHeaderTextContainerView.getLayoutParams());*/
 
-        mSystemIconsView.getLayoutParams().height = resources.getDimensionPixelSize(
-                com.android.internal.R.dimen.quick_qs_offset_height);
+        int topMargin = resources.getDimensionPixelSize(
+                com.android.internal.R.dimen.quick_qs_offset_height) + (mHeaderImageEnabled ?
+                resources.getDimensionPixelSize(R.dimen.qs_header_image_offset) : 0);
+
+        mSystemIconsView.getLayoutParams().height = topMargin;
         mSystemIconsView.setLayoutParams(mSystemIconsView.getLayoutParams());
 
         StatusIconContainer iconContainer = findViewById(R.id.statusIcons);
@@ -560,8 +574,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
 
         ViewGroup.LayoutParams lp = getLayoutParams();
         if (mQsDisabled) {
-            lp.height = resources.getDimensionPixelSize(
-                    com.android.internal.R.dimen.quick_qs_offset_height);
+            lp.height = topMargin;
         } else {
             lp.height = WRAP_CONTENT;
         }
@@ -573,6 +586,9 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         updateStatusIconAlphaAnimator();
         updateHeaderTextContainerAlphaAnimator();
         updatePrivacyChipAlphaAnimator();
+
+        boolean shouldUseWallpaperTextColor = mLandscape && !mHeaderImageEnabled;
+        mClockView.useWallpaperTextColor(shouldUseWallpaperTextColor);
     }
 
     private void updateSettings() {
@@ -1013,16 +1029,25 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         }
     }
 
-    private boolean getChipEnabled() {
-        return mPermissionsHubEnabled && (mMicCameraIndicatorsEnabled || mAllIndicatorsEnabled);
-    }
-
     @Override
     public void onTuningChanged(String key, String newValue) {
-        if (QS_BATTERY_LOCATION_BAR.equals(key)) {
-            boolean showBatteryInBar = newValue != null && Integer.parseInt(newValue) == 1;
-            mBatteryMeterView.setVisibility(showBatteryInBar ? View.VISIBLE : View.GONE);
-            mBatteryRemainingIcon.setVisibility(showBatteryInBar ? View.GONE : View.VISIBLE);
+        switch (key) {
+            case STATUS_BAR_CUSTOM_HEADER:
+                mHeaderImageEnabled =
+                        TunerService.parseIntegerSwitch(newValue, false);
+                updateResources();
+                break;
+            case QS_BATTERY_LOCATION_BAR:
+                boolean showBatteryInBar = newValue != null && Integer.parseInt(newValue) == 1;
+                mBatteryMeterView.setVisibility(showBatteryInBar ? View.VISIBLE : View.GONE);
+                mBatteryRemainingIcon.setVisibility(showBatteryInBar ? View.GONE : View.VISIBLE);
+                break;
+            default:
+                break;
         }
+    }
+
+    private boolean getChipEnabled() {
+        return mPermissionsHubEnabled && (mMicCameraIndicatorsEnabled || mAllIndicatorsEnabled);
     }
 }
