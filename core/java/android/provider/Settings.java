@@ -5815,6 +5815,12 @@ public final class Settings {
         public static final String QS_PANEL_BG_ALPHA = "qs_panel_bg_alpha";
 
         /**
+         * Whether footer #Ten-X text shows
+         * @hide
+         */
+        public static final String TENX_FOOTER_TEXT_SHOW = "tenx_footer_text_show";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
@@ -6004,6 +6010,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(QS_PANEL_CUSTOM_IMAGE);
             PRIVATE_SETTINGS.add(QS_PANEL_CUSTOM_IMAGE_BLUR);
             PRIVATE_SETTINGS.add(BACK_GESTURE_HAPTIC);
+            PRIVATE_SETTINGS.add(TENX_FOOTER_TEXT_SHOW);
         }
 
 
