@@ -47,4 +47,7 @@
     <dimen name="keyguard_charging_indication_height">60dp</dimen>
     <dimen name="keyguard_charging_indication_width">35dp</dimen>
 
+    <!-- QS System Info -->
+    <dimen name="qs_temperatur_icon_size">16sp</dimen>
+
 </resources>
