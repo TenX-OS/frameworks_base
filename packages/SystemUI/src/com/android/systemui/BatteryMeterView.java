@@ -110,6 +110,7 @@ public class BatteryMeterView extends LinearLayout implements
     private int mBatteryStyle;
     private int mShowBatteryPercent;
     private boolean mBatteryPercentCharging;
+    private int mTextChargingSymbol;
     private final Handler mHandler = new Handler();
 
     private DualToneHandler mDualToneHandler;
@@ -123,32 +124,6 @@ public class BatteryMeterView extends LinearLayout implements
     private int mNonAdaptedSingleToneColor;
     private int mNonAdaptedForegroundColor;
     private int mNonAdaptedBackgroundColor;
-
-    private class SettingsObserver extends ContentObserver {
-        SettingsObserver(Handler handler) {
-            super(handler);
-        }
-
-        void observe() {
-            ContentResolver resolver = getContext().getContentResolver();
-            resolver.registerContentObserver(Settings.System
-                    .getUriFor(Settings.System.STATUS_BAR_BATTERY_STYLE), false,
-                    this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System
-                    .getUriFor(Settings.System.STATUS_BAR_SHOW_BATTERY_PERCENT), false,
-                    this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System
-                    .getUriFor(Settings.System.STATUS_BAR_BATTERY_TEXT_CHARGING), false,
-                    this, UserHandle.USER_ALL);
-            }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            updateSettings();
-        }
-    }
-
-    private SettingsObserver mSettingsObserver = new SettingsObserver(mHandler);
 
     public BatteryMeterView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -205,7 +180,7 @@ public class BatteryMeterView extends LinearLayout implements
 
         setClipChildren(false);
         setClipToPadding(false);
-        mSettingsObserver.observe();
+        mSettingObserver.observe();
         Dependency.get(ConfigurationController.class).observe(viewAttachLifecycle(this), this);
     }
 
@@ -321,6 +296,7 @@ public class BatteryMeterView extends LinearLayout implements
         updateSBBarBatteryStyle();
         updateSBBarShowBatteryPercent();
         updateSBBarBatteryTextCharging();
+        updateTextChargingSymbol();
     }
 
     private void updateSBBarBatteryStyle() {
@@ -370,8 +346,10 @@ public class BatteryMeterView extends LinearLayout implements
                 Settings.Global.getUriFor(Settings.Global.BATTERY_ESTIMATES_LAST_UPDATE_TIME),
                 false, mSettingObserver);
         updateShowPercent();
+        updateSettings();
         subscribeForTunerUpdates();
         mUserTracker.startTracking();
+        mSettingObserver.observe();
     }
 
     @Override
@@ -448,18 +426,24 @@ public class BatteryMeterView extends LinearLayout implements
     }
 
     private void setPercentTextAtCurrentLevel() {
-        // Use the high voltage symbol ⚡ (u26A1 unicode) but prevent the system
-        // to load its emoji colored variant with the uFE0E flag
-        String bolt = "\u26A1\uFE0E";
-        CharSequence mChargeIndicator =
-                mCharging && (mBatteryStyle == BATTERY_STYLE_TEXT
-                || mBatteryStyle == BATTERY_STYLE_HIDDEN)
-                ? (bolt + " ") : "";
-        mBatteryPercentView.setText(mChargeIndicator +
-                NumberFormat.getPercentInstance().format(mLevel / 100f));
-        setContentDescription(
-                getContext().getString(mCharging ? R.string.accessibility_battery_level_charging
-                        : R.string.accessibility_battery_level, mLevel));
+        if (mBatteryPercentView == null)
+ 	    return;
+
+        String pct = NumberFormat.getPercentInstance().format(mLevel / 100f);
+
+        if (mCharging && (mBatteryPercentView != null && mBatteryStyle == BATTERY_STYLE_HIDDEN)
+                && mTextChargingSymbol > 0) {
+            switch (mTextChargingSymbol) {
+                case 1:
+                default:
+                    pct = "⚡️ " + pct;
+                   break;
+                case 2:
+                    pct = "~ " + pct;
+                    break;
+            }
+        }
+         mBatteryPercentView.setText(pct);
     }
 
     private void removeBatteryPercentView() {
@@ -557,6 +541,12 @@ public class BatteryMeterView extends LinearLayout implements
         }
     }
 
+    private void updateTextChargingSymbol() {
+        mTextChargingSymbol = Settings.System.getIntForUser(
+	    mContext.getContentResolver(), Settings.System.
+   	    TEXT_CHARGING_SYMBOL, 0, mUser);
+    }
+
     @Override
     public void onDarkChanged(Rect area, float darkIntensity, int tint) {
         float intensity = DarkIconDispatcher.isInArea(area, this) ? darkIntensity : 0;
@@ -594,10 +584,28 @@ public class BatteryMeterView extends LinearLayout implements
             super(handler);
         }
 
+        void observe() {
+            ContentResolver resolver = getContext().getContentResolver();
+            resolver.registerContentObserver(Settings.System
+                    .getUriFor(Settings.System.STATUS_BAR_BATTERY_STYLE), false,
+                    this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System
+                    .getUriFor(Settings.System.STATUS_BAR_SHOW_BATTERY_PERCENT), false,
+                    this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System
+                    .getUriFor(Settings.System.STATUS_BAR_BATTERY_TEXT_CHARGING), false,
+                    this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System
+                    .getUriFor(Settings.System.TEXT_CHARGING_SYMBOL), false,
+                    this, UserHandle.USER_ALL);
+        }
+
         @Override
         public void onChange(boolean selfChange, Uri uri) {
             super.onChange(selfChange, uri);
+            updateSettings();
             updateShowPercent();
+            updateTextChargingSymbol();
             if (TextUtils.equals(uri.getLastPathSegment(),
                     Settings.Global.BATTERY_ESTIMATES_LAST_UPDATE_TIME)) {
                 // update the text for sure if the estimate in the cache was updated
