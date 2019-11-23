@@ -73,6 +73,7 @@ android_library {
         "dagger2-2.19",
         "jsr330",
         "VendorSupport-preference",
+        "airbnb-lottie",
         "vendor.lineage.biometrics.fingerprint.inscreen-V1.0-java",
         "vendor.lineage.powershare-V1.0-java",
         "faceunlock_framework",
@@ -153,6 +154,7 @@ android_library {
         "dagger2-2.19",
         "jsr330",
         "vendor.lineage.biometrics.fingerprint.inscreen-V1.0-java",
+        "airbnb-lottie",
     ],
     libs: [
         "android.test.runner",

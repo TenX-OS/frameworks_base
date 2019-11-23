@@ -18,11 +18,22 @@
 <com.android.systemui.statusbar.phone.KeyguardBottomAreaView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:systemui="http://schemas.android.com/apk/res/com.android.systemui"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/keyguard_bottom_area"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:outlineProvider="none"
     android:elevation="5dp" > <!-- Put it above the status bar header -->
+
+    <com.airbnb.lottie.LottieAnimationView
+         android:id="@+id/charging_indication"
+         android:layout_width="@dimen/keyguard_charging_indication_width"
+         android:layout_height="@dimen/keyguard_charging_indication_height"
+         android:layout_gravity="center_horizontal"
+         android:clickable="false"
+         app:lottie_fileName="keyguard_charging_indication.json"
+         app:lottie_loop="true"
+         android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/keyguard_indication_area"
