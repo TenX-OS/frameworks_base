@@ -36,6 +36,7 @@ import com.android.systemui.qs.tiles.CellularTile;
 import com.android.systemui.qs.tiles.ColorInversionTile;
 import com.android.systemui.qs.tiles.CPUInfoTile;
 import com.android.systemui.qs.tiles.DataSaverTile;
+import com.android.systemui.qs.tiles.DataSwitchTile;
 import com.android.systemui.qs.tiles.DndTile;
 import com.android.systemui.qs.tiles.FlashlightTile;
 import com.android.systemui.qs.tiles.FPSInfoTile;
@@ -95,9 +96,8 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<CPUInfoTile> mCPUInfoTileProvider;
     private final Provider<FPSInfoTile> mFPSInfoTileProvider;
     private final Provider<GamingModeTile> mGamingModeTileProvider;
-
-    // Additions
     private final Provider<AODTile> mAODTileProvider;
+    private final Provider<DataSwitchTile> mDataSwitchTileProvider;
 
     private final Lazy<QSHost> mQsHostLazy;
 
@@ -131,7 +131,8 @@ public class QSFactoryImpl implements QSFactory {
             Provider<CPUInfoTile> cpuInfoTileProvider,
             Provider<FPSInfoTile> fpsInfoTileProvider,
             Provider<GamingModeTile> gamingModeTileProvider,
-            Provider<AODTile> aodTileProvider) {
+            Provider<AODTile> aodTileProvider,
+            Provider<DataSwitchTile> dataSwitchTileProvider) {
         mQsHostLazy = qsHostLazy;
         mWifiTileProvider = wifiTileProvider;
         mBluetoothTileProvider = bluetoothTileProvider;
@@ -162,6 +163,7 @@ public class QSFactoryImpl implements QSFactory {
         mFPSInfoTileProvider = fpsInfoTileProvider;
         mGamingModeTileProvider = gamingModeTileProvider;
         mAODTileProvider = aodTileProvider;
+        mDataSwitchTileProvider = dataSwitchTileProvider;
     }
 
     public QSTile createTile(String tileSpec) {
@@ -232,6 +234,8 @@ public class QSFactoryImpl implements QSFactory {
                 return mGamingModeTileProvider.get();
             case "aod":
                 return mAODTileProvider.get();
+            case "dataswitch":
+                return mDataSwitchTileProvider.get();
         }
 
         // Custom tiles
