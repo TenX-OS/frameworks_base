@@ -19,6 +19,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
+import android.graphics.drawable.Drawable;
 import android.net.NetworkCapabilities;
 import android.net.Uri;
 import android.os.Handler;
@@ -103,6 +104,8 @@ public class MobileSignalController extends SignalController<
     private FeatureConnector<ImsManager> mFeatureConnector;
     // Volte Icon
     private boolean mShowVolteIcon;
+    // Volte Icon Style
+    private int mVoLTEstyle;
 
     private boolean mShow4gForLte;
 
@@ -189,6 +192,9 @@ public class MobileSignalController extends SignalController<
            resolver.registerContentObserver(
                     Settings.System.getUriFor(Settings.System.SHOW_VOLTE_ICON), false,
                     this, UserHandle.USER_ALL);
+           resolver.registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.VOLTE_ICON_STYLE), false,
+                    this, UserHandle.USER_ALL);
             updateSettings();
         }
 
@@ -213,9 +219,13 @@ public class MobileSignalController extends SignalController<
         mShowVolteIcon = Settings.System.getIntForUser(resolver,
                 Settings.System.SHOW_VOLTE_ICON, 0,
                 UserHandle.USER_CURRENT) == 1;
+        mVoLTEstyle = Settings.System.getIntForUser(resolver,
+                Settings.System.VOLTE_ICON_STYLE, 0,
+                UserHandle.USER_CURRENT);
 
         mapIconSets();
         updateTelephony();
+        notifyListeners();
     }
 
     public void setConfiguration(Config config) {
@@ -466,7 +476,25 @@ public class MobileSignalController extends SignalController<
         int resId = 0;
         if ( (mCurrentState.voiceCapable || mCurrentState.videoCapable)
                 &&  mCurrentState.imsRegistered ) {
-            resId = R.drawable.ic_volte;
+            switch(mVoLTEstyle) {
+                // VoLTE
+                case 1:
+                    resId = R.drawable.ic_volte1;
+                    break;
+                // OOS VoLTE
+                case 2:
+                    resId = R.drawable.ic_volte2;
+                    break;
+                // HD Icon
+                case 3:
+                    resId = R.drawable.ic_hd_volte;
+                    break;
+ 	        //Vo
+                case 0:
+                default:
+                    resId = R.drawable.ic_volte;
+                    break;
+            }
         }
         return resId;
     }
