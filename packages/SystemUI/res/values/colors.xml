@@ -276,4 +276,6 @@
     <color name="misalignment_text_color">#F28B82</color>
 
     <color name="screenrecord_status_color">#E94235</color>
+
+    <color name="keyguard_affordance_background_color">#80000000</color>
 </resources>
