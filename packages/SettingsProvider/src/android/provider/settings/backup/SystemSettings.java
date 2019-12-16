@@ -112,5 +112,6 @@ public class SystemSettings {
         Settings.System.QS_TILE_BG_SIZE,
         Settings.System.QS_QUICK_TILE_SIZE,
         Settings.System.QS_TILE_ICON_SIZE,
+        Settings.System.FLASHLIGHT_ON_CALL,
     };
 }
