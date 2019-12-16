@@ -2130,7 +2130,9 @@ public class StatusBar extends SystemUI implements DemoMode,
                     Settings.Secure.CENTER_TEXT_CLOCK))) {
                 updateKeyguardStatusSettings();
             } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.QS_PANEL_BG_USE_NEW_TINT))) {
+                    Settings.System.QS_PANEL_BG_USE_NEW_TINT)) ||
+                      uri.equals(Settings.System.getUriFor(
+                    Settings.System.QS_LABEL_USE_NEW_TINT))) {
                 mQSPanel.getHost().reloadAllTiles();
             }
         }
