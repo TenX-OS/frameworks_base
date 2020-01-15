@@ -19,4 +19,7 @@
     <!-- QS date color-->
     <color name="qs_date_color">#FF4C4C4C</color>
 
+    <!-- Accent color -->
+    <color name="accent_device_default_light">@*android:color/accent_device_default_light</color>
+
 </resources>
