@@ -2361,7 +2361,6 @@ public class StatusBar extends SystemUI implements DemoMode,
     }
 
     /*private void doXXX() {
-
     }*/
 
     private void setPulseOnNewTracks() {
@@ -2375,6 +2374,13 @@ public class StatusBar extends SystemUI implements DemoMode,
     private void setLockScreenMediaBlurLevel() {
         if (mMediaManager != null) {
             mMediaManager.setLockScreenMediaBlurLevel();
+        }
+    }
+
+    @Override
+    public void setBlockedGesturalNavigation(boolean blocked) {
+        if (getNavigationBarView() != null) {
+            getNavigationBarView().setBlockedGesturalNavigation(blocked);
         }
     }
 
