@@ -7441,5 +7441,9 @@ message MetricsEvent {
 
     // TENX Constant
     TENX = 2222;
+
+    // Panel for Mobile Data
+    PANEL_MOBILE_DATA = 2002;
+
   }
 }
