@@ -97,6 +97,7 @@ import com.android.systemui.statusbar.policy.FlashlightController;
 import com.android.systemui.statusbar.policy.KeyguardStateController;
 import com.android.systemui.statusbar.policy.NetworkController;
 import com.android.systemui.statusbar.policy.RemoteInputQuickSettingsDisabler;
+import com.android.systemui.statusbar.policy.TaskHelper;
 import com.android.systemui.statusbar.policy.UserInfoControllerImpl;
 import com.android.systemui.statusbar.policy.UserSwitcherController;
 import com.android.systemui.tuner.TunerService;
@@ -203,7 +204,8 @@ public interface StatusBarGoogleModule {
             Lazy<NotificationShadeDepthController> notificationShadeDepthController,
             DismissCallbackRegistry dismissCallbackRegistry,
             StatusBarTouchableRegionManager statusBarTouchableRegionManager,
-            TunerService tunerService) {
+            TunerService tunerService,
+            TaskHelper taskHelper) {
         return new StatusBarGoogle(
                 smartSpaceController,
                 context,
@@ -284,6 +286,7 @@ public interface StatusBarGoogleModule {
                 dismissCallbackRegistry,
                 notificationShadeDepthController,
                 statusBarTouchableRegionManager,
-                tunerService);
+                tunerService,
+                taskHelper);
     }
 }
