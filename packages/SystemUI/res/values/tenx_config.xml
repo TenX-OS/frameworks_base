@@ -48,4 +48,7 @@
     <integer name="quick_settings_onthego_dialog_short_timeout">3000</integer>
     <integer name="quick_settings_onthego_dialog_long_timeout">6000</integer>
 
+    <!-- Whether to use the mask for the quicksettings icons-->
+    <bool name="config_useMaskForQs">true</bool>
+
 </resources>
