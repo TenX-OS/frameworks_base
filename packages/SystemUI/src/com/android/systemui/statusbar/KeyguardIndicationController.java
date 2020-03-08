@@ -27,6 +27,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.UserInfo;
+import android.content.ContentResolver;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.hardware.biometrics.BiometricSourceType;
@@ -101,7 +103,7 @@ public class KeyguardIndicationController implements StateListener,
     private KeyguardIndicationTextView mTextView;
     private KeyguardIndicationTextView mDisclosure;
     private LottieAnimationView mChargingIndicationView;
-    private boolean mChargingIndication = true;
+    private int mChargingIndication;
     private final IBatteryStats mBatteryInfo;
     private final SettableWakeLock mWakeLock;
     private final DockManager mDockManager;
@@ -181,8 +183,8 @@ public class KeyguardIndicationController implements StateListener,
     }
 
     public void setIndicationArea(ViewGroup indicationArea) {
-      mChargingIndicationView = (LottieAnimationView) indicationArea.findViewById(
-              R.id.charging_indication);
+        mChargingIndicationView = (LottieAnimationView) indicationArea.findViewById(
+                R.id.charging_indication);
         mIndicationArea = indicationArea;
         mTextView = indicationArea.findViewById(R.id.keyguard_indication_text);
         mInitialTextColorState = mTextView != null ?
@@ -490,14 +492,62 @@ public class KeyguardIndicationController implements StateListener,
         }
     }
 
-    public void updateChargingIndication(boolean visible) {
-        mChargingIndication = visible;
+    private boolean hasActiveInDisplayFp() {
+        boolean hasInDisplayFingerprint = mContext.getResources().getBoolean(
+                com.android.internal.R.bool.config_supportsInDisplayFingerprint);
+        int userId = KeyguardUpdateMonitor.getCurrentUser();
+        FingerprintManager fpm = (FingerprintManager) mContext.getSystemService(Context.FINGERPRINT_SERVICE);
+        return hasInDisplayFingerprint && fpm.getEnrolledFingerprints(userId).size() > 0;
     }
 
-    private void updateChargingIndication() {
-        if (mChargingIndication && !mDozing && mPowerPluggedIn) {
+    public void updateChargingIndication() {
+        final ContentResolver resolver = mContext.getContentResolver();
+        mChargingIndication = Settings.System.getIntForUser(resolver,
+                Settings.System.LOCKSCREEN_CHARGING_ANIMATION, 1, UserHandle.USER_CURRENT);
+        if (mPowerPluggedIn) {
+            switch (mChargingIndication) {
+                default:
+                case 1: // Flash
+                    mChargingIndicationView.setFileName("keyguard_charging_indication.json");
+                    mChargingIndicationView.getLayoutParams().height = mContext.getResources().getDimensionPixelSize(
+                                R.dimen.keyguard_charging_indication_height);
+                    mChargingIndicationView.getLayoutParams().width = mContext.getResources().getDimensionPixelSize(
+                                R.dimen.keyguard_charging_indication_width);
+                    break;
+                case 2: // Battery
+                    mChargingIndicationView.setFileName("keyguard_charge_battery.json");
+                    mChargingIndicationView.getLayoutParams().height = mContext.getResources().getDimensionPixelSize(
+                                R.dimen.keyguard_charging_indication_width);
+                    mChargingIndicationView.getLayoutParams().width = mContext.getResources().getDimensionPixelSize(
+                                R.dimen.keyguard_charging_indication_height);
+                    break;
+                case 3: // Drop
+                    mChargingIndicationView.setFileName("keyguard_charge_drop.json");
+                    mChargingIndicationView.getLayoutParams().height = mContext.getResources().getDimensionPixelSize(
+                                R.dimen.keyguard_charging_indication_height);
+                    mChargingIndicationView.getLayoutParams().width = mContext.getResources().getDimensionPixelSize(
+                                R.dimen.keyguard_charging_indication_height);
+                    break;
+                case 4: // Explosion
+                    mChargingIndicationView.setFileName("keyguard_charge_explosion.json");
+                    mChargingIndicationView.getLayoutParams().height = mContext.getResources().getDimensionPixelSize(
+                                R.dimen.keyguard_charging_indication_height);
+                    mChargingIndicationView.getLayoutParams().width = mContext.getResources().getDimensionPixelSize(
+                                R.dimen.keyguard_charging_indication_height);
+                    break;
+                case 5: // Water
+                    mChargingIndicationView.setFileName("keyguard_charge_water.json");
+                    mChargingIndicationView.getLayoutParams().height = mContext.getResources().getDimensionPixelSize(
+                                R.dimen.keyguard_charging_indication_height);
+                    mChargingIndicationView.getLayoutParams().width = mContext.getResources().getDimensionPixelSize(
+                                R.dimen.keyguard_charging_indication_height);
+                    break;
+            }
             mChargingIndicationView.setVisibility(View.VISIBLE);
             mChargingIndicationView.playAnimation();
+            if (mChargingIndication == 0) {
+                mChargingIndicationView.setVisibility(View.GONE);
+            }
         } else {
             mChargingIndicationView.setVisibility(View.GONE);
         }
