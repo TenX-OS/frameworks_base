@@ -6352,6 +6352,63 @@ public final class Settings {
         public static final String CLICK_PARTIAL_SCREENSHOT = "click_partial_screenshot";
 
         /**
+         * Whether to show the battery bar
+         * @hide
+         */
+        public static final String BATTERY_BAR_LOCATION = "battery_bar_location";
+
+        /**
+         * @hide
+         */
+        public static final String BATTERY_BAR_COLOR = "battery_bar_color";
+
+        /**
+         * @hide
+         */
+        public static final String BATTERY_BAR_THICKNESS = "battery_bar_thickness";
+
+        /**
+         * @hide
+         */
+        public static final String BATTERY_BAR_STYLE = "battery_bar_style";
+
+        /**
+         * Whether to show animation when charging on battery bar
+         * @hide
+         */
+        public static final String BATTERY_BAR_ANIMATE = "battery_bar_animate";
+
+        /**
+         * Color of the battery bar while charging
+         * @hide
+         */
+        public static final String BATTERY_BAR_CHARGING_COLOR = "battery_bar_charging_color";
+
+        /**
+         * Color of the battery bar when battery is low
+         * @hide
+         */
+        public static final String BATTERY_BAR_BATTERY_LOW_COLOR_WARNING = "battery_bar_battery_low_color_warning";
+
+        /**
+         *  High battery level color of the battery bar
+         * @hide
+         */
+        public static final String BATTERY_BAR_HIGH_COLOR = "battery_bar_high_color";
+
+        /**
+         * Low battery level color of the battery bar
+         * @hide
+         */
+        public static final String BATTERY_BAR_LOW_COLOR = "battery_bar_low_color";
+
+        /**
+         * Whether to use a gradient for battery bar color
+         * @hide
+         */
+        public static final String BATTERY_BAR_USE_GRADIENT_COLOR = "battery_bar_use_gradient_color";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
@@ -6552,8 +6609,17 @@ public final class Settings {
             PRIVATE_SETTINGS.add(STATUSBAR_CLOCK_DATE_STYLE);
             PRIVATE_SETTINGS.add(STATUSBAR_CLOCK_DATE_FORMAT);
 	    PRIVATE_SETTINGS.add(STATUSBAR_CLOCK_DATE_POSITION);
+            PRIVATE_SETTINGS.add(BATTERY_BAR_LOCATION);
+            PRIVATE_SETTINGS.add(BATTERY_BAR_COLOR);
+            PRIVATE_SETTINGS.add(BATTERY_BAR_THICKNESS);
+            PRIVATE_SETTINGS.add(BATTERY_BAR_STYLE);
+            PRIVATE_SETTINGS.add(BATTERY_BAR_ANIMATE);
+            PRIVATE_SETTINGS.add(BATTERY_BAR_CHARGING_COLOR);
+            PRIVATE_SETTINGS.add(BATTERY_BAR_BATTERY_LOW_COLOR_WARNING);
+            PRIVATE_SETTINGS.add(BATTERY_BAR_HIGH_COLOR);
+            PRIVATE_SETTINGS.add(BATTERY_BAR_LOW_COLOR);
+            PRIVATE_SETTINGS.add(BATTERY_BAR_USE_GRADIENT_COLOR);
         }
-
 
         /**
          * These entries are considered common between the personal and the managed profile,

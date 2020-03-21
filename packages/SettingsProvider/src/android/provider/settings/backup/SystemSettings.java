@@ -88,5 +88,15 @@ public class SystemSettings {
         Settings.System.DOUBLE_TAP_SLEEP_LOCKSCREEN,
         Settings.System.INCALL_FEEDBACK_VIBRATE,
         Settings.System.TENX_FOOTER_TEXT_FONT,
+        Settings.System.BATTERY_BAR_LOCATION,
+        Settings.System.BATTERY_BAR_COLOR,
+        Settings.System.BATTERY_BAR_THICKNESS,
+        Settings.System.BATTERY_BAR_STYLE,
+        Settings.System.BATTERY_BAR_ANIMATE,
+        Settings.System.BATTERY_BAR_CHARGING_COLOR,
+        Settings.System.BATTERY_BAR_BATTERY_LOW_COLOR_WARNING,
+        Settings.System.BATTERY_BAR_HIGH_COLOR,
+        Settings.System.BATTERY_BAR_LOW_COLOR,
+        Settings.System.BATTERY_BAR_USE_GRADIENT_COLOR,
     };
 }
