@@ -6384,6 +6384,12 @@ public final class Settings {
         public static final String BATTERY_BAR_ANIMATE = "battery_bar_animate";
 
         /**
+         * Battery bar charging animation color
+         * @hide
+         */
+        public static final String BATTERY_BAR_ANIMATE_COLOR = "battery_bar_animate_color";
+
+        /**
          * Color of the battery bar while charging
          * @hide
          */
@@ -6619,11 +6625,13 @@ public final class Settings {
             PRIVATE_SETTINGS.add(BATTERY_BAR_THICKNESS);
             PRIVATE_SETTINGS.add(BATTERY_BAR_STYLE);
             PRIVATE_SETTINGS.add(BATTERY_BAR_ANIMATE);
+            PRIVATE_SETTINGS.add(BATTERY_BAR_ANIMATE_COLOR);
             PRIVATE_SETTINGS.add(BATTERY_BAR_CHARGING_COLOR);
             PRIVATE_SETTINGS.add(BATTERY_BAR_BATTERY_LOW_COLOR_WARNING);
             PRIVATE_SETTINGS.add(BATTERY_BAR_HIGH_COLOR);
             PRIVATE_SETTINGS.add(BATTERY_BAR_LOW_COLOR);
             PRIVATE_SETTINGS.add(BATTERY_BAR_USE_GRADIENT_COLOR);
+            PRIVATE_SETTINGS.add(BATTERY_BAR_ANIMATE_COLOR);
         }
 
         /**
