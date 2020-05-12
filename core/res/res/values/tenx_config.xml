@@ -115,4 +115,7 @@
          backgrounds -->
     <bool name="config_useDarkBgNotificationIconTextTinting">false</bool>
 
+    <!-- Whether device has a notch -->
+    <bool name="config_haveNotch">false</bool>
+
 </resources>

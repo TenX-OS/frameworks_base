@@ -430,4 +430,9 @@ public class tenxUtils {
             return mService.getOverlayInfosForTarget(target, userId);
         }
     }
+
+    // Check if device has a notch
+    public static boolean hasNotch(Context context) {
+        return context.getResources().getBoolean(com.android.internal.R.bool.config_haveNotch);
+    }
 }
