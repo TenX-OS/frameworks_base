@@ -44,4 +44,7 @@
     <dimen name="qs_page_indicator_margin_bottom">12dp</dimen>
     <dimen name="qs_paged_tile_layout_padding_bottom">4dp</dimen>
 
+    <!-- Biometric Prompt -->
+    <dimen name="biometric_dialog_fod_margin">44dp</dimen>
+
 </resources>
