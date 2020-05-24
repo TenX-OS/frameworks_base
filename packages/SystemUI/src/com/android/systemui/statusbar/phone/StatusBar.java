@@ -169,6 +169,7 @@ import com.android.systemui.Prefs;
 import com.android.systemui.R;
 import com.android.systemui.SystemUI;
 import com.android.systemui.SystemUIFactory;
+import com.android.systemui.ambientmusic.AmbientIndicationContainer;
 import com.android.systemui.assist.AssistManager;
 import com.android.systemui.biometrics.FODCircleViewImpl;
 import com.android.systemui.biometrics.FODCircleViewImplCallback;
@@ -1307,6 +1308,9 @@ public class StatusBar extends SystemUI implements DemoMode,
 
         mAmbientIndicationContainer = mNotificationShadeWindowView.findViewById(
                 R.id.ambient_indication_container);
+        if (mAmbientIndicationContainer != null) {
+            ((AmbientIndicationContainer) mAmbientIndicationContainer).initializeView(this);
+        }
 
         mAutoHideController.setStatusBar(new AutoHideUiElement() {
             @Override
