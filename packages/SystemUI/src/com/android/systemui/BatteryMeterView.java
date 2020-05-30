@@ -471,7 +471,7 @@ public class BatteryMeterView extends LinearLayout implements
                     break;
             }
         }
-         mBatteryPercentView.setText(pct);
+          batteryPercentViewSetText(pct);
     }
 
     private void removeBatteryPercentView() {
@@ -527,6 +527,13 @@ public class BatteryMeterView extends LinearLayout implements
         } else {
             mBatteryIconView.setVisibility(View.VISIBLE);
             scaleBatteryMeterViews();
+        }
+    }
+
+    private void batteryPercentViewSetText(CharSequence text) {
+        CharSequence currentText = mBatteryPercentView.getText();
+        if (!currentText.toString().equals(text.toString())) {
+            mBatteryPercentView.setText(text);
         }
     }
 
