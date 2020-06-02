@@ -149,4 +149,8 @@
     <java-symbol type="integer" name="config_sysCPUTempMultiplier" />
     <java-symbol type="integer" name="config_sysBatteryTempMultiplier" />
 
+    <!-- SystemUI Restart -->
+    <java-symbol type="string" name="systemui_restart_title" />
+    <java-symbol type="string" name="systemui_restart_message" />
+
 </resources>
