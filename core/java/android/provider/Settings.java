@@ -6752,6 +6752,19 @@ public final class Settings {
          */
         public static final String STATUS_BAR_SHOW_WEATHER_TEMP = "status_bar_show_weather_temp";
 
+        /**
+         * Weather to enable statusbar dual row
+         */
+        public static final String STATUSBAR_DUAL_ROW = "statusbar_dual_row";
+
+        /**
+         * @hide
+         *
+         * Show data usage in dual row
+         * @hide
+         */
+        public static final String DUAL_ROW_DATAUSAGE = "dual_row_datausage";
+
 	/**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
