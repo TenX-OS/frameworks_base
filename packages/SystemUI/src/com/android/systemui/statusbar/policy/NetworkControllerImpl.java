@@ -1198,7 +1198,6 @@ public class NetworkControllerImpl extends BroadcastReceiver
         boolean hspaDataDistinguishable;
         boolean inflateSignalStrengths = false;
         boolean alwaysShowDataRatIcon = false;
-        boolean showVowifiIcon = false;
 
         static Config readConfig(Context context) {
             Config config = new Config();
@@ -1211,7 +1210,6 @@ public class NetworkControllerImpl extends BroadcastReceiver
                     res.getBoolean(R.bool.config_hspa_data_distinguishable);
             config.inflateSignalStrengths = res.getBoolean(
                     com.android.internal.R.bool.config_inflateSignalStrength);
-            config.showVowifiIcon = res.getBoolean(R.bool.config_display_vowifi);
 
             CarrierConfigManager configMgr = (CarrierConfigManager)
                     context.getSystemService(Context.CARRIER_CONFIG_SERVICE);
@@ -1229,6 +1227,7 @@ public class NetworkControllerImpl extends BroadcastReceiver
               /*config.hideLtePlus = b.getBoolean(
                         CarrierConfigManager.KEY_HIDE_LTE_PLUS_DATA_ICON_BOOL);*/
             }
+
             return config;
         }
     }
