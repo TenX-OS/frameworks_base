@@ -21,7 +21,6 @@ import static android.app.StatusBarManager.DISABLE_NONE;
 import static com.android.settingslib.graph.BatteryMeterDrawableBase.BATTERY_STYLE_Q;
 import static com.android.settingslib.graph.BatteryMeterDrawableBase.BATTERY_STYLE_CIRCLE;
 import static com.android.settingslib.graph.BatteryMeterDrawableBase.BATTERY_STYLE_DOTTED_CIRCLE;
-import static com.android.settingslib.graph.BatteryMeterDrawableBase.BATTERY_STYLE_TEXT;
 import static com.android.settingslib.graph.BatteryMeterDrawableBase.BATTERY_STYLE_HIDDEN;
 
 import static com.android.systemui.DejankUtils.whitelistIpcs;
@@ -475,7 +474,7 @@ public class BatteryMeterView extends LinearLayout implements
         final boolean showing = mBatteryPercentView != null;
         final boolean drawPercentInside = mShowBatteryPercent == 1;
         final boolean showPercent = mShowBatteryPercent == 2
-                                    || mBatteryStyle == BATTERY_STYLE_TEXT
+                                    || mBatteryStyle == BATTERY_STYLE_HIDDEN
                                     || (mBatteryPercentCharging && mCharging)
                                     || mShowPercentMode == MODE_ON
                                     || mShowPercentMode == MODE_ESTIMATE;
@@ -500,7 +499,7 @@ public class BatteryMeterView extends LinearLayout implements
             } else {
                 Resources res = getContext().getResources();
                 mBatteryPercentView.setPaddingRelative(
-                        res.getDimensionPixelSize(R.dimen.battery_level_padding_start), 0, 0, 0);
+                        res.getDimensionPixelSize(R.dimen.battery_level_padding_end), 0, 0, 0);
             }
         } else {
             removeBatteryPercentView();
@@ -511,7 +510,7 @@ public class BatteryMeterView extends LinearLayout implements
     }
 
     public void updateVisibility() {
-        if (mBatteryStyle == BATTERY_STYLE_HIDDEN || mBatteryStyle == BATTERY_STYLE_TEXT) {
+        if (mBatteryStyle == BATTERY_STYLE_HIDDEN) {
             mBatteryIconView.setVisibility(View.GONE);
             mBatteryIconView.setImageDrawable(null);
         } else {
@@ -549,10 +548,13 @@ public class BatteryMeterView extends LinearLayout implements
     }
 
     public void updateBatteryStyle() {
+        Resources res = getContext().getResources();
         if (mBatteryStyle == BATTERY_STYLE_HIDDEN) return;
 
         if (mBatteryStyle == BATTERY_STYLE_Q) {
             mBatteryIconView.setImageDrawable(mDrawable);
+            mBatteryIconView.setPaddingRelative(res.getDimensionPixelSize
+                          (R.dimen.battery_level_padding_start), 0, 0, 0);
         } else {
             mXDrawable.setMeterStyle(mBatteryStyle);
             mBatteryIconView.setImageDrawable(mXDrawable);

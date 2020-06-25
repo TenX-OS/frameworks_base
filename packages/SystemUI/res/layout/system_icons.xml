@@ -32,6 +32,7 @@
     <com.android.systemui.BatteryMeterView android:id="@+id/battery"
         android:layout_height="match_parent"
         android:layout_width="wrap_content"
+        android:orientation="horizontal"
         android:clipToPadding="false"
         android:clipChildren="false"
         systemui:textAppearance="@style/TextAppearance.StatusBar.Clock" />
