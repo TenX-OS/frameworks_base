@@ -50,4 +50,7 @@
     <!-- Elmyra -->
     <bool name="config_has_elmyra">false</bool>
 
+    <!-- Cycle through ringer modes -->
+    <java-symbol type="string" name="volume_dialog_ringer_guidance_normal" />
+
 </resources>
