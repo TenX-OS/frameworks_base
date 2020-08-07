@@ -2385,6 +2385,9 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SWITCH_STYLE),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.UI_STYLE),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -2437,6 +2440,10 @@ public class StatusBar extends SystemUI implements DemoMode,
                     Settings.System.SWITCH_STYLE))) {
                 stockSwitchStyle();
                 updateSwitchStyle();
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.UI_STYLE))) {
+                stockUIStyle();
+                updateUIStyle();
             }
         }
 
@@ -4124,6 +4131,16 @@ public class StatusBar extends SystemUI implements DemoMode,
 
     public void stockSwitchStyle() {
         ThemesUtils.stockSwitchStyle(mOverlayManager, mLockscreenUserManager.getCurrentUserId());
+    }
+
+    public void updateUIStyle() {
+        int uiStyle =  Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.UI_STYLE, 0, mLockscreenUserManager.getCurrentUserId());
+        ThemesUtils.updateUIStyle(mOverlayManager, mLockscreenUserManager.getCurrentUserId(), uiStyle);
+    }
+
+    public void stockUIStyle() {
+        ThemesUtils.stockUIStyle(mOverlayManager, mLockscreenUserManager.getCurrentUserId());
     }
 
     private void updateDozingState() {

@@ -6653,7 +6653,7 @@ public final class Settings {
          */
         public static final String QS_TILE_STYLE = "qs_tile_style";
 
-       /**
+        /**
          * QS Tile Style Tint
          * @hide
          */
@@ -6663,6 +6663,11 @@ public final class Settings {
          * @hide
          */
         public static final String SWITCH_STYLE = "switch_style";
+
+        /**
+         * @hide
+         */
+        public static final String UI_STYLE = "ui_style";
 
 	/**
          * Keys we no longer back up under the current schema, but want to continue to
@@ -6886,6 +6891,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(TORCH_LONG_PRESS_POWER_TIMEOUT);
             PRIVATE_SETTINGS.add(QS_TILE_STYLE);
             PRIVATE_SETTINGS.add(QS_TILE_STYLE_TINT);
+            PRIVATE_SETTINGS.add(UI_STYLE);
         }
 
         /**

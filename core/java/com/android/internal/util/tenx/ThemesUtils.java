@@ -124,6 +124,15 @@ public class ThemesUtils {
         "com.android.system.switch.oos", // 7
     };
 
+    // UI Styles
+    public static final String[] UI_THEMES = {
+            "com.android.systemui.ui.default", // 0
+            "com.android.systemui.ui.nocornerradius", // 1
+            "com.android.systemui.ui.rectangle", // 2
+            "com.android.systemui.ui.roundlarge", // 3
+            "com.android.systemui.ui.roundmedium", // 4
+    };
+
     public String[] getTheme(int theme) {
         switch (theme) {
             case DEVICE_THEME_LIGHT:
@@ -231,6 +240,33 @@ public class ThemesUtils {
             String switchtheme = SWITCH_THEMES[i];
             try {
                 om.setEnabled(switchtheme,
+                        false /*disable*/, userId);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // Switches UI Style to user selected.
+    public static void updateUIStyle(IOverlayManager om, int userId, int uiStyle) {
+        if (uiStyle == 0) {
+            stockUIStyle(om, userId);
+        } else {
+            try {
+                om.setEnabled(UI_THEMES[uiStyle],
+                        true, userId);
+            } catch (RemoteException e) {
+                Log.w(TAG, "Can't change switch theme", e);
+            }
+        }
+    }
+
+    // Switches UI Style back to stock.
+    public static void stockUIStyle(IOverlayManager om, int userId) {
+        for (int i = 0; i < UI_THEMES.length; i++) {
+            String uitheme = UI_THEMES[i];
+            try {
+                om.setEnabled(uitheme,
                         false /*disable*/, userId);
             } catch (RemoteException e) {
                 e.printStackTrace();
