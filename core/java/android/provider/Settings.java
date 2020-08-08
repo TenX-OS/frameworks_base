@@ -5992,14 +5992,19 @@ public final class Settings {
         public static final String AMBIENT_LIGHT_LAYOUT = "ambient_light_layout";
 
         /**
-         * Status bar carrier label
-         * 0: Hide
-         * 1: Display on keyguard status bar
-         * 2: Display on Normal status bar
-         * 3: Enabled for both
+         * Whether to show carrier label in status bar
          * @hide
          */
-        public static final String STATUS_BAR_SHOW_CARRIER = "status_bar_show_carrier";
+        public static final String CARRIER_LABEL_ENABLED = "carrier_label_enabled";
+
+        /**
+         * Status bar carrier label
+         * 0: Display on keyguard status bar
+         * 1: Display on Normal status bar
+         * 2: Enabled for both
+         * @hide
+         */
+        public static final String CARRIER_LABEL_LOCATION = "carrier_label_location";
 
         /**
          * custom carrier label. The value is
