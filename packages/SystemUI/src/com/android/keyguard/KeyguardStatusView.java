@@ -132,6 +132,8 @@ public class KeyguardStatusView extends GridLayout implements
                 refreshOwnerInfoFont();
                 updateClockAlignment();
                 updateTextClockPadding();
+                mClockView.updateClockAlignment();
+                mClockView.updateTextClockPadding();
 	    }
         }
 
@@ -162,6 +164,8 @@ public class KeyguardStatusView extends GridLayout implements
             updateDateStyles();
             updateClockAlignment();
             updateTextClockPadding();
+            mClockView.updateClockAlignment();
+            mClockView.updateTextClockPadding();
 	}
 
         @Override
@@ -238,6 +242,7 @@ public class KeyguardStatusView extends GridLayout implements
         mClockView.setShowCurrentUserTime(true);
         mTextClock = findViewById(R.id.custom_text_clock_view);
         mCustomNumClockView = findViewById(R.id.custom_clock_view);
+        mCustomClockView = findViewById(R.id.custom_clock_view);
         mCustomNumClockView = findViewById(R.id.custom_num_clock_view);
         mOwnerInfo = findViewById(R.id.owner_info);
         mKeyguardSlice = findViewById(R.id.keyguard_status_area);
@@ -256,6 +261,8 @@ public class KeyguardStatusView extends GridLayout implements
         updateDateStyles();
         updateClockAlignment();
         updateTextClockPadding();
+        mClockView.updateClockAlignment();
+        mClockView.updateTextClockPadding();
 
         mTextColor = mClockView.getCurrentTextColor();
 
