@@ -852,4 +852,6 @@
     <dimen name="waterfall_display_top_edge_size">0px</dimen>
     <dimen name="waterfall_display_right_edge_size">0px</dimen>
     <dimen name="waterfall_display_bottom_edge_size">0px</dimen>
+
+    <dimen name="qs_background_inset">0dp</dimen>
 </resources>
