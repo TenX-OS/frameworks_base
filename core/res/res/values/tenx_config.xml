@@ -159,4 +159,7 @@
     <!-- -1 means use same as config_screenBrightnessDoze -->
     <integer name="config_screenBrightnessPulse">-1</integer>
 
+    <!-- Whether device has dash charging support -->
+    <bool name="config_hasDashCharger">false</bool>
+
 </resources>
