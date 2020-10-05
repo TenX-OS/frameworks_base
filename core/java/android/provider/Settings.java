@@ -5695,6 +5695,9 @@ public final class Settings {
          */
         public static final String OMNI_QS_TILE_TITLE_VISIBILITY = "qs_tile_title_visibility";
 
+        /** @hide */
+        public static final String BACK_GESTURE_HAPTIC = "back_gesture_haptic";
+
         /**
          * @hide
          */
@@ -6000,6 +6003,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(QS_PANEL_TYPE_BACKGROUND);
             PRIVATE_SETTINGS.add(QS_PANEL_CUSTOM_IMAGE);
             PRIVATE_SETTINGS.add(QS_PANEL_CUSTOM_IMAGE_BLUR);
+            PRIVATE_SETTINGS.add(BACK_GESTURE_HAPTIC);
         }
 
 
