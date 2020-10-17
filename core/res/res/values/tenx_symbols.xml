@@ -192,4 +192,7 @@
          backgrounds -->
     <java-symbol type="bool" name="config_useDarkBgNotificationIconTextTinting" />
 
+    <!-- Ambient notification light color -->
+    <java-symbol type="integer" name="config_ambientNotificationDefaultColor" />
+
 </resources>
