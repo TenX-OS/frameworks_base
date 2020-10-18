@@ -162,4 +162,7 @@
     <!-- Whether device has dash charging support -->
     <bool name="config_hasDashCharger">false</bool>
 
+    <!-- Whether device has VOOC charging support -->
+    <bool name="config_hasVoocCharger">false</bool>
+
 </resources>
