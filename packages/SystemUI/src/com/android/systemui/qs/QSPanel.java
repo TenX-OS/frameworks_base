@@ -233,6 +233,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
             initMediaHostState();
         }
         addSecurityFooter();
+        addViewsBelowTiles();
         if (mRegularTileLayout instanceof PagedTileLayout) {
             mQsTileRevealController = new QSTileRevealController(mContext, this,
                     (PagedTileLayout) mRegularTileLayout);
@@ -255,6 +256,9 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     }
 
     protected void addViewsAboveTiles() {
+    }
+
+    protected void addViewsBelowTiles() {
         mBrightnessView = LayoutInflater.from(mContext).inflate(
             R.layout.quick_settings_brightness_dialog, this, false);
 

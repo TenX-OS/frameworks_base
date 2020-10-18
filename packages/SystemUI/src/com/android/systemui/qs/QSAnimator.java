@@ -290,6 +290,11 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
             mBrightnessAnimator = null;
         }
 
+        View brightnessView = mQsPanel.getBrightnessView();
+        if (brightnessView != null) {
+            mAllViews.add(brightnessView);
+        }
+
         if (mAllowFancy) {
             // Make brightness appear static position and alpha in through second half.
             /*View brightness = mQsPanel.getBrightnessView();
@@ -422,6 +427,12 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
         }
         if (mAllowFancy) {
             mAllPagesDelayedAnimator.setPosition(position);
+        }
+
+        if (position == 0f) {
+            mQuickQsPanel.getBrightnessView().setVisibility(View.VISIBLE);
+        } else {
+            mQuickQsPanel.getBrightnessView().setVisibility(View.INVISIBLE);
         }
     }
 
