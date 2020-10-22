@@ -504,6 +504,7 @@ public class KeyguardIndicationController implements StateListener,
         final ContentResolver resolver = mContext.getContentResolver();
         mChargingIndication = Settings.System.getIntForUser(resolver,
                 Settings.System.LOCKSCREEN_CHARGING_ANIMATION, 1, UserHandle.USER_CURRENT);
+        if (mChargingIndicationView == null) return;
         if (mPowerPluggedIn) {
             switch (mChargingIndication) {
                 default:
