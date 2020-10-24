@@ -25,22 +25,22 @@
     android:outlineProvider="none"
     android:elevation="5dp" > <!-- Put it above the status bar header -->
 
-    <com.airbnb.lottie.LottieAnimationView
-         android:id="@+id/charging_indication"
-         android:layout_width="@dimen/keyguard_charging_indication_width"
-         android:layout_height="@dimen/keyguard_charging_indication_height"
-         android:layout_gravity="center_horizontal"
-         android:clickable="false"
-         app:lottie_fileName="keyguard_charging_indication.json"
-         app:lottie_loop="true"
-         android:visibility="gone" />
-
     <LinearLayout
         android:id="@+id/keyguard_indication_area"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:orientation="vertical">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/charging_indication"
+            android:layout_width="@dimen/keyguard_charging_indication_width"
+            android:layout_height="@dimen/keyguard_charging_indication_height"
+            android:layout_gravity="center_horizontal"
+            android:clickable="false"
+            app:lottie_fileName="keyguard_charging_indication.json"
+            app:lottie_loop="true"
+            android:visibility="gone" />
 
         <com.android.systemui.statusbar.phone.KeyguardIndicationTextView
             android:id="@+id/keyguard_indication_text"
