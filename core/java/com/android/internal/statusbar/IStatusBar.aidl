@@ -233,4 +233,9 @@ oneway interface IStatusBar
      */
     void showInDisplayFingerprintView();
     void hideInDisplayFingerprintView();
+
+    /**
+     * TenX
+     */
+    void toggleCameraFlash();
 }
