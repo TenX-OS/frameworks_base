@@ -47,4 +47,7 @@
     <!-- Sensor -->
     <bool name="config_has_weird_dt_sensor">false</bool>
 
+    <!-- Elmyra -->
+    <bool name="config_has_elmyra">false</bool>
+
 </resources>

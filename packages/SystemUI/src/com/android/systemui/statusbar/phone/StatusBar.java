@@ -138,6 +138,7 @@ import com.android.internal.logging.UiEventLoggerImpl;
 import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
 import com.android.internal.statusbar.IStatusBarService;
 import com.android.internal.statusbar.RegisterStatusBarResult;
+import com.android.internal.util.custom.LineageButtons;
 import com.android.internal.view.AppearanceRegion;
 import com.android.keyguard.KeyguardUpdateMonitor;
 import com.android.keyguard.KeyguardUpdateMonitorCallback;
@@ -2150,8 +2151,9 @@ public class StatusBar extends SystemUI implements DemoMode,
     }
 
     @Override
-    public void toggleCameraFlash() {
-        if (!isScreenFullyOff() && mDeviceInteractive && !isPulsing() && !mDozing) {
+    public void toggleCameraFlash(boolean proximityCheck) {
+        if (!proximityCheck ||
+                (!isScreenFullyOff() && mDeviceInteractive && !isPulsing() && !mDozing)) {
             toggleFlashlight();
             return;
         }
@@ -2165,6 +2167,22 @@ public class StatusBar extends SystemUI implements DemoMode,
                 mFlashlightController.setFlashlight(!mFlashlightController.isEnabled());
             }
         }
+    }
+
+    // Elmyra app actions
+    @Override
+    public void triggerElmyraAction(String action) {
+        if (!isScreenFullyOff() && mDeviceInteractive && !isPulsing() && !mDozing) {
+            performTriggeredAction(action);
+            return;
+        }
+        mDozeServiceHost.triggerActionProximityCheck(action);
+    }
+
+    // Elmyra app actions
+    public void performTriggeredAction(String action) {
+        mVibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_HEAVY_CLICK));
+        LineageButtons.getAttachedInstance(mContext).performTriggeredAction(action, mContext, mDeviceInteractive);
     }
 
     void makeExpandedVisible(boolean force) {

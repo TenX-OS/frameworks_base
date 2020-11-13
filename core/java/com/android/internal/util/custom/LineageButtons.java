@@ -33,6 +33,8 @@ import android.provider.Settings;
 import android.view.KeyEvent;
 import android.view.ViewConfiguration;
 
+import com.android.internal.util.tenx.tenxUtils;
+
 import java.util.List;
 
 public final class LineageButtons {
@@ -206,6 +208,76 @@ public final class LineageButtons {
             mVolBtnMusicControls = Settings.System.getIntForUser(
                     resolver, Settings.System.VOLUME_BUTTON_MUSIC_CONTROL, 1,
                     UserHandle.USER_CURRENT) == 1;
+        }
+    }
+
+    // Elmyra app actions
+    public void performTriggeredAction(String action, Context context, boolean interactive) {
+        switch(action) {
+            case "flashlight":
+                tenxUtils.toggleCameraFlash(false);
+                break;
+            case "assist":
+                tenxUtils.startAssist();
+                break;
+            case "screenshot":
+                // already disabled when screen is OFF by Elmyra app
+                tenxUtils.takeScreenshot(true/*full*/);
+                break;
+            case "partialscreenshot":
+                // already disabled when screen is OFF by Elmyra app
+                tenxUtils.takeScreenshot(false/*full*/);
+                break;
+            case "camera":
+                if (!interactive) {
+                    tenxUtils.switchScreenOff(context);
+                }
+                tenxUtils.launchCamera(context);
+                break;
+            case "mute":
+                tenxUtils.triggerHushMute(context);
+                break;
+            case "screen":
+                if (interactive) {
+                    tenxUtils.switchScreenOff(context);
+                } else {
+                    tenxUtils.switchScreenOn(context);
+                }
+                break;
+            case "skiptrack":
+                skipTrack();
+                break;
+            case "previoustrack":
+                previousTrack();
+                break;
+            case "voicesearch":
+                tenxUtils.launchVoiceSearch(context);
+                break;
+            case "volumepanel":
+                // already disabled when screen is OFF by Elmyra app
+                tenxUtils.toggleVolumePanel(context);
+                break;
+            case "powermenu":
+                // already disabled when screen is OFF by Elmyra app
+                tenxUtils.showPowerMenu();
+                break;
+            case "toggleqspanel":
+                // already disabled when screen is OFF by Elmyra app
+                tenxUtils.toggleQsPanel();
+                break;
+            case "togglenotificationspanel":
+                // already disabled when screen is OFF by Elmyra app
+                tenxUtils.toggleNotifications();
+                break;
+            case "clearallnotifications":
+                // already disabled when screen is OFF by Elmyra app
+                tenxUtils.clearAllNotifications();
+                break;
+            case "toggleringermodes":
+                tenxUtils.toggleRingerModes(context);
+                break;
+            default:
+                break;
         }
     }
 }

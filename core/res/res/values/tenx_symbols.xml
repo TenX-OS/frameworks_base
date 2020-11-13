@@ -54,4 +54,7 @@
     <!-- Sensor -->
     <java-symbol type="bool" name="config_has_weird_dt_sensor" />
 
+    <!-- Elmyra -->
+    <java-symbol type="bool" name="config_has_elmyra" />
+
 </resources>

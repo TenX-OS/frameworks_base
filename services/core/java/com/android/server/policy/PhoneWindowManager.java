@@ -810,7 +810,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     private void toggleFlashLight() {
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, true, "Flashlight toggle");
-        Utils.toggleCameraFlash();
+        Utils.toggleCameraFlash(true/*proximity check*/);
     }
 
     private UEventObserver mHDMIObserver = new UEventObserver() {
