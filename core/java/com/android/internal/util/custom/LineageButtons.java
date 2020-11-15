@@ -276,6 +276,9 @@ public final class LineageButtons {
             case "toggleringermodes":
                 tenxUtils.toggleRingerModes(context);
                 break;
+            case "killforegroundapp":
+                tenxUtils.killForegroundApp();
+                break;
             default:
                 break;
         }
