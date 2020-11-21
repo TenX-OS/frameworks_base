@@ -283,4 +283,66 @@ public final class LineageButtons {
                 break;
         }
     }
+
+    public void triggerAction(int action, boolean leftEdge, boolean isVerticalSwipe, Context context) {
+        switch (action) {
+            case 0: // No action
+            default:
+                break;
+            case 1: // Assistant
+                tenxUtils.startAssist();
+                break;
+            case 2: // Voice search
+                tenxUtils.launchVoiceSearch(context);
+                break;
+            case 3: // Camera
+                tenxUtils.launchCamera(context);
+                break;
+            case 4: // Flashlight
+                tenxUtils.toggleCameraFlash(false/*no proximity check*/);
+                break;
+            case 5: // Application
+                tenxUtils.launchApp(context, leftEdge, isVerticalSwipe);
+                break;
+            case 6: // Volume panel
+                tenxUtils.toggleVolumePanel(context);
+                break;
+            case 7: // Screen off
+                tenxUtils.switchScreenOff(context);
+                break;
+            case 8: // Screenshot
+                tenxUtils.takeScreenshot(true);
+                break;
+            case 9: // Notification panel
+                tenxUtils.toggleNotifications();
+                break;
+            case 10: // QS panel
+                tenxUtils.toggleQsPanel();
+                break;
+            case 11: // Clear notifications
+                tenxUtils.clearAllNotifications();
+                break;
+            case 12: // Ringer modes
+                tenxUtils.toggleRingerModes(context);
+                break;
+            case 13: // Kill app
+                tenxUtils.killForegroundApp();
+                break;
+            case 14: // Skip song
+                skipTrack();
+                break;
+            case 15: // Previous song
+                previousTrack();
+                break;
+            case 16: // Power menu
+                tenxUtils.showPowerMenu();
+                break;
+            case 17: // Partial screenshot
+                tenxUtils.takeScreenshot(false);
+                break;
+            case 18: // Hush mute
+                tenxUtils.triggerHushMute(context);
+                break;
+        }
+    }
 }
