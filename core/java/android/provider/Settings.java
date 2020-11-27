@@ -6486,6 +6486,12 @@ public final class Settings {
         public static final String DISMISS_ALL_BUTTON_ICON_COLOR_CUSTOM = "dismiss_all_button_icon_color_custom";
 
         /**
+         * FOD icon picker
+         * @hide
+         */
+        public static final String FOD_ICON = "fod_icon";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
