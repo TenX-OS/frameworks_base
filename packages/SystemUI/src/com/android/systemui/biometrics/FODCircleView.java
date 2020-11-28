@@ -295,6 +295,8 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.FOD_ANIM),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.FOD_ICON), false, this, UserHandle.USER_ALL);
         }
 
         void unobserve() {
@@ -304,7 +306,8 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
         @Override
         public void onChange(boolean selfChange, Uri uri) {
             if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.FOD_ANIM))) {
+                    Settings.System.FOD_ANIM)) || uri.equals(Settings.System.getUriFor(
+                Settings.System.FOD_ICON))) {
                 updateStyle();
             // if (uri.equals(Settings.System.getUriFor(SCREEN_BRIGHTNESS))) {
             update();
