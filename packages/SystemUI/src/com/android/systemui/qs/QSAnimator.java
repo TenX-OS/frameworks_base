@@ -30,6 +30,7 @@ import com.android.systemui.qs.TouchAnimator.Builder;
 import com.android.systemui.qs.TouchAnimator.Listener;
 import com.android.systemui.tuner.TunerService;
 import com.android.systemui.tuner.TunerService.Tunable;
+import com.android.systemui.util.Utils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -277,6 +278,17 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
         }
 
         View brightness = mQsPanel.getBrightnessView();
+        if (brightness != null && Utils.useQsMediaPlayer(null) && !mQsPanel.shouldUseHorizontalLayout()
+                && mQsPanel.isMediaHostVisible()) {
+            View mQsPanelMediaHostView = mQsPanel.getMediaHost().getHostView();
+            View mQuickQsPanelMediaHostView = mQuickQsPanel.getMediaHost().getHostView();
+            float translation = mQsPanelMediaHostView.getHeight() - mQuickQsPanelMediaHostView.getHeight();
+            mBrightnessAnimator = new TouchAnimator.Builder().addFloat(brightness, "translationY", translation, 0)
+                    .build();
+            mAllViews.add(brightness);
+        } else {
+            mBrightnessAnimator = null;
+        }
 
         if (mAllowFancy) {
             // Make brightness appear static position and alpha in through second half.
@@ -392,6 +404,9 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
             }
         }
         mLastPosition = position;
+        if (mBrightnessAnimator != null) {
+            mBrightnessAnimator.setPosition(position);
+        }
         if (mOnFirstPage && mAllowFancy) {
             mQuickQsPanel.setAlpha(1);
             mFirstPageAnimator.setPosition(position);

@@ -100,6 +100,12 @@ public class BrightnessMirrorController
         Dependency.get(TunerService.class).removeTunable(this);
     }
 
+    public void hideMirrorImmediately() {
+        if (mBrightnessMirror != null && mBrightnessMirror.getVisibility() == View.VISIBLE) {
+            mBrightnessMirror.setVisibility(View.INVISIBLE);
+        }
+    }
+
     public void setLocation(View original) {
         original.getLocationInWindow(mInt2Cache);
 
