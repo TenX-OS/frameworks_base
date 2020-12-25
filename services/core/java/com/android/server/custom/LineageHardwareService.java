@@ -90,7 +90,6 @@ public class LineageHardwareService extends SystemService {
         super(context);
         mContext = context;
         mLineageHwImpl = getImpl(context);
-        publishBinderService(LineageContextConstants.LINEAGE_HARDWARE_SERVICE, mService);
     }
 
     @Override
@@ -105,6 +104,7 @@ public class LineageHardwareService extends SystemService {
 
     @Override
     public void onStart() {
+        publishBinderService(LineageContextConstants.LINEAGE_HARDWARE_SERVICE, mService);
     }
 
     private final IBinder mService = new ILineageHardwareService.Stub() {
