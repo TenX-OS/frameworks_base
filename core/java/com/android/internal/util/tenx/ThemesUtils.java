@@ -112,6 +112,17 @@ public class ThemesUtils {
             "com.android.systemui.qstile.teardrop",
     };
 
+    // Switch themes
+    private static final String[] SWITCH_THEMES = {
+        "com.android.system.switch.oneplus", // 0
+        "com.android.system.switch.aosp", // 1
+        "com.android.system.switch.narrow", // 2
+        "com.android.system.switch.contained", // 3
+        "com.android.system.switch.telegram", // 4
+        "com.android.system.switch.md2", // 5
+        "com.android.system.switch.retro", // 6
+    };
+
     public String[] getTheme(int theme) {
         switch (theme) {
             case DEVICE_THEME_LIGHT:
@@ -192,6 +203,33 @@ public class ThemesUtils {
             String qstiletheme = ThemesUtils.QS_TILE_THEMES[i];
             try {
                 om.setEnabled(qstiletheme,
+                        false /*disable*/, userId);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // Switches Switch style to user selected.
+    public static void updateSwitchStyle(IOverlayManager om, int userId, int switchStyle) {
+        if (switchStyle == 1) {
+            stockSwitchStyle(om, userId);
+        } else {
+            try {
+                om.setEnabled(SWITCH_THEMES[switchStyle],
+                        true, userId);
+            } catch (RemoteException e) {
+                Log.w(TAG, "Can't change switch theme", e);
+            }
+        }
+    }
+
+    // Switches Switch style back to stock.
+    public static void stockSwitchStyle(IOverlayManager om, int userId) {
+        for (int i = 0; i < SWITCH_THEMES.length; i++) {
+            String switchtheme = SWITCH_THEMES[i];
+            try {
+                om.setEnabled(switchtheme,
                         false /*disable*/, userId);
             } catch (RemoteException e) {
                 e.printStackTrace();
