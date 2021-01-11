@@ -166,4 +166,7 @@
     <string name="quick_settings_compass_W">W</string>
     <string name="quick_settings_compass_NW">NW</string>
 
+    <!-- QS bg image -->
+    <string name="photos_not_allowed">You are trying to set QS Panel image with an incompatible app. Please use the stock or another gallery app</string>
+
 </resources>

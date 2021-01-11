@@ -57,6 +57,7 @@ import android.view.ViewOutlineProvider;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.dynamicanimation.animation.FloatPropertyCompat;
 import androidx.dynamicanimation.animation.SpringForce;
@@ -125,6 +126,8 @@ public class QSContainerImpl extends FrameLayout {
     private boolean mQsBackGroundType;
 
     private Context mContext;
+
+    private int mCount = 0;
 
     private static final String QS_PANEL_FILE_IMAGE = "custom_file_qs_panel_image";
 
@@ -212,8 +215,14 @@ public class QSContainerImpl extends FrameLayout {
         }
 
         @Override
-        public void onChange(boolean selfChange) {
-            updateSettings();
+         public void onChange(boolean selfChange, Uri uri) {
+            if (uri.equals(Settings.System.getUriFor(Settings.System.QS_PANEL_CUSTOM_IMAGE)) ||
+                uri.equals(Settings.System.getUriFor(Settings.System.QS_PANEL_TYPE_BACKGROUND))) {
+                mCount = 0;
+                updateSettings();
+            } else {
+                updateSettings();
+            }
         }
     }
 
@@ -385,7 +394,13 @@ public class QSContainerImpl extends FrameLayout {
                 output.write(buffer, 0, read);
             }
             output.flush();
-        } catch (IOException e) {
+        } catch (Exception e) {
+            if (mCount > 2) return;
+            if (mQsBackGroundType) {
+                Toast toast = Toast.makeText(mContext, R.string.photos_not_allowed, Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            mCount++;
         }
     }
 
