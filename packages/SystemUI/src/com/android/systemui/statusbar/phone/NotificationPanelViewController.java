@@ -1381,15 +1381,15 @@ public class NotificationPanelViewController extends PanelViewController {
 
         final float w = mView.getMeasuredWidth();
         final float x = event.getX();
-        float region = w * 1.f / 4.f; // TODO overlay region fraction?
+        float region = (w * (1.f / 4.f)); // TODO overlay region fraction?
         boolean showQsOverride = false;
 
         switch (mOneFingerQuickSettingsIntercept) {
             case 1: // Right side pulldown
-                showQsOverride = mView.isLayoutRtl() ? x < region : w - region < x;
+                showQsOverride = mView.isLayoutRtl() ? (x < region) : (w - region < x);
                 break;
             case 2: // Left side pulldown
-                showQsOverride = mView.isLayoutRtl() ? w - region < x : x < region;
+                showQsOverride = mView.isLayoutRtl() ? (w - region < x) : (x < region);
                 break;
             case 3: // pull down anywhere
                 showQsOverride = true;
