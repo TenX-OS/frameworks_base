@@ -126,6 +126,7 @@ public class NetworkTraffic extends TextView {
     private int mAutoHideThreshold;
     private int mNetTrafSize;
     private int mTintColor;
+    private int mNetworkTrafficIconType;
     private boolean mTrafficVisible = false;
     private boolean mScreenOn = true;
     private boolean iBytes;
@@ -347,6 +348,9 @@ public class NetworkTraffic extends TextView {
             resolver.registerContentObserver(Settings.System
                     .getUriFor(Settings.System.NETWORK_TRAFFIC_FONT_SIZE), false,
                     this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System
+                    .getUriFor(Settings.System.NETWORK_TRAFFIC_ICON_TYPE), false,
+                    this, UserHandle.USER_ALL);
         }
 
         /*
@@ -483,6 +487,9 @@ public class NetworkTraffic extends TextView {
         mNetTrafSize = Settings.System.getIntForUser(resolver,
                 Settings.System.NETWORK_TRAFFIC_FONT_SIZE, 24,
                 UserHandle.USER_CURRENT);
+        mNetworkTrafficIconType = Settings.System.getIntForUser(resolver,
+                Settings.System.NETWORK_TRAFFIC_ICON_TYPE, 0,
+                UserHandle.USER_CURRENT);
     }
 
     private void clearHandlerCallbacks() {
@@ -496,33 +503,77 @@ public class NetworkTraffic extends TextView {
         if (mIsEnabled && mShowArrow) {
             if (mTrafficType == UP) {
                 if (oBytes) {
-                    intTrafficDrawable = R.drawable.stat_sys_network_traffic;
+                    if (mNetworkTrafficIconType == 0) {
+                        intTrafficDrawable = R.drawable.stat_sys_network_traffic;
+                    } else {
+                        intTrafficDrawable = R.drawable.stat_sys_network_traffic_1;
+                    }
                 } else {
-                    intTrafficDrawable = R.drawable.stat_sys_network_traffic_up;
+                    if (mNetworkTrafficIconType == 0) {
+                        intTrafficDrawable = R.drawable.stat_sys_network_traffic_up;
+                    } else {
+                        intTrafficDrawable = R.drawable.stat_sys_network_traffic_up_1;
+                    }
                 }
             } else if (mTrafficType == DOWN) {
                 if (iBytes) {
-                    intTrafficDrawable = R.drawable.stat_sys_network_traffic;
+                    if (mNetworkTrafficIconType == 0) {
+                        intTrafficDrawable = R.drawable.stat_sys_network_traffic;
+                    } else {
+                        intTrafficDrawable = R.drawable.stat_sys_network_traffic_1;
+                    }
                 } else {
-                    intTrafficDrawable = R.drawable.stat_sys_network_traffic_down;
+                    if (mNetworkTrafficIconType == 0) {
+                        intTrafficDrawable = R.drawable.stat_sys_network_traffic_down;
+                    } else {
+                        intTrafficDrawable = R.drawable.stat_sys_network_traffic_down_1;
+                    }
                 }
             } else if (mTrafficType == DYNAMIC || mTrafficType == COMBINED) {
                 if (iBytes && !oBytes) {
-                    intTrafficDrawable = R.drawable.stat_sys_network_traffic_up;
+                    if (mNetworkTrafficIconType == 0) {
+                        intTrafficDrawable = R.drawable.stat_sys_network_traffic_up;
+                    } else {
+                        intTrafficDrawable = R.drawable.stat_sys_network_traffic_up_1;
+                    }
                 } else if (!iBytes && oBytes) {
-                    intTrafficDrawable = R.drawable.stat_sys_network_traffic_down;
+                    if (mNetworkTrafficIconType == 0) {
+                        intTrafficDrawable = R.drawable.stat_sys_network_traffic_down;
+                    } else {
+                        intTrafficDrawable = R.drawable.stat_sys_network_traffic_down_1;
+                    }
                 } else {
-                    intTrafficDrawable = R.drawable.stat_sys_network_traffic;
+                    if (mNetworkTrafficIconType == 0) {
+                        intTrafficDrawable = R.drawable.stat_sys_network_traffic;
+                    } else {
+                        intTrafficDrawable = R.drawable.stat_sys_network_traffic_1;
+                    }
                 }
             } else {
                 if (!iBytes && !oBytes) {
-                    intTrafficDrawable = R.drawable.stat_sys_network_traffic_updown;
+                    if (mNetworkTrafficIconType == 0) {
+                        intTrafficDrawable = R.drawable.stat_sys_network_traffic_updown;
+                    } else {
+                        intTrafficDrawable = R.drawable.stat_sys_network_traffic_updown_1;
+                    }
                 } else if (!oBytes) {
-                    intTrafficDrawable = R.drawable.stat_sys_network_traffic_up;
+                    if (mNetworkTrafficIconType == 0) {
+                        intTrafficDrawable = R.drawable.stat_sys_network_traffic_up;
+                    } else {
+                        intTrafficDrawable = R.drawable.stat_sys_network_traffic_up_1;
+                    }
                 } else if (!iBytes) {
-                    intTrafficDrawable = R.drawable.stat_sys_network_traffic_down;
+                    if (mNetworkTrafficIconType == 0) {
+                        intTrafficDrawable = R.drawable.stat_sys_network_traffic_down;
+                    } else {
+                        intTrafficDrawable = R.drawable.stat_sys_network_traffic_down_1;
+                    }
                 } else {
-                    intTrafficDrawable = R.drawable.stat_sys_network_traffic;
+                    if (mNetworkTrafficIconType == 0) {
+                        intTrafficDrawable = R.drawable.stat_sys_network_traffic;
+                    } else {
+                        intTrafficDrawable = R.drawable.stat_sys_network_traffic_1;
+                    }
                 }
             }
         } else {
