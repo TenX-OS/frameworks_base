@@ -75,6 +75,7 @@ android_library {
         "VendorSupport-preference",
         "vendor.lineage.biometrics.fingerprint.inscreen-V1.0-java",
         "vendor.lineage.powershare-V1.0-java",
+        "faceunlock_framework",
     ],
     manifest: "AndroidManifest.xml",
 
