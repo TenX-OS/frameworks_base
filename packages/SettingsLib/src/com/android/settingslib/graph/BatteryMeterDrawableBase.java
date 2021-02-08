@@ -54,6 +54,7 @@ public class BatteryMeterDrawableBase extends Drawable {
     public static final int BATTERY_STYLE_DOTTED_CIRCLE = 1;
     public static final int BATTERY_STYLE_CIRCLE = 2;
     public static final int BATTERY_STYLE_HIDDEN = 3;
+    public static final int BATTERY_STYLE_SIMPLE_CIRCLE = 4;
 
     protected final Context mContext;
     protected final Paint mFramePaint;
@@ -437,6 +438,9 @@ public class BatteryMeterDrawableBase extends Drawable {
                 case BATTERY_STYLE_Q:
                 default:
                     drawRectangle(c);
+                    break;
+                case BATTERY_STYLE_SIMPLE_CIRCLE:
+                    drawDottedCircle(c);
                     break;
             }
         }
