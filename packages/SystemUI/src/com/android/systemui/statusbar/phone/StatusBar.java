@@ -1577,7 +1577,7 @@ public class StatusBar extends SystemUI implements DemoMode,
     }
 
     public void updateDismissAllVisibility(boolean visible) {
-        if (mClearableNotifications && mState != StatusBarState.KEYGUARD && visible && isDismissAllButtonEnabled()) {
+        if (mClearableNotifications && mState != StatusBarState.KEYGUARD && visible && isDismissAllButtonEnabled() && !mQSPanel.isExpanded()) {
             mDismissAllButton.setVisibility(View.VISIBLE);
             int DismissAllAlpha = Math.round(255.0f * mNotificationPanelViewController.getExpandedFraction());
             mDismissAllButton.setAlpha(DismissAllAlpha);
