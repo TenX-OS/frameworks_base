@@ -263,6 +263,17 @@ public class QSContainerImpl extends FrameLayout {
             mQsBackGround = getContext().getDrawable(R.drawable.qs_background_primary);
             mQsHeaderBackGround = getContext().getDrawable(R.drawable.qs_background_primary);
         }
+
+        if (mQsBackGroundAlpha < 255 ) {
+            mBackground.setVisibility(View.INVISIBLE);
+            mBackgroundGradient.setVisibility(View.INVISIBLE);
+            mQsBackGround.setAlpha(mQsBackGroundAlpha);
+            setBackground(mQsBackGround);
+        } else {
+            mBackground.setVisibility(View.VISIBLE);
+            mBackgroundGradient.setVisibility(View.VISIBLE);
+        }
+
         mBackground.setBackground(mQsBackGround);
         mQsBackGround.setAlpha(mQsBackGroundAlpha);
         mQsHeaderBackGround.setAlpha(mQsBackGroundAlpha);
