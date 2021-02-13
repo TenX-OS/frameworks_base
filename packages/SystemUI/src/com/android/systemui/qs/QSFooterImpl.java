@@ -169,8 +169,7 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
     }
 
     private void setBuildText() {
-        TextView v = findViewById(R.id.build);
-        if (v == null) return;
+        if (mBuildText == null) return;
         boolean isShow = Settings.System.getIntForUser(mContext.getContentResolver(),
                         Settings.System.TENX_FOOTER_TEXT_SHOW, 0,
                         UserHandle.USER_CURRENT) == 1;
@@ -179,14 +178,17 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
                         UserHandle.USER_CURRENT);
         if (isShow) {
             if (text == null || text == "") {
-                v.setText("#Ten-X");
-                v.setVisibility(View.VISIBLE);
+                mBuildText.setText("#Ten-X");
+                mBuildText.setSelected(true);
+                mShouldShowBuildText = true;
             } else {
-                v.setText(text);
-                v.setVisibility(View.VISIBLE);
+                mBuildText.setText(text);
+                mBuildText.setSelected(true);
+                mShouldShowBuildText = true;
             }
         } else {
-              v.setVisibility(View.GONE);
+            mShouldShowBuildText = false;
+            mBuildText.setSelected(false);
         }
     }
 
