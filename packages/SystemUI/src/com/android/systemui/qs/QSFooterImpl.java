@@ -27,6 +27,7 @@ import android.database.ContentObserver;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -173,6 +174,9 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
         boolean isShow = Settings.System.getIntForUser(mContext.getContentResolver(),
                         Settings.System.TENX_FOOTER_TEXT_SHOW, 0,
                         UserHandle.USER_CURRENT) == 1;
+        int tenXFooterTextFonts = Settings.System.getIntForUser(mContext.getContentResolver(),
+                        Settings.System.TENX_FOOTER_TEXT_FONT, 28,
+                        UserHandle.USER_CURRENT);
         String text = Settings.System.getStringForUser(mContext.getContentResolver(),
                         Settings.System.TENX_FOOTER_TEXT_STRING,
                         UserHandle.USER_CURRENT);
@@ -190,6 +194,156 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
             mShouldShowBuildText = false;
             mBuildText.setSelected(false);
         }
+
+        switch (tenXFooterTextFonts) {
+            case 0:
+                mBuildText.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
+                break;
+            case 1:
+                mBuildText.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
+                break;
+            case 2:
+                mBuildText.setTypeface(Typeface.create("sans-serif", Typeface.ITALIC));
+                break;
+            case 3:
+                mBuildText.setTypeface(Typeface.create("sans-serif", Typeface.BOLD_ITALIC));
+                break;
+            case 4:
+                mBuildText.setTypeface(Typeface.create("sans-serif-light", Typeface.ITALIC));
+                break;
+            case 5:
+                mBuildText.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+                break;
+            case 6:
+                mBuildText.setTypeface(Typeface.create("sans-serif-thin", Typeface.ITALIC));
+                break;
+            case 7:
+                mBuildText.setTypeface(Typeface.create("sans-serif-thin", Typeface.NORMAL));
+                break;
+            case 8:
+                mBuildText.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
+                break;
+            case 9:
+                 mBuildText.setTypeface(Typeface.create("sans-serif-condensed", Typeface.ITALIC));
+                break;
+            case 10:
+                mBuildText.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD));
+                break;
+            case 11:
+                 mBuildText.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD_ITALIC));
+                break;
+            case 12:
+                 mBuildText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+                 break;
+            case 13:
+                 mBuildText.setTypeface(Typeface.create("sans-serif-medium", Typeface.ITALIC));
+                 break;
+            case 14:
+                 mBuildText.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.NORMAL));
+                 break;
+            case 15:
+                 mBuildText.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.ITALIC));
+                 break;
+            case 16:
+                 mBuildText.setTypeface(Typeface.create("sans-serif-black", Typeface.NORMAL));
+                 break;
+            case 17:
+                 mBuildText.setTypeface(Typeface.create("sans-serif-black", Typeface.ITALIC));
+                 break;
+            case 18:
+                 mBuildText.setTypeface(Typeface.create("cursive", Typeface.NORMAL));
+                 break;
+            case 19:
+                 mBuildText.setTypeface(Typeface.create("cursive", Typeface.BOLD));
+                break;
+            case 20:
+                 mBuildText.setTypeface(Typeface.create("casual", Typeface.NORMAL));
+                 break;
+            case 21:
+                 mBuildText.setTypeface(Typeface.create("serif", Typeface.NORMAL));
+                 break;
+            case 22:
+                 mBuildText.setTypeface(Typeface.create("serif", Typeface.ITALIC));
+                 break;
+            case 23:
+                 mBuildText.setTypeface(Typeface.create("serif", Typeface.BOLD));
+                 break;
+            case 24:
+                 mBuildText.setTypeface(Typeface.create("serif", Typeface.BOLD_ITALIC));
+                 break;
+            case 25:
+                 mBuildText.setTypeface(Typeface.create("gobold-light-sys", Typeface.NORMAL));
+                 break;
+            case 26:
+                 mBuildText.setTypeface(Typeface.create("roadrage-sys", Typeface.NORMAL));
+                 break;
+            case 27:
+                 mBuildText.setTypeface(Typeface.create("snowstorm-sys", Typeface.NORMAL));
+                 break;
+            case 28:
+                 mBuildText.setTypeface(Typeface.create("googlesans-sys", Typeface.NORMAL));
+                 break;
+            case 29:
+                 mBuildText.setTypeface(Typeface.create("neoneon-sys", Typeface.NORMAL));
+                 break;
+            case 30:
+                 mBuildText.setTypeface(Typeface.create("themeable-sys", Typeface.NORMAL));
+                 break;
+            case 31:
+                 mBuildText.setTypeface(Typeface.create("samsung-sys", Typeface.NORMAL));
+                 break;
+            case 32:
+                 mBuildText.setTypeface(Typeface.create("mexcellent-sys", Typeface.NORMAL));
+                 break;
+            case 33:
+                 mBuildText.setTypeface(Typeface.create("burnstown-sys", Typeface.NORMAL));
+                 break;
+            case 34:
+                 mBuildText.setTypeface(Typeface.create("dumbledor-sys", Typeface.NORMAL));
+                break;
+            case 35:
+                 mBuildText.setTypeface(Typeface.create("phantombold-sys", Typeface.NORMAL));
+                 break;
+            case 36:
+                 mBuildText.setTypeface(Typeface.create("sourcesanspro-sys", Typeface.NORMAL));
+                 break;
+            case 37:
+                 mBuildText.setTypeface(Typeface.create("circularstd-sys", Typeface.NORMAL));
+                 break;
+            case 38:
+                 mBuildText.setTypeface(Typeface.create("oneplusslate-sys", Typeface.NORMAL));
+                 break;
+            case 39:
+                 mBuildText.setTypeface(Typeface.create("aclonica-sys", Typeface.NORMAL));
+                 break;
+            case 40:
+                 mBuildText.setTypeface(Typeface.create("amarante-sys", Typeface.NORMAL));
+                 break;
+            case 41:
+                 mBuildText.setTypeface(Typeface.create("bariol-sys", Typeface.NORMAL));
+                 break;
+            case 42:
+                 mBuildText.setTypeface(Typeface.create("cagliostro-sys", Typeface.NORMAL));
+                 break;
+            case 43:
+                 mBuildText.setTypeface(Typeface.create("coolstory-sys", Typeface.NORMAL));
+                 break;
+            case 44:
+                  mBuildText.setTypeface(Typeface.create("lgsmartgothic-sys", Typeface.NORMAL));
+                  break;
+            case 45:
+                  mBuildText.setTypeface(Typeface.create("rosemary-sys", Typeface.NORMAL));
+                  break;
+            case 46:
+                  mBuildText.setTypeface(Typeface.create("sonysketch-sys", Typeface.NORMAL));
+                  break;
+            case 47:
+                  mBuildText.setTypeface(Typeface.create("surfer-sys", Typeface.NORMAL));
+                  break;
+            default:
+                  mBuildText.setTypeface(Typeface.create("themeable-sys", Typeface.NORMAL));
+                  break;
+            }
     }
 
     private void updateAnimator(int width) {
@@ -272,9 +426,11 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
         mContext.getContentResolver().registerContentObserver(
                 Settings.System.getUriFor(Settings.System.TENX_FOOTER_TEXT_SHOW), false,
                 mSettingsObserver, UserHandle.USER_ALL);
-
         mContext.getContentResolver().registerContentObserver(
                 Settings.System.getUriFor(Settings.System.TENX_FOOTER_TEXT_STRING), false,
+                mSettingsObserver, UserHandle.USER_ALL);
+        mContext.getContentResolver().registerContentObserver(
+                Settings.System.getUriFor(Settings.System.TENX_FOOTER_TEXT_FONT), false,
                 mSettingsObserver, UserHandle.USER_ALL);
     }
 
