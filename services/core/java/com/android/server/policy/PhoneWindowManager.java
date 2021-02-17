@@ -209,7 +209,7 @@ import com.android.internal.util.ArrayUtils;
 import com.android.internal.util.custom.LineageButtons;
 import com.android.server.ExtconStateObserver;
 import com.android.server.ExtconUEventObserver;
-import com.android.internal.util.custom.Utils;
+import com.android.internal.util.tenx.tenxUtils;
 import com.android.server.GestureLauncherService;
 import com.android.server.LocalServices;
 import com.android.server.SystemServiceManager;
@@ -810,7 +810,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     private void toggleFlashLight() {
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, true, "Flashlight toggle");
-        Utils.toggleCameraFlash(true/*proximity check*/);
+        tenxUtils.toggleCameraFlash(true/*proximity check*/);
     }
 
     private UEventObserver mHDMIObserver = new UEventObserver() {
@@ -6120,13 +6120,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     public void sendCustomAction(Intent intent) {
         String action = intent.getAction();
         if (action != null) {
-            if (Utils.INTENT_SCREENSHOT.equals(action)) {
+            if (tenxUtils.INTENT_SCREENSHOT.equals(action)) {
                 mContext.enforceCallingOrSelfPermission(ACCESS_SURFACE_FLINGER,
                         TAG + "sendCustomAction permission denied");
                 mHandler.removeCallbacks(mScreenshotRunnable);
                 mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_FULLSCREEN);
                 mHandler.post(mScreenshotRunnable);
-            } else if (Utils.INTENT_REGION_SCREENSHOT.equals(action)) {
+            } else if (tenxUtils.INTENT_REGION_SCREENSHOT.equals(action)) {
                 mContext.enforceCallingOrSelfPermission(ACCESS_SURFACE_FLINGER,
                         TAG + "sendCustomAction permission denied");
                 mHandler.removeCallbacks(mScreenshotRunnable);
