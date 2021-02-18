@@ -78,7 +78,6 @@ public class CellularTile extends QSTileImpl<SignalState> {
         mDataController = mController.getMobileDataController();
         mDetailAdapter = new CellularDetailAdapter();
         mController.observe(getLifecycle(), mSignalCallback);
-        mKeyguard = keyguardStateController;
     }
 
     @Override
