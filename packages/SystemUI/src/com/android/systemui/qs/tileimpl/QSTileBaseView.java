@@ -100,7 +100,7 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
 
         mIcon = icon;
         setQsUseNewTint = Settings.System.getIntForUser(context.getContentResolver(),
-                    Settings.System.QS_PANEL_BG_USE_NEW_TINT, 1, UserHandle.USER_CURRENT);
+                    Settings.System.QS_PANEL_BG_USE_NEW_TINT, 0, UserHandle.USER_CURRENT);
         setActiveColor(context);
         mColorInactive = Utils.getColorAttrDefaultColor(context, android.R.attr.textColorSecondary);
         mColorDisabled = Utils.getDisabled(context,
@@ -319,7 +319,7 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
     protected void handleStateChanged(QSTile.State state) {
         updateStrokeShapeWidth(state);
         setQsUseNewTint = Settings.System.getIntForUser(getContext().getContentResolver(),
-                    Settings.System.QS_PANEL_BG_USE_NEW_TINT, 1, UserHandle.USER_CURRENT);
+                    Settings.System.QS_PANEL_BG_USE_NEW_TINT, 0, UserHandle.USER_CURRENT);
         boolean allowAnimations = animationsEnabled();
         if (getResources().getBoolean(R.bool.config_useMaskForQs) && setQsUseNewTint == 0) {
             int newTileState = state.state;

@@ -129,7 +129,7 @@ public class QSTileView extends QSTileBaseView {
     protected void handleStateChanged(QSTile.State state) {
         super.handleStateChanged(state);
         setQsLabelUseNewTint = Settings.System.getIntForUser(getContext().getContentResolver(),
-                    Settings.System.QS_LABEL_USE_NEW_TINT, 1, UserHandle.USER_CURRENT);
+                    Settings.System.QS_LABEL_USE_NEW_TINT, 0, UserHandle.USER_CURRENT);
         if (!Objects.equals(mLabel.getText(), state.label) || mState != state.state) {
             mLabel.setTextColor(state.state == Tile.STATE_UNAVAILABLE ? mColorLabelUnavailable
                     : mColorLabelDefault);
