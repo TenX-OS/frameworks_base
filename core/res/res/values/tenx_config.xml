@@ -59,7 +59,16 @@
         <item>lockdown</item>
         <item>power</item>
         <item>restart</item>
+        <item>torch</item>
         <item>screenshot</item> <!--2 buttons nav-->
+        <item>lockdown</item>
+        <item>airplane</item>
+        <item>settings</item>
+        <item>lockdown</item>
+        <item>logout</item>
+        <item>users</item>
+        <item>silent</item>
+        <item>onthego</item>
     </string-array>
 
     <!-- Path to fast charging status file to detect whether an oem fast charger is active -->
