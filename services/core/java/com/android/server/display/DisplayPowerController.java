@@ -415,8 +415,6 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
     @Nullable
     private final BrightnessSynchronizer mBrightnessSynchronizer;
 
-    private ContentResolver mContentResolver;
-
     /**
      * Creates the display power controller.
      */
