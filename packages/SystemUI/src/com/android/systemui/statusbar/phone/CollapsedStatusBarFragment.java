@@ -296,8 +296,8 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     }
 
     public void hideSystemIconArea(boolean animate) {
-        animateHide(mSystemIconArea, animate);
-        animateHide(mTenXLogoRight, animate);
+        animateHide(mSystemIconArea, animate, true);
+        animateHide(mTenXLogoRight, animate, true);
         animateHide(mCenterClockLayout, animate, true);
         if (mClockStyle == 2) {
             animateHide(mRightClock, animate, true);
@@ -359,7 +359,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
 
     public void hideCarrierName(boolean animate) {
         if (mCustomCarrierLabel != null) {
-            animateHide(mCustomCarrierLabel, animate);
+            animateHide(mCustomCarrierLabel, animate, mHasCarrierLabel);
         }
     }
 
@@ -477,7 +477,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         if (mHasCarrierLabel) {
             animateShow(mCustomCarrierLabel, animate);
         } else {
-            animateHide(mCustomCarrierLabel, animate);
+            animateHide(mCustomCarrierLabel, animate, false);
         }
     }
 
