@@ -72,4 +72,8 @@
     <!-- AOD battery bar -->
     <dimen name="battery_bar_view_height">4dp</dimen>
 
+    <!-- Quick settimgs Media -->
+    <dimen name="quick_settings_top_margin_media">4dp</dimen>
+    <dimen name="quick_settings_top_margin_media_extra">10dp</dimen>
+
 </resources>
