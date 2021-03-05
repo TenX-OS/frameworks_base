@@ -73,15 +73,6 @@
     <!-- Expected value from fast charging status file -->
     <java-symbol type="string" name="config_oemFastChargerStatusValue" />
 
-    <!-- Whether device has dash charging support -->
-    <java-symbol type="bool" name="config_hasDashCharger" />
-
-    <!-- Whether device has warp charging support -->
-    <java-symbol type="bool" name="config_hasWarpCharger" />
-
-    <!-- Whether device has VOOC charging support -->
-    <java-symbol type="bool" name="config_hasVoocCharger" />
-
     <!-- Gaming mode -->
     <java-symbol type="drawable" name="ic_gaming_notif" />
     <java-symbol type="string" name="notification_channel_gaming" />
