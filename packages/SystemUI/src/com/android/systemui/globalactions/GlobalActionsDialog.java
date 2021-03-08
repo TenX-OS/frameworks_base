@@ -732,7 +732,10 @@ public class GlobalActionsDialog implements DialogInterface.OnDismissListener,
                 continue;
             }
             if (GLOBAL_ACTION_KEY_POWER.equals(actionKey)) {
-                addIfShouldShowAction(tempActions, shutdownAction);
+                if (Settings.System.getInt(mContext.getContentResolver(),
+                        Settings.System.POWERMENU_POWER, 1) == 1) {
+                    addIfShouldShowAction(tempActions, shutdownAction);
+                }
             } else if (GLOBAL_ACTION_KEY_AIRPLANE.equals(actionKey)) {
                 if (Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.POWERMENU_AIRPLANE, 0) == 1) {
@@ -772,10 +775,13 @@ public class GlobalActionsDialog implements DialogInterface.OnDismissListener,
             } else if (GLOBAL_ACTION_KEY_ASSIST.equals(actionKey)) {
                 addIfShouldShowAction(tempActions, getAssistAction());
             } else if (GLOBAL_ACTION_KEY_RESTART.equals(actionKey)) {
-                addIfShouldShowAction(tempActions, restartAction);
+                if (Settings.System.getInt(mContext.getContentResolver(),
+                        Settings.System.POWERMENU_RESTART, 1) == 1) {
+                        addIfShouldShowAction(tempActions, restartAction);
+                }
                 // if Restart action is available, add advanced restart actions too
                 if (advancedRebootEnabled(mContext)) {
-					addIfShouldShowAction(tempActions, restartBootloaderAction);
+		    addIfShouldShowAction(tempActions, restartBootloaderAction);
                     addIfShouldShowAction(tempActions, restartRecoveryAction);
                     addIfShouldShowAction(tempActions, restartSystemUiAction);
                 }
