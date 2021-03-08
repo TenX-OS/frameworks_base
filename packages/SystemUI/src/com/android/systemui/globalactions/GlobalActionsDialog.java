@@ -779,11 +779,12 @@ public class GlobalActionsDialog implements DialogInterface.OnDismissListener,
                         Settings.System.POWERMENU_RESTART, 1) == 1) {
                         addIfShouldShowAction(tempActions, restartAction);
                 }
-                // if Restart action is available, add advanced restart actions too
+
                 if (advancedRebootEnabled(mContext)) {
-		    addIfShouldShowAction(tempActions, restartBootloaderAction);
-                    addIfShouldShowAction(tempActions, restartRecoveryAction);
-                    addIfShouldShowAction(tempActions, restartSystemUiAction);
+                    mPowerItems.add(restartBootloaderAction);
+                    mPowerItems.add(restartRecoveryAction);
+                    mPowerItems.add(restartSystemUiAction);
+                    addIfShouldShowAction(tempActions, new PowerOptionsAction());
                 }
             } else if (GLOBAL_ACTION_KEY_SCREENSHOT.equals(actionKey)) {
                 if (Settings.System.getInt(mContext.getContentResolver(),
@@ -814,47 +815,6 @@ public class GlobalActionsDialog implements DialogInterface.OnDismissListener,
             addedKeys.add(actionKey);
         }
 
-        if (tempActions.contains(restartAction) && (advancedRebootEnabled(mContext))) {
-            // transfer restart and advanced restart to their own list of power actions
-            // and position it where Reset button was supposed to be
-            int powerOptionsIndex = tempActions.indexOf(restartAction);
-            tempActions.remove(restartAction);
-            tempActions.remove(restartBootloaderAction);
-            tempActions.remove(restartRecoveryAction);
-            tempActions.remove(restartSystemUiAction);
-            if (tempActions.contains(shutdownAction)) {
-                mPowerItems.add(shutdownAction); // will be removed later if needed
-            }
-            mPowerItems.add(restartAction);
-            mPowerItems.add(restartBootloaderAction);
-            mPowerItems.add(restartRecoveryAction);
-            mPowerItems.add(restartSystemUiAction);
-
-            // add the PowerOptionsAction after Emergency and Shutdown action, if present
-            tempActions.add(powerOptionsIndex, new PowerOptionsAction());
-        }
-        // replace power and restart with a single power options action, if needed
-        if (tempActions.contains(shutdownAction) && tempActions.contains(restartAction)
-                && tempActions.size() > getMaxShownPowerItems()) {
-            // transfer shutdown and restart to their own list of power actions
-            int powerOptionsIndex = Math.min(tempActions.indexOf(restartAction),
-                    tempActions.indexOf(shutdownAction));
-            tempActions.remove(shutdownAction);
-            tempActions.remove(restartAction);
-            mPowerItems.add(shutdownAction);
-            mPowerItems.add(restartAction);
-            // add the PowerOptionsAction after Emergency and Shutdown action, if present
-            tempActions.add(powerOptionsIndex, new PowerOptionsAction());
-        }
-
-        // Add also Power to power actions list, if needed
-        if (tempActions.contains(shutdownAction) && mPowerItems.size() > 1
-                /*tempActions.size gets in count already PowerOptionsAction if added*/
-                && tempActions.size() > getMaxShownPowerItems()) {
-            tempActions.remove(shutdownAction);
-        } else {
-            mPowerItems.remove(shutdownAction);
-        }
         for (Action action : tempActions) {
             addActionItem(action);
         }
@@ -984,7 +944,7 @@ public class GlobalActionsDialog implements DialogInterface.OnDismissListener,
     @VisibleForTesting
     protected final class PowerOptionsAction extends SinglePressAction {
         private PowerOptionsAction() {
-            super(R.drawable.ic_restart, R.string.global_action_restart);
+            super(com.android.systemui.R.drawable.ic_restart_advanced, com.android.systemui.R.string.global_action_restart_advanced);
         }
 
         @Override
