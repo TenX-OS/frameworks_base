@@ -80,7 +80,7 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
 
     private final ImageView backgroundView;
     private final ImageView foregroundView;
-    private final int mColorDisabled;
+    private int mColorDisabled;
     private int mColorActive;
     private int mColorActiveAlpha;
     private int setQsUseNewTint;
@@ -197,6 +197,9 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
             mColorActive = Utils.getColorAttrDefaultColor(context, android.R.attr.colorAccent);
             mColorActiveAlpha = adjustAlpha(mColorActive, 0.3f);
             mColorActive = mColorActiveAlpha;
+        } else if (setQsUseNewTint == 3) {
+            mColorActive = context.getResources().getColor(R.color.qs_tile_oos_background);
+            mColorDisabled = context.getResources().getColor(R.color.op_qs_tile_background_color_disabled);
         } else {
             mColorActive = Utils.getColorAttrDefaultColor(context, android.R.attr.colorAccent);
         }

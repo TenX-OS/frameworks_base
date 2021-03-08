@@ -27,6 +27,8 @@ import static com.android.internal.logging.nano.MetricsProto.MetricsEvent.FIELD_
 import static com.android.internal.logging.nano.MetricsProto.MetricsEvent.TYPE_ACTION;
 import static com.android.settingslib.RestrictedLockUtils.EnforcedAdmin;
 
+import com.android.systemui.R;
+
 import android.annotation.CallSuper;
 import android.annotation.NonNull;
 import android.app.ActivityManager;
@@ -547,7 +549,11 @@ public abstract class QSTileImpl<TState extends State> implements QSTile, Lifecy
                 return Utils.getDisabled(context,
                         Utils.getColorAttrDefaultColor(context, android.R.attr.textColorSecondary));
             case Tile.STATE_INACTIVE:
-                return Utils.getColorAttrDefaultColor(context, android.R.attr.textColorSecondary);
+                 if (setQsUseNewTint == 2) {
+                    return context.getResources().getColor(R.color.qs_tile_icon_oos);
+                 } else {
+                    return Utils.getColorAttrDefaultColor(context, android.R.attr.textColorSecondary);
+                 }
             case Tile.STATE_ACTIVE:
                  if (QsTileStyles == 1 || QsTileStyles == 2 || QsTileStyles == 3 || QsTileStyles == 4 ||
                          QsTileStyles == 5 || QsTileStyles == 6 || QsTileStyles == 7 || QsTileStyles == 8 || QsTileStyles == 9 ||
@@ -568,8 +574,10 @@ public abstract class QSTileImpl<TState extends State> implements QSTile, Lifecy
                      return ColorUtils.genRandomAccentColor(isThemeDark(context));
                  } else if (setQsUseNewTint == 2) {
                      return Utils.getColorAttrDefaultColor(context, android.R.attr.colorAccent);
+                 } else if (setQsUseNewTint == 2) {
+                     return context.getResources().getColor(R.color.qs_tile_oos);
                  } else {
-                    return Utils.getColorAttrDefaultColor(context, android.R.attr.colorPrimary);
+                     return Utils.getColorAttrDefaultColor(context, android.R.attr.colorPrimary);
                  }
             default:
                 Log.e("QSTile", "Invalid state " + state);
