@@ -70,6 +70,6 @@
     <dimen name="qs_header_image_bottom_margin">4dp</dimen>
 
     <!-- AOD battery bar -->
-    <dimen name="battery_bar_view_height">6dp</dimen>
+    <dimen name="battery_bar_view_height">4dp</dimen>
 
 </resources>
