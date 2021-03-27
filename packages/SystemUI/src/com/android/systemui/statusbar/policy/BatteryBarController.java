@@ -45,10 +45,10 @@ public class BatteryBarController extends LinearLayout {
     public static final int STYLE_SYMMETRIC = 1;
     public static final int STYLE_REVERSE = 2;
 
+    boolean mBatteryBarEnabled = false;
     int mStyle = STYLE_REGULAR;
     int mLocation = 0;
 
-    protected final static int CURRENT_LOC = 1;
     int mLocationToLookFor = 0;
 
     private int mBatteryLevel = 0;
@@ -65,6 +65,8 @@ public class BatteryBarController extends LinearLayout {
 
         void observer() {
             ContentResolver resolver = mContext.getContentResolver();
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.BATTERY_BAR_ENABLED), false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.BATTERY_BAR_LOCATION), false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -194,12 +196,14 @@ public class BatteryBarController extends LinearLayout {
     }
 
     public void updateSettings() {
+        mBatteryBarEnabled = Settings.System.getIntForUser(getContext().getContentResolver(),
+                Settings.System.BATTERY_BAR_ENABLED, 0, UserHandle.USER_CURRENT) == 1;
         mStyle = Settings.System.getIntForUser(getContext().getContentResolver(),
                 Settings.System.BATTERY_BAR_STYLE, 0, UserHandle.USER_CURRENT);
         mLocation = Settings.System.getIntForUser(getContext().getContentResolver(),
                 Settings.System.BATTERY_BAR_LOCATION, 0, UserHandle.USER_CURRENT);
 
-        if (isLocationValid(mLocation)) {
+        if (mBatteryBarEnabled && isLocationValid(mLocation)) {
             removeBars();
             addBars();
             setVisibility(View.VISIBLE);

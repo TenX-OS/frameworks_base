@@ -6357,7 +6357,13 @@ public final class Settings {
         public static final String CLICK_PARTIAL_SCREENSHOT = "click_partial_screenshot";
 
         /**
-         * Whether to show the battery bar
+         * Show Battery bar
+         * @hide
+         */
+        public static final String BATTERY_BAR_ENABLED = "battery_bar_enabled";
+
+        /**
+         * Battery bar locations
          * @hide
          */
         public static final String BATTERY_BAR_LOCATION = "battery_bar_location";
@@ -6620,6 +6626,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(STATUSBAR_CLOCK_DATE_STYLE);
             PRIVATE_SETTINGS.add(STATUSBAR_CLOCK_DATE_FORMAT);
 	    PRIVATE_SETTINGS.add(STATUSBAR_CLOCK_DATE_POSITION);
+            PRIVATE_SETTINGS.add(BATTERY_BAR_ENABLED);
             PRIVATE_SETTINGS.add(BATTERY_BAR_LOCATION);
             PRIVATE_SETTINGS.add(BATTERY_BAR_COLOR);
             PRIVATE_SETTINGS.add(BATTERY_BAR_THICKNESS);

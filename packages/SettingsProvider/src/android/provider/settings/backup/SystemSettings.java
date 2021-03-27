@@ -99,5 +99,6 @@ public class SystemSettings {
         Settings.System.BATTERY_BAR_LOW_COLOR,
         Settings.System.BATTERY_BAR_USE_GRADIENT_COLOR,
         Settings.System.BATTERY_BAR_ANIMATE_COLOR,
+        Settings.System.BATTERY_BAR_ENABLED,
     };
 }

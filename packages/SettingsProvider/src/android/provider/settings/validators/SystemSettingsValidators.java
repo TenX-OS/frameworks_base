@@ -247,5 +247,6 @@ public class SystemSettingsValidators {
         VALIDATORS.put(System.BATTERY_BAR_LOCATION, new InclusiveIntegerRangeValidator(0, 3));
         VALIDATORS.put(System.BATTERY_BAR_STYLE, new InclusiveIntegerRangeValidator(0, 2));
         VALIDATORS.put(System.BATTERY_BAR_ANIMATE_COLOR, ANY_INTEGER_VALIDATOR);
+        VALIDATORS.put(System.BATTERY_BAR_ENABLED, ANY_INTEGER_VALIDATOR);
     }
 }
