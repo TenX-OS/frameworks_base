@@ -387,6 +387,7 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
     private boolean mAnimateNextSectionBoundsChange;
     private int mBgColor;
     private int mIconColor;
+    private int mBackgroundColor;
     private float mDimAmount;
     private ValueAnimator mDimAnimator;
     private ArrayList<ExpandableView> mTmpSortedChildren = new ArrayList<>();
@@ -746,8 +747,9 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
         inflateEmptyShadeView();
         updateFooter();
         mIconColor = mContext.getColor(R.color.dismiss_all_icon_color);
+        mBackgroundColor = mContext.getColor(R.color.dismiss_all_background_color);
         mSectionsManager.reinflateViews(LayoutInflater.from(mContext));
-        mStatusBar.updateDismissAllButton(mIconColor);
+        mStatusBar.updateDismissAllButton(mIconColor, mBackgroundColor);
     }
 
     @Override
@@ -874,9 +876,10 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
     public void onUiModeChanged() {
         mBgColor = mContext.getColor(R.color.notification_shade_background_color);
         mIconColor = mContext.getColor(R.color.dismiss_all_icon_color);
+        mBackgroundColor = mContext.getColor(R.color.dismiss_all_background_color);
         updateBackgroundDimming();
         mShelf.onUiModeChanged();
-        mStatusBar.updateDismissAllButton(mIconColor);
+        mStatusBar.updateDismissAllButton(mIconColor, mBackgroundColor);
     }
 
     @ShadeViewRefactor(RefactorComponent.DECORATOR)
