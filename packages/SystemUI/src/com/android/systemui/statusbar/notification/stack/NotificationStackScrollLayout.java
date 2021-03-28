@@ -632,7 +632,13 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
             mDebugPaint.setStyle(Paint.Style.STROKE);
             mDebugPaint.setTextSize(25f);
         }
-        mClearAllEnabled = res.getBoolean(R.bool.config_enableNotificationsClearAll);
+
+        if (!isDismissAllButtonEnabled()) {
+            mClearAllEnabled = res.getBoolean(R.bool.config_enableNotificationsClearAll);
+            mClearAllEnabled = true;
+        } else {
+            mClearAllEnabled = false;
+        }
 
         TunerService tunerService = Dependency.get(TunerService.class);
         tunerService.addTunable((key, newValue) -> {
@@ -783,7 +789,12 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
         boolean showHistory = Settings.Secure.getIntForUser(mContext.getContentResolver(),
                 Settings.Secure.NOTIFICATION_HISTORY_ENABLED, 0, UserHandle.USER_CURRENT) == 1;
 
-        updateFooterView(showFooterView, showDismissView, showHistory);
+        updateFooterView(showFooterView, showDismissView, showHistory && !isDismissAllButtonEnabled());
+    }
+
+    private boolean isDismissAllButtonEnabled() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.OOS_DISMISS_ALL_BUTTON, 0) != 0;
     }
 
     /**

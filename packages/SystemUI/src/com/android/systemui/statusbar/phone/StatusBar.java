@@ -1577,7 +1577,7 @@ public class StatusBar extends SystemUI implements DemoMode,
     }
 
     public void updateDismissAllVisibility(boolean visible) {
-        if (mClearableNotifications && mState != StatusBarState.KEYGUARD && visible) {
+        if (mClearableNotifications && mState != StatusBarState.KEYGUARD && visible && isDismissAllButtonEnabled()) {
             mDismissAllButton.setVisibility(View.VISIBLE);
             int DismissAllAlpha = Math.round(255.0f * mNotificationPanelViewController.getExpandedFraction());
             mDismissAllButton.setAlpha(DismissAllAlpha);
@@ -1623,6 +1623,11 @@ public class StatusBar extends SystemUI implements DemoMode,
 
     public View getDismissAllButton() {
         return mDismissAllButton;
+    }
+
+    private boolean isDismissAllButtonEnabled() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.OOS_DISMISS_ALL_BUTTON, 0) != 0;
     }
 
     protected QS createDefaultQSFragment() {
