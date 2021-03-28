@@ -2531,6 +2531,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     Settings.Global.POWER_BUTTON_VERY_LONG_PRESS,
                     mContext.getResources().getInteger(
                             com.android.internal.R.integer.config_veryLongPressOnPowerBehavior));
+            mTorchActionMode = Settings.Secure.getIntForUser(resolver,
+                    Settings.Secure.TORCH_POWER_BUTTON_GESTURE, 0,
+                    UserHandle.USER_CURRENT);
             mHideGlobalActionsOnSecure = Settings.Secure.getIntForUser(resolver,
                     Settings.Secure.POWER_MENU_HIDE_ON_SECURE,
                             0, UserHandle.USER_CURRENT) != 0;
