@@ -29,6 +29,7 @@ import static com.android.systemui.util.InjectionInflationController.VIEW_CONTEX
 
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 
+import android.content.ContentResolver;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.TimeAnimator;
@@ -41,6 +42,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.database.ContentObserver;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Outline;
@@ -53,6 +55,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.ServiceManager;
 import android.os.UserHandle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
@@ -389,6 +392,10 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
     private int mIconColor;
     private int mBackgroundColor;
     private float mDimAmount;
+
+    private final Handler mHandler = new Handler();
+    private ContentResolver mContentResolver;
+
     private ValueAnimator mDimAnimator;
     private ArrayList<ExpandableView> mTmpSortedChildren = new ArrayList<>();
     private final Animator.AnimatorListener mDimEndListener = new AnimatorListenerAdapter() {
@@ -752,8 +759,7 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
         inflateFooterView();
         inflateEmptyShadeView();
         updateFooter();
-        mIconColor = mContext.getColor(R.color.dismiss_all_icon_color);
-        mBackgroundColor = mContext.getColor(R.color.dismiss_all_background_color);
+        setOOSDismissColor();
         mSectionsManager.reinflateViews(LayoutInflater.from(mContext));
         mStatusBar.updateDismissAllButton(mIconColor, mBackgroundColor);
     }
@@ -886,8 +892,7 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
     @ShadeViewRefactor(RefactorComponent.SHADE_VIEW)
     public void onUiModeChanged() {
         mBgColor = mContext.getColor(R.color.notification_shade_background_color);
-        mIconColor = mContext.getColor(R.color.dismiss_all_icon_color);
-        mBackgroundColor = mContext.getColor(R.color.dismiss_all_background_color);
+        setOOSDismissColor();
         updateBackgroundDimming();
         mShelf.onUiModeChanged();
         mStatusBar.updateDismissAllButton(mIconColor, mBackgroundColor);
@@ -6960,6 +6965,58 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
                 throw new IllegalArgumentException("Unexpected selection" + selection);
             }
             return INVALID;
+        }
+    }
+
+    private void setOOSDismissColor() {
+        int mBackgroundColorMode = Settings.System.getIntForUser(mContext.getContentResolver(),
+                  Settings.System.DISMISS_ALL_BUTTON_BG_COLOR, 0, UserHandle.USER_CURRENT);
+        int mBackgroundColorModeCustom = Settings.System.getIntForUser(mContext.getContentResolver(),
+                  Settings.System.DISMISS_ALL_BUTTON_BG_COLOR_CUSTOM, 0xffffffff, UserHandle.USER_CURRENT);
+        int mIconColorMode = Settings.System.getIntForUser(mContext.getContentResolver(),
+                  Settings.System.DISMISS_ALL_BUTTON_ICON_COLOR, 0, UserHandle.USER_CURRENT);
+        int mIconColorModeCustom = Settings.System.getIntForUser(mContext.getContentResolver(),
+                  Settings.System.DISMISS_ALL_BUTTON_ICON_COLOR_CUSTOM, 0xffffffff, UserHandle.USER_CURRENT);
+
+        if (mBackgroundColorMode == 0) {
+            mBackgroundColor = mContext.getColor(R.color.dismiss_all_background_color);
+        } else if (mBackgroundColorMode == 1) {
+            int mAccentColor = mContext.getColor(com.android.internal.R.color.gradient_start);
+            mBackgroundColor = mAccentColor;
+        } else if (mBackgroundColorMode == 2) {
+            mBackgroundColor = mBackgroundColorModeCustom;
+        }
+
+        if (mIconColorMode == 0) {
+            mIconColor = mContext.getColor(R.color.dismiss_all_icon_color);
+        } else if (mIconColorMode == 1) {
+            int mAccentColor = mContext.getColor(com.android.internal.R.color.gradient_start);
+            mIconColor = mAccentColor;
+        } else if (mIconColorMode == 2) {
+            mIconColor = mIconColorModeCustom;
+        }
+    }
+
+    private class SettingsObserver extends ContentObserver {
+        SettingsObserver(Handler handler) {
+            super(handler);
+        }
+
+        void observe() {
+            ContentResolver resolver = mContext.getContentResolver();
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.DISMISS_ALL_BUTTON_BG_COLOR), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.DISMISS_ALL_BUTTON_BG_COLOR_CUSTOM), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.DISMISS_ALL_BUTTON_ICON_COLOR), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.DISMISS_ALL_BUTTON_ICON_COLOR_CUSTOM), false, this);
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+           setOOSDismissColor();
         }
     }
 }

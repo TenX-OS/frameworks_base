@@ -6450,6 +6450,30 @@ public final class Settings {
         public static final String OOS_DISMISS_ALL_BUTTON = "oos_dismiss_all_button";
 
         /**
+         * OOS DismissAll Button bg color
+         * @hide
+         */
+        public static final String DISMISS_ALL_BUTTON_BG_COLOR = "dismiss_all_button_bg_color";
+
+        /**
+         * OOS DismissAll Button bg color (Custom)
+         * @hide
+         */
+        public static final String DISMISS_ALL_BUTTON_BG_COLOR_CUSTOM = "dismiss_all_button_bg_color_custom";
+
+        /**
+         * OOS DismissAll Button icon color
+         * @hide
+         */
+        public static final String DISMISS_ALL_BUTTON_ICON_COLOR = "dismiss_all_button_icon_color";
+
+        /**
+         * OOS DismissAll Button icon color 9Custom)
+         * @hide
+         */
+        public static final String DISMISS_ALL_BUTTON_ICON_COLOR_CUSTOM = "dismiss_all_button_icon_color_custom";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
