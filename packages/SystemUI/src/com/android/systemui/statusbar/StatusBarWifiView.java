@@ -23,8 +23,10 @@ import static com.android.systemui.statusbar.StatusBarIconView.STATE_HIDDEN;
 import static com.android.systemui.statusbar.StatusBarIconView.STATE_ICON;
 
 import android.content.Context;
+import android.content.ContentResolver;
 import android.content.res.ColorStateList;
 import android.graphics.Rect;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -196,8 +198,10 @@ public class StatusBarWifiView extends FrameLayout implements DarkReceiver,
             mWifiIcon.setImageDrawable(mContext.getDrawable(state.resId));
         }
         mWifiActivityId = getWifiActivityId(state.activityIn, state.activityOut);
-        if (mWifiActivityId != 0) {
-            mWifiActivity.setImageResource(mWifiActivityId);
+        if (isWiFiActivityEnabled()) {
+            if (mWifiActivityId != 0) {
+                mWifiActivity.setImageResource(mWifiActivityId);
+            }
         }
         mAirplaneSpacer.setVisibility(state.airplaneSpacerVisible ? View.VISIBLE : View.GONE);
         mSignalSpacer.setVisibility(state.signalSpacerVisible ? View.VISIBLE : View.GONE);
@@ -220,8 +224,10 @@ public class StatusBarWifiView extends FrameLayout implements DarkReceiver,
             mWifiIcon.setImageDrawable(mContext.getDrawable(mState.resId));
         }
         mWifiActivityId = getWifiActivityId(mState.activityIn, mState.activityOut);
-        if (mWifiActivityId != 0) {
-            mWifiActivity.setImageResource(mWifiActivityId);
+        if (isWiFiActivityEnabled()) {
+            if (mWifiActivityId != 0) {
+                mWifiActivity.setImageResource(mWifiActivityId);
+            }
         }
 
         mAirplaneSpacer.setVisibility(mState.airplaneSpacerVisible ? View.VISIBLE : View.GONE);
@@ -253,5 +259,10 @@ public class StatusBarWifiView extends FrameLayout implements DarkReceiver,
             return R.drawable.stat_sys_signal_none;
         }
         return R.drawable.stat_sys_signal_inout;
+    }
+
+    private boolean isWiFiActivityEnabled() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.WIFI_ACTIVITY_ENABLED, 0) != 0;
     }
 }

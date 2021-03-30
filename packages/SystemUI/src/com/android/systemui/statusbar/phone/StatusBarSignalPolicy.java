@@ -17,7 +17,9 @@
 package com.android.systemui.statusbar.phone;
 
 import android.content.Context;
+import android.content.ContentResolver;
 import android.os.Handler;
+import android.provider.Settings;
 import android.telephony.SubscriptionInfo;
 import android.util.ArraySet;
 import android.util.Log;
@@ -78,7 +80,13 @@ public class StatusBarSignalPolicy implements NetworkControllerImpl.SignalCallba
         mSlotEthernet = mContext.getString(com.android.internal.R.string.status_bar_ethernet);
         mSlotVpn      = mContext.getString(com.android.internal.R.string.status_bar_vpn);
         mSlotRoaming      = mContext.getString(com.android.internal.R.string.status_bar_roaming);
-        mActivityEnabled = mContext.getResources().getBoolean(R.bool.config_showActivity);
+
+        if (!isNetworkActivityEnabled()) {
+            mActivityEnabled = mContext.getResources().getBoolean(R.bool.config_showActivity);
+            mActivityEnabled = false;
+        } else {
+             mActivityEnabled = true;
+        }
 
         mIconController = iconController;
         mNetworkController = Dependency.get(NetworkController.class);
@@ -468,5 +476,10 @@ public class StatusBarSignalPolicy implements NetworkControllerImpl.SignalCallba
                     + roaming + ", typeId=" + typeId + ", volteId=" + volteId
                     + ", visible=" + visible + ")";
         }
+    }
+
+    private boolean isNetworkActivityEnabled() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.NETWORK_ACTIVITY_ENABLED, 0) != 0;
     }
 }

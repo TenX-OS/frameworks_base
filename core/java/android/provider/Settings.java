@@ -6492,6 +6492,18 @@ public final class Settings {
         public static final String FOD_ICON = "fod_icon";
 
         /**
+         * Wi-Fi Activity
+         * @hide
+         */
+        public static final String WIFI_ACTIVITY_ENABLED = "wifi_activity_enabled";
+
+        /**
+         * Network Activity
+         * @hide
+         */
+        public static final String NETWORK_ACTIVITY_ENABLED = "network_activity_enabled";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
