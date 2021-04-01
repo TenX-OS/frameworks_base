@@ -5965,6 +5965,18 @@ public final class Settings {
         public static final String TENX_FOOTER_TEXT_FONT = "tenx_footer_text_font";
 
         /**
+         * QS footer text color
+         * @hide
+         */
+        public static final String TENX_FOOTER_TEXT_COLOR = "tenx_footer_text_color";
+
+        /**
+         * QS footer text color custom
+         * @hide
+         */
+        public static final String TENX_FOOTER_TEXT_COLOR_CUSTOM = "tenx_footer_text_color_custom";
+
+        /**
          * Whether to enable PULSE Edge lights
          * @hide
          */

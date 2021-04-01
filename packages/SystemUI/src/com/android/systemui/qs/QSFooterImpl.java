@@ -183,6 +183,12 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
         int tenXFooterTextFonts = Settings.System.getIntForUser(mContext.getContentResolver(),
                         Settings.System.TENX_FOOTER_TEXT_FONT, 28,
                         UserHandle.USER_CURRENT);
+        int tenXFooterTextColor = Settings.System.getIntForUser(mContext.getContentResolver(),
+                        Settings.System.TENX_FOOTER_TEXT_COLOR, 0,
+                        UserHandle.USER_CURRENT);
+        int tenXFooterTextColorCustom = Settings.System.getIntForUser(mContext.getContentResolver(),
+                        Settings.System.TENX_FOOTER_TEXT_COLOR_CUSTOM, 0xffffffff,
+                        UserHandle.USER_CURRENT);
         String text = Settings.System.getStringForUser(mContext.getContentResolver(),
                         Settings.System.TENX_FOOTER_TEXT_STRING,
                         UserHandle.USER_CURRENT);
@@ -199,6 +205,13 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
         } else {
             mShouldShowBuildText = false;
             mBuildText.setSelected(false);
+        }
+
+        if (tenXFooterTextColor == 1) {
+            int mAccentColor = mContext.getColor(com.android.internal.R.color.gradient_start);
+            mBuildText.setTextColor(mAccentColor);
+        } else if (tenXFooterTextColor == 2) {
+            mBuildText.setTextColor(tenXFooterTextColorCustom);
         }
 
         switch (tenXFooterTextFonts) {
@@ -446,6 +459,12 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
                 mSettingsObserver, UserHandle.USER_ALL);
         mContext.getContentResolver().registerContentObserver(
                 Settings.System.getUriFor(Settings.System.TENX_FOOTER_TEXT_FONT), false,
+                mSettingsObserver, UserHandle.USER_ALL);
+        mContext.getContentResolver().registerContentObserver(
+                Settings.System.getUriFor(Settings.System.TENX_FOOTER_TEXT_COLOR), false,
+                mSettingsObserver, UserHandle.USER_ALL);
+        mContext.getContentResolver().registerContentObserver(
+                Settings.System.getUriFor(Settings.System.TENX_FOOTER_TEXT_COLOR_CUSTOM), false,
                 mSettingsObserver, UserHandle.USER_ALL);
     }
 
