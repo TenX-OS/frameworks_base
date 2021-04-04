@@ -100,7 +100,7 @@ public class CellularTile extends QSTileImpl<SignalState> {
         if (getState().state == Tile.STATE_UNAVAILABLE) {
             return new Intent(Settings.ACTION_WIRELESS_SETTINGS);
         }
-        return getCellularSettingIntent();
+        return new Intent(Settings.Panel.ACTION_MOBILE_DATA);
     }
 
     @Override
@@ -305,7 +305,13 @@ public class CellularTile extends QSTileImpl<SignalState> {
     }
 
     static Intent getCellularSettingIntent() {
-        return new Intent(Settings.Panel.ACTION_MOBILE_DATA);
+        Intent intent = new Intent(Settings.ACTION_NETWORK_OPERATOR_SETTINGS);
+        int dataSub = SubscriptionManager.getDefaultDataSubscriptionId();
+        if (dataSub != SubscriptionManager.INVALID_SUBSCRIPTION_ID) {
+            intent.putExtra(Settings.EXTRA_SUB_ID,
+                    SubscriptionManager.getDefaultDataSubscriptionId());
+        }
+        return intent;
     }
 
     private final class CellularDetailAdapter implements DetailAdapter {
