@@ -441,11 +441,6 @@ public final class DozeServiceHost implements DozeHost {
     }
 
     @Override
-    public void performToggleFlashlight() {
-        mStatusBar.toggleFlashlight();
-    }
-
-    @Override
     public void performTriggeredAction(String action) {
         mStatusBar.performTriggeredAction(action);
     }
@@ -495,12 +490,6 @@ public final class DozeServiceHost implements DozeHost {
 
     public boolean isDozeSuppressed() {
         return mSuppressed;
-    }
-
-    public void toggleFlashlightProximityCheck() {
-        for (Callback callback : mCallbacks) {
-            callback.toggleFlashlightProximityCheck();
-        }
     }
 
     public void triggerActionProximityCheck(String action) {

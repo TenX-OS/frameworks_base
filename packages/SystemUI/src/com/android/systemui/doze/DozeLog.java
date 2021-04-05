@@ -339,7 +339,6 @@ public class DozeLog implements Dumpable {
             case PULSE_REASON_SENSOR_WAKE_LOCK_SCREEN: return "wakelockscreen";
             case REASON_SENSOR_WAKE_UP: return "wakeup";
             case REASON_SENSOR_TAP: return "tap";
-            case REASON_TOGGLE_FLASHLIGHT: return "flashlight";
             case REASON_TRIGGER_ACTION: return "triggeraction";
             default: throw new IllegalArgumentException("invalid reason: " + pulseReason);
         }
@@ -349,7 +348,7 @@ public class DozeLog implements Dumpable {
     @IntDef({PULSE_REASON_NONE, PULSE_REASON_INTENT, PULSE_REASON_NOTIFICATION,
             PULSE_REASON_SENSOR_SIGMOTION, REASON_SENSOR_PICKUP, REASON_SENSOR_DOUBLE_TAP,
             PULSE_REASON_SENSOR_LONG_PRESS, PULSE_REASON_DOCKING, REASON_SENSOR_WAKE_UP,
-            PULSE_REASON_SENSOR_WAKE_LOCK_SCREEN, REASON_SENSOR_TAP, REASON_TOGGLE_FLASHLIGHT, REASON_TRIGGER_ACTION})
+            PULSE_REASON_SENSOR_WAKE_LOCK_SCREEN, REASON_SENSOR_TAP, REASON_TRIGGER_ACTION})
     public @interface Reason {}
     public static final int PULSE_REASON_NONE = -1;
     public static final int PULSE_REASON_INTENT = 0;
@@ -362,8 +361,7 @@ public class DozeLog implements Dumpable {
     public static final int REASON_SENSOR_WAKE_UP = 7;
     public static final int PULSE_REASON_SENSOR_WAKE_LOCK_SCREEN = 8;
     public static final int REASON_SENSOR_TAP = 9;
-    public static final int REASON_TOGGLE_FLASHLIGHT = 10;
-    public static final int REASON_TRIGGER_ACTION = 11;
+    public static final int REASON_TRIGGER_ACTION = 10;
 
-    public static final int TOTAL_REASONS = 12;
+    public static final int TOTAL_REASONS = 11;
 }

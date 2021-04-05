@@ -352,7 +352,7 @@ public class CommandQueue extends IStatusBar.Stub implements CallbackController<
          */
         default void onTracingStateChanged(boolean enabled) { }
 
-        default void toggleCameraFlash(boolean proximityCheck) { }
+        default void toggleCameraFlash() { }
 
         default void triggerElmyraAction(String action) { }
 
@@ -1027,10 +1027,10 @@ public class CommandQueue extends IStatusBar.Stub implements CallbackController<
     }
 
     @Override
-    public void toggleCameraFlash(boolean proximityCheck) {
+    public void toggleCameraFlash() {
         synchronized (mLock) {
             mHandler.removeMessages(MSG_TOGGLE_CAMERA_FLASH);
-            mHandler.obtainMessage(MSG_TOGGLE_CAMERA_FLASH, proximityCheck).sendToTarget();
+            mHandler.sendEmptyMessage(MSG_TOGGLE_CAMERA_FLASH);
         }
     }
 
@@ -1417,7 +1417,7 @@ public class CommandQueue extends IStatusBar.Stub implements CallbackController<
                     break;
                 case MSG_TOGGLE_CAMERA_FLASH:
                     for (int i = 0; i < mCallbacks.size(); i++) {
-                        mCallbacks.get(i).toggleCameraFlash((boolean) msg.obj);
+                        mCallbacks.get(i).toggleCameraFlash();
                     }
                     break;
                 case MSG_TRIGGER_ACTION:

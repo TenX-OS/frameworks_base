@@ -169,7 +169,6 @@ public class SecureSettings {
         Settings.Secure.ACCESSIBILITY_BUTTON_TARGETS,
         Settings.Secure.ADAPTIVE_CONNECTIVITY_ENABLED,
         Settings.Secure.ASSIST_HANDLES_LEARNING_TIME_ELAPSED_MILLIS,
-        Settings.Secure.ASSIST_HANDLES_LEARNING_EVENT_COUNT,
-        Settings.Secure.TORCH_POWER_BUTTON_GESTURE
+        Settings.Secure.ASSIST_HANDLES_LEARNING_EVENT_COUNT
     };
 }

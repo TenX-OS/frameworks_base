@@ -215,7 +215,7 @@ public final class LineageButtons {
     public void performTriggeredAction(String action, Context context, boolean interactive) {
         switch(action) {
             case "flashlight":
-                tenxUtils.toggleCameraFlash(false);
+                tenxUtils.toggleCameraFlash();
                 break;
             case "assist":
                 tenxUtils.startAssist();
@@ -299,7 +299,7 @@ public final class LineageButtons {
                 tenxUtils.launchCamera(context);
                 break;
             case 4: // Flashlight
-                tenxUtils.toggleCameraFlash(false/*no proximity check*/);
+                tenxUtils.toggleCameraFlash();
                 break;
             case 5: // Application
                 tenxUtils.launchApp(context, leftEdge, isVerticalSwipe);

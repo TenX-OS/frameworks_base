@@ -153,8 +153,8 @@ public class tenxUtils {
         return ctx.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
     }
 
-    public static void toggleCameraFlash(boolean proximityCheck) {
-        FireActions.toggleCameraFlash(proximityCheck);
+    public static void toggleCameraFlash() {
+        FireActions.toggleCameraFlash();
     }
 
     public static void killForegroundApp() {
@@ -174,11 +174,11 @@ public class tenxUtils {
             }
         }
 
-        public static void toggleCameraFlash(boolean proximityCheck) {
+        public static void toggleCameraFlash() {
             IStatusBarService service = getStatusBarService();
             if (service != null) {
                 try {
-                    service.toggleCameraFlash(proximityCheck);
+                    service.toggleCameraFlash();
                 } catch (RemoteException e) {
                     // do nothing.
                 }

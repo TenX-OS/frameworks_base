@@ -105,8 +105,6 @@ public interface DozeHost {
         /** Called when the doze suppression state changes. */
         default void onDozeSuppressedChanged(boolean suppressed) {}
 
-        default void toggleFlashlightProximityCheck() {}
-
         default void triggerActionProximityCheck(String action) {}
     }
 
@@ -114,8 +112,6 @@ public interface DozeHost {
         void onPulseStarted();
         void onPulseFinished();
     }
-
-    void performToggleFlashlight();
 
     void performTriggeredAction(String action);
 }

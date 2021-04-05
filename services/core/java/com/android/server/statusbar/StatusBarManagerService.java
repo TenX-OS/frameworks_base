@@ -802,10 +802,10 @@ public class StatusBarManagerService extends IStatusBarService.Stub implements D
     }
 
     @Override
-    public void toggleCameraFlash(boolean proximityCheck) {
+    public void toggleCameraFlash() {
         if (mBar != null) {
             try {
-                mBar.toggleCameraFlash(proximityCheck);
+                mBar.toggleCameraFlash();
             } catch (RemoteException ex) {
                 // do nothing
             }

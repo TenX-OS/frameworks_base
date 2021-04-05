@@ -164,7 +164,7 @@ interface IStatusBarService
     /**
      * TenX
      */
-    void toggleCameraFlash(boolean proximityCheck);
+    void toggleCameraFlash();
     void triggerElmyraAction(String action);
 
     void killForegroundApp();

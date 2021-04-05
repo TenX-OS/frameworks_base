@@ -60,7 +60,6 @@ public class AmbientDisplayConfiguration {
                 || pickupGestureEnabled(user)
                 || tapGestureEnabled(user)
                 || doubleTapGestureEnabled(user)
-                || isPowerBtnFlashlightEnabled(user)
                 || isAmbientTickerEnabled(user)
                 || deviceHasElmyra();
     }
@@ -239,12 +238,6 @@ public class AmbientDisplayConfiguration {
 
     private boolean boolSettingSystem(String name, int user, int def) {
         return Settings.System.getIntForUser(mContext.getContentResolver(), name, def, user) != 0;
-    }
-
-    /** {@hide} */
-    public boolean isPowerBtnFlashlightEnabled(int user) {
-        return Settings.Secure.getIntForUser(mContext.getContentResolver(),
-                Settings.Secure.TORCH_POWER_BUTTON_GESTURE, 0, user) != 0;
     }
 
     /** {@hide} */
