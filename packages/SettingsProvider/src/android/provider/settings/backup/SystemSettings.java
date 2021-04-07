@@ -104,5 +104,7 @@ public class SystemSettings {
         Settings.System.GRADIENT_COLOR,
         Settings.System.OMNI_KEYGUARD_SHOW_BATTERY_BAR,
         Settings.System.OMNI_KEYGUARD_SHOW_BATTERY_BAR_ALWAYS,
+        Settings.System.KEYGAURD_BATTERY_BAR_COLOR_MODE,
+        Settings.System.KEYGAURD_BATTERY_BAR_COLOR_CUSTOM,
     };
 }

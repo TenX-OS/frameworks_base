@@ -81,6 +81,7 @@ import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.util.IllegalFormatConversionException;
+import java.util.Random;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -462,6 +463,7 @@ public class KeyguardIndicationController implements StateListener,
                     if (showBatteryBar || showBatteryBarAlways) {
                         mBatteryBar.setVisibility(View.VISIBLE);
                         mBatteryBar.setBatteryPercent(mBatteryLevel);
+                        updateBatteryBarColorMode();
                     }
                 } else {
                     // Use the high voltage symbol ⚡ (u26A1 unicode) but prevent the system
@@ -484,7 +486,7 @@ public class KeyguardIndicationController implements StateListener,
                         mBatteryBar.setVisibility(View.VISIBLE);
                         mBatteryBar.setBatteryPercent(mBatteryLevel);
                         if (mBatteryLevel > 15) {
-                            mBatteryBar.setBarColor(mInitialTextColorState);
+                            updateBatteryBarColorMode();
                         } else {
                             mBatteryBar.setBarColor(Color.RED);
                         }
@@ -1091,5 +1093,36 @@ public class KeyguardIndicationController implements StateListener,
             return null;
         }
         return line;
+    }
+
+    private void updateBatteryBarColorMode() {
+        int mColorMode = Settings.System.getIntForUser(mContext.getContentResolver(),
+                     Settings.System.KEYGAURD_BATTERY_BAR_COLOR_MODE, 0, UserHandle.USER_CURRENT);
+        int mColorModeCustom = Settings.System.getIntForUser(mContext.getContentResolver(),
+                     Settings.System.KEYGAURD_BATTERY_BAR_COLOR_CUSTOM, 0xffffffff, UserHandle.USER_CURRENT);
+
+        // if (mColorMode == 0) {
+           // Set Gradient Color
+        // }
+
+        switch (mColorMode) {
+            case 1:
+                int mAccentColor = mContext.getColor(com.android.internal.R.color.gradient_start);
+                mBatteryBar.setBarColor(mAccentColor);
+                break;
+            case 2:
+                mBatteryBar.setBarColor(mRandomColor());
+                break;
+            case 3:
+                mBatteryBar.setBarColor(mColorModeCustom);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public int mRandomColor() {
+    Random rnd = new Random();
+       return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
     }
 }
