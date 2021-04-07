@@ -549,10 +549,10 @@ public abstract class QSTileImpl<TState extends State> implements QSTile, Lifecy
                 return Utils.getDisabled(context,
                         Utils.getColorAttrDefaultColor(context, android.R.attr.textColorSecondary));
             case Tile.STATE_INACTIVE:
-                 if (setQsUseNewTint == 2) {
-                    return context.getResources().getColor(R.color.qs_tile_icon_oos);
+                 if (setQsUseNewTint == 3) {
+                     return context.getResources().getColor(R.color.qs_tile_icon_oos);
                  } else {
-                    return Utils.getColorAttrDefaultColor(context, android.R.attr.textColorSecondary);
+                     return Utils.getColorAttrDefaultColor(context, android.R.attr.textColorSecondary);
                  }
             case Tile.STATE_ACTIVE:
                  if (QsTileStyles == 1 || QsTileStyles == 2 || QsTileStyles == 3 || QsTileStyles == 4 ||
@@ -574,8 +574,10 @@ public abstract class QSTileImpl<TState extends State> implements QSTile, Lifecy
                      return ColorUtils.genRandomAccentColor(isThemeDark(context));
                  } else if (setQsUseNewTint == 2) {
                      return Utils.getColorAttrDefaultColor(context, android.R.attr.colorAccent);
-                 } else if (setQsUseNewTint == 2) {
+                 } else if (setQsUseNewTint == 3) {
                      return context.getResources().getColor(R.color.qs_tile_oos);
+                 } else if (setQsUseNewTint == 4) {
+                    return Utils.getColorAttrDefaultColor(context, android.R.attr.textColorPrimaryInverse);
                  } else {
                      return Utils.getColorAttrDefaultColor(context, android.R.attr.colorPrimary);
                  }
