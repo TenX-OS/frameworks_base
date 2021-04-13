@@ -443,7 +443,7 @@ public class KeyguardIndicationController implements StateListener,
             boolean showBatteryBarAlways = Settings.System.getIntForUser(mContext.getContentResolver(),
                      Settings.System.OMNI_KEYGUARD_SHOW_BATTERY_BAR_ALWAYS, 0, UserHandle.USER_CURRENT) == 1;
             int chargingInfoFont = Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.KEYGUARD_BATTERY_INFO_FONT, 28);
+                    Settings.System.LOCKSCREEN_BATTERY_INFO_FONT, 28);
 
             switch (chargingInfoFont) {
                 case 0:
