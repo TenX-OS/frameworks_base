@@ -107,5 +107,7 @@ public class SystemSettings {
         Settings.System.KEYGAURD_BATTERY_BAR_COLOR_MODE,
         Settings.System.KEYGAURD_BATTERY_BAR_COLOR_CUSTOM,
         Settings.System.LOCKSCREEN_BATTERY_INFO_FONT,
+        Settings.System.CUSTOM_STATUSBAR_PADDING_START,
+        Settings.System.CUSTOM_STATUSBAR_PADDING_END,
     };
 }
