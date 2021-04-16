@@ -537,6 +537,10 @@ public abstract class QSTileImpl<TState extends State> implements QSTile, Lifecy
     public static int getColorForState(Context context, int state) {
         int setQsUseNewTint = Settings.System.getIntForUser(context.getContentResolver(),
                     Settings.System.QS_PANEL_BG_USE_NEW_TINT, 0, UserHandle.USER_CURRENT);
+        int QsTileStyles = Settings.System.getIntForUser(context.getContentResolver(),
+                    Settings.System.QS_TILE_STYLE, 0, UserHandle.USER_CURRENT);
+        int QsTileStylesTint =  Settings.System.getIntForUser(context.getContentResolver(),
+                    Settings.System.QS_TILE_STYLE_TINT, 0, UserHandle.USER_CURRENT);
 
         switch (state) {
             case Tile.STATE_UNAVAILABLE:
@@ -545,6 +549,21 @@ public abstract class QSTileImpl<TState extends State> implements QSTile, Lifecy
             case Tile.STATE_INACTIVE:
                 return Utils.getColorAttrDefaultColor(context, android.R.attr.textColorSecondary);
             case Tile.STATE_ACTIVE:
+                 if (QsTileStyles == 1 || QsTileStyles == 2 || QsTileStyles == 3 || QsTileStyles == 4 ||
+                         QsTileStyles == 5 || QsTileStyles == 6 || QsTileStyles == 7 || QsTileStyles == 8 || QsTileStyles == 9 ||
+                             QsTileStyles == 10 || QsTileStyles == 11 || QsTileStyles == 12 || QsTileStyles == 13 || QsTileStyles == 14 ||
+                                 QsTileStyles == 15 || QsTileStyles == 16 || QsTileStyles == 17 || QsTileStyles == 18 || QsTileStyles == 19 || QsTileStyles == 20 ||
+                                      QsTileStyles == 21 || QsTileStyles == 22 || QsTileStyles == 23 || QsTileStyles == 24 || QsTileStyles == 25 || QsTileStyles == 26) {
+                      if (QsTileStylesTint == 0) {
+                          return Utils.getColorAttrDefaultColor(context, android.R.attr.colorPrimary);
+                      } else if (QsTileStylesTint == 1) {
+                          return Utils.getColorAttrDefaultColor(context, android.R.attr.textColorSecondary);
+                      } else if (QsTileStylesTint == 2) {
+                          return Utils.getColorAttrDefaultColor(context, android.R.attr.colorAccent);
+                      } else {
+                          return ColorUtils.genRandomAccentColor(isThemeDark(context));
+                      }
+                 }
                  if (setQsUseNewTint == 1) {
                      return ColorUtils.genRandomAccentColor(isThemeDark(context));
                  } else if (setQsUseNewTint == 2) {

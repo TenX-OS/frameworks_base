@@ -6653,6 +6653,12 @@ public final class Settings {
          */
         public static final String QS_TILE_STYLE = "qs_tile_style";
 
+       /**
+         * QS Tile Style Tint
+         * @hide
+         */
+        public static final String QS_TILE_STYLE_TINT = "qs_tile_style_tint";
+
         /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
@@ -6874,6 +6880,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(TORCH_LONG_PRESS_POWER_GESTURE);
             PRIVATE_SETTINGS.add(TORCH_LONG_PRESS_POWER_TIMEOUT);
             PRIVATE_SETTINGS.add(QS_TILE_STYLE);
+            PRIVATE_SETTINGS.add(QS_TILE_STYLE_TINT);
         }
 
         /**
