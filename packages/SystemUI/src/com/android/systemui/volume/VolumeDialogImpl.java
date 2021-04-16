@@ -190,7 +190,7 @@ public class VolumeDialogImpl implements VolumeDialog,
     private View mODICaptionsTooltipView = null;
 
     // Volume panel placement left or right
-    private boolean mVolumePanelOnLeft;
+    private boolean mVolumePanelOnLeft = false;
 
     private boolean mExpanded;
 
@@ -213,6 +213,7 @@ public class VolumeDialogImpl implements VolumeDialog,
             mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(Settings.System.AUDIO_PANEL_VIEW_ALARM), false, this, UserHandle.USER_ALL);
             mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(Settings.System.AUDIO_PANEL_VIEW_VOICE), false, this, UserHandle.USER_ALL);
             mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(Settings.System.AUDIO_PANEL_VIEW_BT_SCO), false, this, UserHandle.USER_ALL);
+            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(Settings.System.AUDIO_PANEL_VIEW_POSITION), false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -228,7 +229,13 @@ public class VolumeDialogImpl implements VolumeDialog,
              isAlarmShowing = Settings.System.getIntForUser(mContext.getContentResolver(), Settings.System.AUDIO_PANEL_VIEW_ALARM, 0, UserHandle.USER_CURRENT) == 1;
              isVoiceShowing = Settings.System.getIntForUser(mContext.getContentResolver(), Settings.System.AUDIO_PANEL_VIEW_VOICE, 0, UserHandle.USER_CURRENT) == 1;
              isBTSCOShowing = Settings.System.getIntForUser(mContext.getContentResolver(), Settings.System.AUDIO_PANEL_VIEW_BT_SCO, 0, UserHandle.USER_CURRENT) == 1;
-             updateRowsH(getActiveRow());
+             boolean value = Settings.System.getIntForUser(mContext.getContentResolver(), Settings.System.AUDIO_PANEL_VIEW_POSITION, 0, UserHandle.USER_CURRENT) == 0;
+             if(value != mVolumePanelOnLeft){
+                mVolumePanelOnLeft = value;
+                initDialog();
+             } else {
+                updateRowsH(getActiveRow());
+             }
         }
     }
 
@@ -246,7 +253,6 @@ public class VolumeDialogImpl implements VolumeDialog,
         mShowActiveStreamOnly = showActiveStreamOnly();
         mHasSeenODICaptionsTooltip =
                 Prefs.getBoolean(context, Prefs.Key.HAS_SEEN_ODI_CAPTIONS_TOOLTIP, false);
-        mVolumePanelOnLeft = mContext.getResources().getBoolean(R.bool.config_audioPanelOnLeftSide);
     }
 
     @Override
