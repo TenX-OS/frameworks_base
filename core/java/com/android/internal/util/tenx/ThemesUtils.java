@@ -101,6 +101,15 @@ public class ThemesUtils {
             "com.android.systemui.qstile.cosmos",
             "com.android.systemui.qstile.divided",
             "com.android.systemui.qstile.oos",
+            "com.android.systemui.qstile.badge",
+            "com.android.systemui.qstile.badgetwo",
+            "com.android.systemui.qstile.diamond",
+            "com.android.systemui.qstile.gear",
+            "com.android.systemui.qstile.hexagon",
+            "com.android.systemui.qstile.square",
+            "com.android.systemui.qstile.squircle",
+            "com.android.systemui.qstile.star",
+            "com.android.systemui.qstile.teardrop",
     };
 
     public String[] getTheme(int theme) {
