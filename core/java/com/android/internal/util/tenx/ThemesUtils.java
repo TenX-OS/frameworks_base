@@ -87,6 +87,13 @@ public class ThemesUtils {
             "com.android.systemui.qstile.circletrim",
             "com.android.systemui.qstile.dualtonecircletrim",
             "com.android.systemui.qstile.squircletrim",
+            "com.android.systemui.qstile.attemptmountain",
+            "com.android.systemui.qstile.dottedcircle",
+            "com.android.systemui.qstile.ninja",
+            "com.android.systemui.qstile.pokesign",
+            "com.android.systemui.qstile.wavey",
+            "com.android.systemui.qstile.squaremedo",
+            "com.android.systemui.qstile.inkdrop",
     };
 
     public String[] getTheme(int theme) {
