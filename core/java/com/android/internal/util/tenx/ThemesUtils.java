@@ -95,6 +95,7 @@ public class ThemesUtils {
             "com.android.systemui.qstile.squaremedo",
             "com.android.systemui.qstile.inkdrop",
             "com.android.systemui.qstile.cookie",
+            "com.android.systemui.qstile.circleoutline",
     };
 
     public String[] getTheme(int theme) {
