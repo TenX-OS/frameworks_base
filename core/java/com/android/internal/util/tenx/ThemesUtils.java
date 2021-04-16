@@ -96,6 +96,11 @@ public class ThemesUtils {
             "com.android.systemui.qstile.inkdrop",
             "com.android.systemui.qstile.cookie",
             "com.android.systemui.qstile.circleoutline",
+            "com.android.systemui.qstile.neonlike",
+            "com.android.systemui.qstile.triangles",
+            "com.android.systemui.qstile.cosmos",
+            "com.android.systemui.qstile.divided",
+            "com.android.systemui.qstile.oos",
     };
 
     public String[] getTheme(int theme) {
