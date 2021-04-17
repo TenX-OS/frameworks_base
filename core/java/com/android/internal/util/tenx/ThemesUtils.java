@@ -133,6 +133,14 @@ public class ThemesUtils {
             "com.android.systemui.ui.roundmedium", // 4
     };
 
+    // Custom Statusbar Height
+    public static final String[] STATUSBAR_HEIGHT = {
+        "com.android.systemui.statusbar.height_small", // 0
+        "com.android.systemui.statusbar.height_medium", // 1
+        "com.android.systemui.statusbar.height_large", // 2
+        "com.android.systemui.statusbar.height_xlarge", // 3
+    };
+
     public String[] getTheme(int theme) {
         switch (theme) {
             case DEVICE_THEME_LIGHT:
