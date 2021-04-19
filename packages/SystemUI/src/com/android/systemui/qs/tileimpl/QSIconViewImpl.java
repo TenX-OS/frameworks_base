@@ -56,7 +56,7 @@ public class QSIconViewImpl extends QSIconView {
         super(context);
 
         final Resources res = context.getResources();
-        mIconSizePx = res.getDimensionPixelSize(R.dimen.qs_tile_icon_size);
+        mIconSizePx = getIconSize();
 
         mIcon = createIcon();
         addView(mIcon);
@@ -239,5 +239,11 @@ public class QSIconViewImpl extends QSIconView {
 
     protected final void layout(View child, int left, int top) {
         child.layout(left, top, left + child.getMeasuredWidth(), top + child.getMeasuredHeight());
+    }
+
+    private int getIconSize() {
+        final Resources res = mContext.getResources();
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.QS_TILE_ICON_SIZE, res.getDimensionPixelSize(R.dimen.qs_tile_icon_size));
     }
 }

@@ -578,8 +578,8 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     }
 
     public void updateResources() {
-        int tileSize = getResources().getDimensionPixelSize(R.dimen.qs_quick_tile_size);
-        int tileBg = getResources().getDimensionPixelSize(R.dimen.qs_tile_background_size);
+        int tileSize = getCellSize();
+        int tileBg = getTileBgSize();
         mFooterMarginStartHorizontal = getResources().getDimensionPixelSize(
                 R.dimen.qs_footer_horizontal_margin);
         mVisualTilePadding = (int) ((tileSize - tileBg) / 2.0f);
@@ -1440,5 +1440,17 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
 
     private void setBrightnessMinMax(boolean min) {
         mBrightnessController.setBrightnessFromSliderButtons(min ? 0 : GAMMA_SPACE_MAX);
+    }
+
+    private int getCellSize() {
+        final Resources res = mContext.getResources();
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.QS_QUICK_TILE_SIZE, res.getDimensionPixelSize(R.dimen.qs_quick_tile_size));
+    }
+
+    private int getTileBgSize() {
+        final Resources res = mContext.getResources();
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.QS_TILE_BG_SIZE, res.getDimensionPixelSize(R.dimen.qs_tile_background_size));
     }
 }

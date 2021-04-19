@@ -109,5 +109,8 @@ public class SystemSettings {
         Settings.System.LOCKSCREEN_BATTERY_INFO_FONT,
         Settings.System.CUSTOM_STATUSBAR_PADDING_START,
         Settings.System.CUSTOM_STATUSBAR_PADDING_END,
+        Settings.System.QS_TILE_BG_SIZE,
+        Settings.System.QS_QUICK_TILE_SIZE,
+        Settings.System.QS_TILE_ICON_SIZE,
     };
 }

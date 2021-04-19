@@ -6704,6 +6704,27 @@ public final class Settings {
          */
         public static final String CUSTOM_STATUSBAR_PADDING_END  = "custom_statusbar_padding_end";
 
+        /**
+         * QS Tile Bg size
+         *
+         * @hide
+         */
+        public static final String QS_TILE_BG_SIZE = "qs_tile_bg_size";
+
+        /**
+         * QS Quick tile size
+         *
+         * @hide
+         */
+         public static final String QS_QUICK_TILE_SIZE = "qs_quick_tile_size";
+
+        /**
+         * QS Tile icon size
+         *
+         * @hide
+         */
+        public static final String QS_TILE_ICON_SIZE = "qs_tile_icon_size";
+
 	/**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
@@ -6929,6 +6950,9 @@ public final class Settings {
             PRIVATE_SETTINGS.add(UI_STYLE);
             PRIVATE_SETTINGS.add(CUSTOM_STATUSBAR_PADDING_START);
             PRIVATE_SETTINGS.add(CUSTOM_STATUSBAR_PADDING_END);
+            PRIVATE_SETTINGS.add(QS_TILE_BG_SIZE);
+            PRIVATE_SETTINGS.add(QS_QUICK_TILE_SIZE);
+            PRIVATE_SETTINGS.add(QS_TILE_ICON_SIZE);
         }
 
         /**

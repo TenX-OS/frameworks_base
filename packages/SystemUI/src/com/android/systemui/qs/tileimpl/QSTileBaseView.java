@@ -112,14 +112,14 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
                 .getDimension(com.android.internal.R.dimen.config_qsTileStrokeWidthActive);
         mStrokeWidthInactive = context.getResources()
                 .getDimension(com.android.internal.R.dimen.config_qsTileStrokeWidthInactive);
-        int size = context.getResources().getDimensionPixelSize(R.dimen.qs_quick_tile_size);
+        int size = getCellSize();
         addView(mIconFrame, new LayoutParams(size, size));
         backgroundView = new ImageView(getContext());
         foregroundView = new ImageView(getContext());
         Path path = new Path(PathParser.createPathFromPathData(
                 context.getResources().getString(ICON_MASK_ID)));
         float pathSize = AdaptiveIconDrawable.MASK_SIZE;
-        int bgSize = context.getResources().getDimensionPixelSize(R.dimen.qs_tile_background_size);
+        int bgSize = getTileBgSize();
         PathShape p = new PathShape(path, pathSize, pathSize);
         // The drawable shown when the tile is not active
         backgroundDrawable = new ShapeDrawable(p);
@@ -517,5 +517,17 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
                 handleStateChanged((QSTile.State) msg.obj);
             }
         }
+    }
+
+    private int getCellSize() {
+        final Resources res = mContext.getResources();
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.QS_QUICK_TILE_SIZE, res.getDimensionPixelSize(R.dimen.qs_quick_tile_size));
+    }
+
+    private int getTileBgSize() {
+        final Resources res = mContext.getResources();
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.QS_TILE_BG_SIZE, res.getDimensionPixelSize(R.dimen.qs_tile_background_size));
     }
 }
