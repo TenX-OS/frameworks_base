@@ -124,6 +124,8 @@ public class QSContainerImpl extends FrameLayout implements
     private ImageView mQsBackgroundImage;
     private View mStatusBarBackground;
     private Drawable mQsBackGround;
+    private Drawable mQsBackGroundAccent;
+    private Drawable mQsBackGroundGradient;
 
     private int mSideMargins;
     private boolean mQsDisabled;
@@ -136,6 +138,8 @@ public class QSContainerImpl extends FrameLayout implements
     private Drawable mQsHeaderBackGround;
     private boolean mQsBackgroundBlur;
     private boolean mQsBackGroundType;
+
+    private int mQsBackgroundPrimaryStyles;
 
     private boolean mHeaderImageEnabled;
     private ImageView mBackgroundImage;
@@ -176,6 +180,8 @@ public class QSContainerImpl extends FrameLayout implements
         mBackgroundImage.setClipToOutline(true);
         updateResources();
         mQsBackGround = getContext().getDrawable(R.drawable.qs_background_primary);
+        mQsBackGroundAccent = getContext().getDrawable(R.drawable.qs_background_primary_accent);
+        mQsBackGroundGradient = getContext().getDrawable(R.drawable.qs_background_primary_gradient);
         mQsHeaderBackGround = getContext().getDrawable(R.drawable.qs_background_primary);
         updateSettings();
         mHeader.getHeaderQsPanel().setMediaVisibilityChangedListener((visible) -> {
@@ -255,6 +261,9 @@ public class QSContainerImpl extends FrameLayout implements
             getContext().getContentResolver().registerContentObserver(Settings.System
                             .getUriFor(Settings.System.STATUS_BAR_CUSTOM_HEADER_HEIGHT), false,
                     this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System
+                    .getUriFor(Settings.System.QS_BACKGROUND_PRIMARY_STYLES), false,
+                    this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -275,6 +284,8 @@ public class QSContainerImpl extends FrameLayout implements
                 Settings.System.QS_PANEL_CUSTOM_IMAGE, UserHandle.USER_CURRENT);
         mQsBackGroundAlpha = Settings.System.getIntForUser(resolver,
                 Settings.System.QS_PANEL_BG_ALPHA, 255, UserHandle.USER_CURRENT);
+        mQsBackgroundPrimaryStyles = Settings.System.getIntForUser(resolver,
+                Settings.System.QS_BACKGROUND_PRIMARY_STYLES, 0, UserHandle.USER_CURRENT);
         post(new Runnable() {
             public void run() {
                 setQsBackground();
@@ -314,12 +325,32 @@ public class QSContainerImpl extends FrameLayout implements
             mBackground.setBackground(mQsBackGround);
             mBackground.setClipToOutline(true);
         } else {
-            mQsBackGround = getContext().getDrawable(R.drawable.qs_background_primary);
+            if (mQsBackgroundPrimaryStyles == 0) {
+                mQsBackGround = getContext().getDrawable(R.drawable.qs_background_primary);
+            } else if (mQsBackgroundPrimaryStyles == 1) {
+                mQsBackGround = getContext().getDrawable(R.drawable.qs_background_primary_accent);
+            } else if (mQsBackgroundPrimaryStyles == 2) {
+                mQsBackGround = getContext().getDrawable(R.drawable.qs_background_primary_gradient);
+            }
             mQsHeaderBackGround = getContext().getDrawable(R.drawable.qs_background_primary);
         }
 
-        mBackground.setBackground(mQsBackGround);
-        mQsBackGround.setAlpha(mQsBackGroundAlpha);
+        if (mQsBackgroundPrimaryStyles == 0) {
+            mBackground.setBackground(mQsBackGround);
+         } else if (mQsBackgroundPrimaryStyles == 1) {
+            mBackground.setBackground(mQsBackGroundAccent);
+         } else if (mQsBackgroundPrimaryStyles == 2) {
+            mBackground.setBackground(mQsBackGroundGradient);
+         }
+
+        if (mQsBackgroundPrimaryStyles == 0) {
+            mQsBackGround.setAlpha(mQsBackGroundAlpha);
+         } else if (mQsBackgroundPrimaryStyles == 1) {
+            mQsBackGroundAccent.setAlpha(mQsBackGroundAlpha);
+         } else if (mQsBackgroundPrimaryStyles == 2) {
+            mQsBackGroundGradient.setAlpha(mQsBackGroundAlpha);
+         }
+
         mQsHeaderBackGround.setAlpha(mQsBackGroundAlpha);
     }
 

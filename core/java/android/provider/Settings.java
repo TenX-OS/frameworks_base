@@ -6725,6 +6725,13 @@ public final class Settings {
          */
         public static final String QS_TILE_ICON_SIZE = "qs_tile_icon_size";
 
+        /**
+         * QS Background primary styles
+         *
+         * @hide
+         */
+        public static final String QS_BACKGROUND_PRIMARY_STYLES = "qs_background_primary_styles";
+
 	/**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
@@ -6953,6 +6960,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(QS_TILE_BG_SIZE);
             PRIVATE_SETTINGS.add(QS_QUICK_TILE_SIZE);
             PRIVATE_SETTINGS.add(QS_TILE_ICON_SIZE);
+            PRIVATE_SETTINGS.add(QS_BACKGROUND_PRIMARY_STYLES);
         }
 
         /**
