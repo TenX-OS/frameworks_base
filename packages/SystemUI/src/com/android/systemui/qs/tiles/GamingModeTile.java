@@ -89,12 +89,22 @@ public class GamingModeTile extends QSTileImpl<BooleanState> {
 
     @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
+        if (state.slash == null) {
+            state.slash = new SlashState();
+        }
+        state.icon = mIcon;
         final int value = arg instanceof Integer ? (Integer)arg : mGamingModeActivated.getValue();
         final boolean enable = value == 1;
         state.value = enable;
         state.label = mContext.getString(R.string.quick_settings_gaming_mode_label);
-        state.icon = mIcon;
         state.state = enable ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE;
+        if (state.value) {
+            state.slash.isSlashed = false;
+            state.state = Tile.STATE_ACTIVE;
+        } else {
+            state.slash.isSlashed = true;
+            state.state = Tile.STATE_INACTIVE;
+        }
     }
 
     @Override
