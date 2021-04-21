@@ -76,4 +76,7 @@
     <dimen name="quick_settings_top_margin_media">4dp</dimen>
     <dimen name="quick_settings_top_margin_media_extra">10dp</dimen>
 
+    <!-- StatusBar & QS Header Weather image -->
+    <dimen name="qs_sb_weather_icon_size">32dp</dimen>
+
 </resources>

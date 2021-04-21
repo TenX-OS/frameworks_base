@@ -90,8 +90,8 @@
 
         <com.android.systemui.statusbar.statusbarweather.QsHeaderWeatherImage
              android:id="@+id/weather_image"
-             android:layout_width="wrap_content"
-             android:layout_height="match_parent"
+             android:layout_width="@dimen/qs_sb_weather_icon_size"
+             android:layout_height="@dimen/qs_sb_weather_icon_size"
              android:layout_gravity="center_vertical"
              android:gravity="center_vertical|end"
              android:paddingStart="2dp"
