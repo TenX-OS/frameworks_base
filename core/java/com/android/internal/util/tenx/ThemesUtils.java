@@ -51,6 +51,8 @@ public class ThemesUtils {
     public static final int DEVICE_THEME_PITCH_BLACK = 6;
     public static final int DEVICE_THEME_DARK_GREY = 7;
     public static final int DEVICE_THEME_MATERIAL_OCEAN = 8;
+    public static final int DEVICE_THEME_TENX_CLEAR = 9;
+    public static final int DEVICE_THEME_TENX_ULTRA_CLEAR = 10;
 
     public static final String[] SOLARIZED_DARK = {
             "com.android.theme.solarizeddark.system",
@@ -79,6 +81,16 @@ public class ThemesUtils {
     public static final String[] MATERIAL_OCEAN = {
             "com.android.theme.materialocean.system",
             "com.android.theme.materialocean.systemui",
+    };
+
+    public static final String[] TENX_CLEAR = {
+            "com.android.theme.tenx_clear.system",
+            "com.android.theme.tenx_clear.systemui",
+    };
+
+    public static final String[] TENX_ULTRA_CLEAR = {
+            "com.android.theme.tenx_ultra_clear.system",
+            "com.android.theme.tenx_ultra_clear.systemui",
     };
 
     // QS Tile Styles
@@ -158,6 +170,10 @@ public class ThemesUtils {
                 return DARK_GREY;
             case DEVICE_THEME_MATERIAL_OCEAN:
                 return MATERIAL_OCEAN;
+            case DEVICE_THEME_TENX_CLEAR:
+                return TENX_CLEAR;
+            case DEVICE_THEME_TENX_ULTRA_CLEAR:
+                return TENX_ULTRA_CLEAR;
         }
         return null;
     }
