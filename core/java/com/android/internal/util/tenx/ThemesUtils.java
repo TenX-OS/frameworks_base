@@ -153,6 +153,12 @@ public class ThemesUtils {
         "com.android.systemui.statusbar.height_xlarge", // 3
     };
 
+    // Custom Seekbar styles
+    public static final String[] SEEKBAR_STYLES = {
+        "com.tenx.seekbarstyle.miui_accent",
+        "com.tenx.seekbarstyle.miui_gradient",
+    };
+
     public String[] getTheme(int theme) {
         switch (theme) {
             case DEVICE_THEME_LIGHT:
