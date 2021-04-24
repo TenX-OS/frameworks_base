@@ -6671,25 +6671,11 @@ public final class Settings {
          */
         public static final String LOCKSCREEN_BATTERY_INFO_FONT = "lockscreen_battery_info_font";
 
-       /**
-         * 0 - Default
-         * 1 - Round with ring
-         * 2 - Two-toned round with ring
-         * 3 - Squircle with ring
-         * @hide
-         */
-        public static final String QS_TILE_STYLE = "qs_tile_style";
-
         /**
          * QS Tile Style Tint
          * @hide
          */
         public static final String QS_TILE_STYLE_TINT = "qs_tile_style_tint";
-
-        /**
-         * @hide
-         */
-        public static final String SWITCH_STYLE = "switch_style";
 
         /**
          * @hide
@@ -7004,7 +6990,6 @@ public final class Settings {
             PRIVATE_SETTINGS.add(GRADIENT_COLOR);
             PRIVATE_SETTINGS.add(TORCH_LONG_PRESS_POWER_GESTURE);
             PRIVATE_SETTINGS.add(TORCH_LONG_PRESS_POWER_TIMEOUT);
-            PRIVATE_SETTINGS.add(QS_TILE_STYLE);
             PRIVATE_SETTINGS.add(QS_TILE_STYLE_TINT);
             PRIVATE_SETTINGS.add(UI_STYLE);
             PRIVATE_SETTINGS.add(CUSTOM_STATUSBAR_PADDING_START);

@@ -2405,12 +2405,6 @@ public class StatusBar extends SystemUI implements DemoMode,
                     Settings.Secure.SYSUI_ROUNDED_FWVALS),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.QS_TILE_STYLE),
-                    false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.SWITCH_STYLE),
-                    false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.UI_STYLE),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -2466,14 +2460,6 @@ public class StatusBar extends SystemUI implements DemoMode,
                 updateChargingAnimation();
             } else if (uri.equals(Settings.Secure.getUriFor(Settings.Secure.SYSUI_ROUNDED_FWVALS))) {
                 updateCorners();
-            } else if (uri.equals(Settings.System.getUriFor(Settings.System.QS_TILE_STYLE))) {
-                stockTileStyle();
-                updateTileStyle();
-                mQSPanel.getHost().reloadAllTiles();
-            } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.SWITCH_STYLE))) {
-                stockSwitchStyle();
-                updateSwitchStyle();
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.UI_STYLE))) {
                 stockUIStyle();
@@ -4173,16 +4159,6 @@ public class StatusBar extends SystemUI implements DemoMode,
         updateCorners();
     }
 
-    public void updateSwitchStyle() {
-        int switchStyle = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.SWITCH_STYLE, 0, mLockscreenUserManager.getCurrentUserId());
-        ThemesUtils.updateSwitchStyle(mOverlayManager, mLockscreenUserManager.getCurrentUserId(), switchStyle);
-    }
-
-    public void stockSwitchStyle() {
-        ThemesUtils.stockSwitchStyle(mOverlayManager, mLockscreenUserManager.getCurrentUserId());
-    }
-
     public void updateUIStyle() {
         int uiStyle =  Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.UI_STYLE, 0, mLockscreenUserManager.getCurrentUserId());
@@ -4909,18 +4885,6 @@ public class StatusBar extends SystemUI implements DemoMode,
 
     public boolean isDeviceInteractive() {
         return mDeviceInteractive;
-    }
-
-    // Switches qs tile style from stock to custom
-    public void updateTileStyle() {
-        int qsTileStyle = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.QS_TILE_STYLE, 0, mLockscreenUserManager.getCurrentUserId());
-        ThemesUtils.updateTileStyle(mOverlayManager, mLockscreenUserManager.getCurrentUserId(), qsTileStyle);
-    }
-
-    // Unload all qs tile styles back to stock
-    public void stockTileStyle() {
-        ThemesUtils.stockTileStyle(mOverlayManager, mLockscreenUserManager.getCurrentUserId());
     }
 
     private final BroadcastReceiver mBannerActionBroadcastReceiver = new BroadcastReceiver() {
