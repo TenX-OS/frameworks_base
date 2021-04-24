@@ -258,6 +258,9 @@ public class QSContainerImpl extends FrameLayout implements
             resolver.registerContentObserver(Settings.System
                     .getUriFor(Settings.System.QS_PANEL_CUSTOM_IMAGE_BLUR), false,
                     this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System
+                    .getUriFor(Settings.System.QS_PANEL_CUSTOM_IMAGE_BLUR_INTENSITY), false,
+                    this, UserHandle.USER_ALL);
             getContext().getContentResolver().registerContentObserver(Settings.System
                             .getUriFor(Settings.System.STATUS_BAR_CUSTOM_HEADER_HEIGHT), false,
                     this, UserHandle.USER_ALL);
@@ -299,6 +302,12 @@ public class QSContainerImpl extends FrameLayout implements
         updateStatusbarVisibility();
     }
 
+    private float setImageBlurRadius() {
+        return 0.25f * ((float) Settings.System.getIntForUser(mContext.getContentResolver(),
+               Settings.System.QS_PANEL_CUSTOM_IMAGE_BLUR_INTENSITY, 40,
+               UserHandle.USER_CURRENT));
+    }
+
     private void setQsBackground() {
         ContentResolver resolver = getContext().getContentResolver();
         BitmapDrawable currentImage = null;
@@ -315,7 +324,7 @@ public class QSContainerImpl extends FrameLayout implements
             int width = mQSPanel.getWidth();
             int height = mQSPanel.getHeight() + mDragHandle.getHeight();
 
-            Bitmap bitmap = mQsBackgroundBlur ? ImageHelper.getBlurredImage(mContext, currentImage.getBitmap()) : currentImage.getBitmap();
+            Bitmap bitmap = mQsBackgroundBlur ? ImageHelper.getBlurredImage(mContext, currentImage.getBitmap(), setImageBlurRadius()) : currentImage.getBitmap();
             Bitmap toCenter = ImageHelper.scaleCenterCrop(bitmap, width, height);
             BitmapDrawable bDrawable = new BitmapDrawable(mContext.getResources(),
                             ImageHelper.getRoundedCornerBitmap(toCenter, 15, width, height, mCurrentColor));

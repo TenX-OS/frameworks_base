@@ -5962,6 +5962,12 @@ public final class Settings {
         public static final String QS_PANEL_CUSTOM_IMAGE_BLUR = "qs_panel_custom_image_blur";
 
         /**
+         * QS Panel Custom Image Blur intensity
+         * @hide
+         */
+        public static final String QS_PANEL_CUSTOM_IMAGE_BLUR_INTENSITY = "qs_panel_custom_image_blur_intensity";
+
+        /**
          * Whether to change the transparency of the qs panel
          * @hide
          */
@@ -6968,6 +6974,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(QS_PANEL_TYPE_BACKGROUND);
             PRIVATE_SETTINGS.add(QS_PANEL_CUSTOM_IMAGE);
             PRIVATE_SETTINGS.add(QS_PANEL_CUSTOM_IMAGE_BLUR);
+            PRIVATE_SETTINGS.add(QS_PANEL_CUSTOM_IMAGE_BLUR_INTENSITY);
             PRIVATE_SETTINGS.add(BACK_GESTURE_HAPTIC);
             PRIVATE_SETTINGS.add(TENX_FOOTER_TEXT_SHOW);
             PRIVATE_SETTINGS.add(TENX_FOOTER_TEXT_FONT);
