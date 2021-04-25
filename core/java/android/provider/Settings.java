@@ -6784,6 +6784,12 @@ public final class Settings {
         */
         public static final String QS_LAYOUT_ROWS = "qs_layout_rows";
 
+        /**
+        * QS Tile styles
+        * @hide
+        */
+        public static final String QS_TILE_STYLE = "qs_tile_style";
+
 	/**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
@@ -7015,6 +7021,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(QS_BACKGROUND_PRIMARY_STYLES);
             PRIVATE_SETTINGS.add(QS_LAYOUT_ROWS_LANDSCAPE);
             PRIVATE_SETTINGS.add(QS_LAYOUT_ROWS);
+            PRIVATE_SETTINGS.add(QS_TILE_STYLE);
         }
 
         /**

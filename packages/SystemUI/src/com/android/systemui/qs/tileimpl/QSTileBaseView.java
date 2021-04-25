@@ -84,13 +84,13 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
     private int mColorActive;
     private int mColorActiveAlpha;
     private int setQsUseNewTint;
+    private int mQsTileStyle;
     private int mColorTwelveAlpha;
     private final int mColorInactive;
     private int mCircleColor;
     private int mState;
     private final ShapeDrawable backgroundDrawable;
     private final ShapeDrawable foregroundDrawable;
-
 
     public QSTileBaseView(Context context, QSIconView icon) {
         this(context, icon, false);
@@ -165,7 +165,7 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
                 backgroundView.setLayoutParams(lp);
             }
         } else {
-            backgroundView.setImageResource(R.drawable.ic_qs_circle);
+            updateQsTileStyle();
             mIconFrame.addView(backgroundView);
         }
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
@@ -534,5 +534,91 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
         final Resources res = mContext.getResources();
         return Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.QS_TILE_BG_SIZE, res.getDimensionPixelSize(R.dimen.qs_tile_background_size));
+    }
+
+    public void updateQsTileStyle() {
+        mQsTileStyle = Settings.System.getIntForUser(mContext.getContentResolver(),
+                   Settings.System.QS_TILE_STYLE, 0, UserHandle.USER_CURRENT);
+
+        switch (mQsTileStyle) {
+            case 0:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle);
+                break;
+            case 1:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_neon_like);
+                break;
+            case 2:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_triangles);
+                break;
+            case 3:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_attempt_mountain);
+                break;
+            case 4:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_badge);
+                break;
+            case 5:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_badge_2);
+                break;
+            case 6:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_outline);
+                break;
+            case 7:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_trim);
+                break;
+            case 8:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_cookie);
+                break;
+            case 9:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_cosmos);
+                break;
+            case 10:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_diamond);
+                break;
+            case 11:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_divided);
+                break;
+            case 12:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_dotted);
+                break;
+            case 13:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_dual_tone);
+                break;
+            case 14:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_gear);
+                break;
+            case 15:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_hexagon);
+                break;
+            case 16:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_ink);
+                break;
+            case 17:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_ninja);
+                break;
+            case 18:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_pokesign);
+                break;
+            case 19:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_square);
+                break;
+            case 20:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_squaremedo);
+                break;
+            case 21:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_squircle);
+                break;
+            case 22:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_squircle_trim);
+                break;
+            case 23:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_star);
+                break;
+            case 24:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_tear_drop);
+                break;
+            case 25:
+                backgroundView.setImageResource(R.drawable.ic_qs_circle_wavey);
+                break;
+        }
     }
 }

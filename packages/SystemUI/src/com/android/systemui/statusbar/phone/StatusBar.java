@@ -199,6 +199,7 @@ import com.android.systemui.plugins.statusbar.StatusBarStateController;
 import com.android.systemui.qs.QSFragment;
 import com.android.systemui.qs.QSPanel;
 import com.android.systemui.qs.QuickQSPanel;
+import com.android.systemui.qs.tileimpl.QSTileBaseView;
 import com.android.systemui.statusbar.info.DataUsageView;
 import com.android.systemui.qs.QuickStatusBarHeader;
 import com.android.systemui.recents.Recents;
@@ -464,6 +465,7 @@ public class StatusBar extends SystemUI implements DemoMode,
     // settings
     private QSPanel mQSPanel;
     private QuickQSPanel mQuickQSPanel;
+    private QSTileBaseView mQSTileBaseView;
 
     KeyguardIndicationController mKeyguardIndicationController;
 
@@ -2419,6 +2421,9 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SWITCH_STYLE),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_TILE_STYLE),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -2478,6 +2483,11 @@ public class StatusBar extends SystemUI implements DemoMode,
                     Settings.System.SWITCH_STYLE))) {
                 stockSwitchStyle();
                 updateSwitchStyle();
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.QS_TILE_STYLE))) {
+                updateQsTileStyle();
+                updateResources();
+                mQSPanel.getHost().reloadAllTiles();
             }
         }
 
@@ -4651,6 +4661,12 @@ public class StatusBar extends SystemUI implements DemoMode,
             mQSPanel.updateResources();
             mQSPanel.updateSettings();
             mQuickQSPanel.updateSettings();
+        }
+    }
+
+    private void updateQsTileStyle() {
+        if (mQSTileBaseView != null) {
+            mQSTileBaseView.updateQsTileStyle();
         }
     }
 
