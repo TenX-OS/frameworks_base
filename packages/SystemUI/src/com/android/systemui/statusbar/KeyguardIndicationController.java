@@ -57,6 +57,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.android.internal.annotations.VisibleForTesting;
 import com.android.internal.app.IBatteryStats;
 import com.android.internal.widget.ViewClippingUtil;
+import com.android.internal.util.tenx.tenxUtils;
 import com.android.keyguard.KeyguardUpdateMonitor;
 import com.android.keyguard.KeyguardUpdateMonitorCallback;
 import com.android.settingslib.Utils;
@@ -103,8 +104,6 @@ public class KeyguardIndicationController implements StateListener,
     private static final int MSG_SWIPE_UP_TO_UNLOCK = 3;
     private static final long TRANSIENT_BIOMETRIC_ERROR_TIMEOUT = 1300;
     private static final float BOUNCE_ANIMATION_FINAL_Y = 0f;
-
-    private static final String BATTERY_TEMP_PATH = "sys/class/power_supply/battery/temp";
 
     private final Context mContext;
     private final BroadcastDispatcher mBroadcastDispatcher;
@@ -622,18 +621,24 @@ public class KeyguardIndicationController implements StateListener,
                 } else {
                     // Use the high voltage symbol ⚡ (u26A1 unicode) but prevent the system
                     // to load its emoji colored variant with the uFE0E flag
-                    boolean showAmbientBattery = Settings.System.getIntForUser(mContext.getContentResolver(),
-                        Settings.System.AMBIENT_BATTERY_PERCENT, 0, UserHandle.USER_CURRENT) != 0;
-                    boolean showAmbientBatteryTemperature = Settings.System.getIntForUser(mContext.getContentResolver(),
-                        Settings.System.AMBIENT_BATTERY_TEMPERATURE, 0, UserHandle.USER_CURRENT) != 0;
+                    int showAmbientSettings = Settings.System.getIntForUser(mContext.getContentResolver(),
+                        Settings.System.AMBIENT_SHOW_SETTINGS, 0, UserHandle.USER_CURRENT);
                     String bolt = "\u26A1\uFE0E";
                     CharSequence chargeIndicator = (mPowerPluggedIn ? (bolt + " ") : "") +
                             NumberFormat.getPercentInstance().format(mBatteryLevel / 100f);
-                    if (showAmbientBattery) {
-                        mTextView.switchIndication(chargeIndicator);
-                    }
-                    if (showAmbientBatteryTemperature) {
-                        mTextView.switchIndication(chargeIndicator + " | " + getBatteryTemp());
+                    switch (showAmbientSettings) {
+                        case 0:
+                            mTextView.switchIndication(null);
+                            break;
+                        case 1:
+                            mTextView.switchIndication(chargeIndicator);
+                            break;
+                        case 2:
+                            mTextView.switchIndication(tenxUtils.batteryTemperature(mContext, false));
+                            break;
+                        case 3:
+                            mTextView.switchIndication(chargeIndicator + " | " + tenxUtils.batteryTemperature(mContext, false));
+                            break;
                     }
 
                     if (showBatteryBarAlways) {
@@ -1226,27 +1231,6 @@ public class KeyguardIndicationController implements StateListener,
                 updateIndication(false);
             }
         }
-    }
-
-    private String getBatteryTemp() {
-        String value = readOneLine(BATTERY_TEMP_PATH);
-        return String.format("%s", Integer.parseInt(value) / 10) + "\u2103";
-    }
-
-    private static String readOneLine(String fname) {
-        BufferedReader br;
-        String line = null;
-        try {
-            br = new BufferedReader(new FileReader(fname), 512);
-            try {
-                line = br.readLine();
-            } finally {
-                br.close();
-            }
-        } catch (Exception e) {
-            return null;
-        }
-        return line;
     }
 
     private void updateBatteryBarColorMode() {

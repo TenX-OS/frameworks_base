@@ -6406,16 +6406,14 @@ public final class Settings {
         public static final String STATUSBAR_CLOCK_DATE_POSITION = "statusbar_clock_date_position";
 
         /**
-         * Whether to show battery percent on ambient bottom
+         * What to show at the bottom of the Ambient diaplay
+         * 0: Nothing.
+         * 1: Battery Percentage.
+         * 2: Battery Temperature.
+         * 3: Battery Percentage & Temperature Together.
          * @hide
          */
-        public static final String AMBIENT_BATTERY_PERCENT = "ambient_battery_percent";
-
-        /**
-         * Whether to show battery temperature on ambient bottom
-         * @hide
-         */
-        public static final String AMBIENT_BATTERY_TEMPERATURE = "ambient_battery_temperature";
+        public static final String AMBIENT_SHOW_SETTINGS = "ambient_show_settings";
 
         /**
          * Whether to show charging animation on lock screen
