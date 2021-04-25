@@ -6774,6 +6774,18 @@ public final class Settings {
          */
         public static final String SWITCH_STYLE = "switch_style";
 
+        /**
+        * Number of qs rows on landscape orientation
+        * @hide
+        */
+        public static final String QS_LAYOUT_ROWS_LANDSCAPE = "qs_layout_rows_landscape";
+
+        /**
+        * Number of qs rows on portrait orientation
+        * @hide
+        */
+        public static final String QS_LAYOUT_ROWS = "qs_layout_rows";
+
 	/**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
@@ -7003,6 +7015,8 @@ public final class Settings {
             PRIVATE_SETTINGS.add(QS_QUICK_TILE_SIZE);
             PRIVATE_SETTINGS.add(QS_TILE_ICON_SIZE);
             PRIVATE_SETTINGS.add(QS_BACKGROUND_PRIMARY_STYLES);
+            PRIVATE_SETTINGS.add(QS_LAYOUT_ROWS_LANDSCAPE);
+            PRIVATE_SETTINGS.add(QS_LAYOUT_ROWS);
         }
 
         /**

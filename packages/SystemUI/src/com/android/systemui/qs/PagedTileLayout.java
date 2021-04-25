@@ -6,10 +6,13 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Context;
+import android.content.ContentResolver;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.UserHandle;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -247,6 +250,7 @@ public class PagedTileLayout extends ViewPager implements QSTileLayout {
     public void removeTile(TileRecord tile) {
         if (mTiles.remove(tile)) {
             mDistributeTiles = true;
+            updateResources(); // to make sure we're not displaying an empty row
             requestLayout();
         }
     }
@@ -602,6 +606,7 @@ public class PagedTileLayout extends ViewPager implements QSTileLayout {
     public void updateSettings() {
         for (int i = 0; i < mPages.size(); i++) {
             mPages.get(i).updateSettings();
+            mPages.get(i).updateResources();
         }
         distributeTiles();
     }
@@ -609,6 +614,10 @@ public class PagedTileLayout extends ViewPager implements QSTileLayout {
     @Override
     public int getNumColumns() {
         return mPages.get(0).getNumColumns();
+    }
+
+    public int getNumRows() {
+        return mPages.get(0).getNumRows();
     }
 
     @Override
