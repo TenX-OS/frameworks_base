@@ -127,6 +127,20 @@ public class ThemesUtils {
         "com.android.system.switch.telegram", // 6
     };
 
+    // Statusbar Signal icons
+    private static final String[] SIGNAL_BAR = {
+        "com.tenx.systemui.signalbar_a",
+        "com.tenx.systemui.signalbar_b",
+        "com.tenx.systemui.signalbar_c",
+    };
+
+    // Statusbar Wifi icons
+    private static final String[] WIFI_BAR = {
+        "com.tenx.systemui.wifibar_a",
+        "com.tenx.systemui.wifibar_b",
+        "com.tenx.systemui.wifibar_c",
+    };
+
     public String[] getTheme(int theme) {
         switch (theme) {
             case DEVICE_THEME_LIGHT:
