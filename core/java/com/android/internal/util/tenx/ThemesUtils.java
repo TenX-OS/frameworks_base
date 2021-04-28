@@ -132,6 +132,11 @@ public class ThemesUtils {
         "com.tenx.systemui.signalbar_a",
         "com.tenx.systemui.signalbar_b",
         "com.tenx.systemui.signalbar_c",
+        "com.tenx.systemui.signalbar_d",
+        "com.tenx.systemui.signalbar_e",
+        "com.tenx.systemui.signalbar_f",
+        "com.tenx.systemui.signalbar_g",
+        "com.tenx.systemui.signalbar_h",
     };
 
     // Statusbar Wifi icons
@@ -139,6 +144,11 @@ public class ThemesUtils {
         "com.tenx.systemui.wifibar_a",
         "com.tenx.systemui.wifibar_b",
         "com.tenx.systemui.wifibar_c",
+        "com.tenx.systemui.wifibar_d",
+        "com.tenx.systemui.wifibar_e",
+        "com.tenx.systemui.wifibar_f",
+        "com.tenx.systemui.wifibar_g",
+        "com.tenx.systemui.wifibar_h",
     };
 
     public String[] getTheme(int theme) {
