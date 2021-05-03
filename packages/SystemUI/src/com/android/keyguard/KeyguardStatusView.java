@@ -29,6 +29,7 @@ import android.os.RemoteException;
 import android.os.UserHandle;
 import android.provider.Settings;
 import android.text.Html;
+import com.airbnb.lottie.LottieAnimationView;
 import androidx.core.graphics.ColorUtils;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
@@ -103,6 +104,7 @@ public class KeyguardStatusView extends GridLayout implements
     private int mLockDateAlignment;
     private int mOwnerInfoAlignment;
     private int mWeatherViewAlignment;
+    private int mClockAnimationSelection;
 
     // Date styles paddings
     private int mDateVerPadding;
@@ -111,6 +113,9 @@ public class KeyguardStatusView extends GridLayout implements
     private int mLastLayoutHeight;
     private CurrentWeatherView mWeatherView;
     private boolean mOmniStyle;
+
+    // Lottie animations for clocks
+    private LottieAnimationView mClockAnimationLottie;
 
     private KeyguardUpdateMonitorCallback mInfoCallback = new KeyguardUpdateMonitorCallback() {
 
@@ -251,6 +256,7 @@ public class KeyguardStatusView extends GridLayout implements
 
         mClockView = findViewById(R.id.keyguard_clock_container);
         mClockView.setShowCurrentUserTime(true);
+        mClockAnimationLottie = findViewById(R.id.animation_circle_lottie);
         mTextClock = findViewById(R.id.custom_text_clock_view);
         mCustomNumClockView = findViewById(R.id.custom_clock_view);
         mCustomClockView = findViewById(R.id.custom_clock_view);
@@ -270,6 +276,7 @@ public class KeyguardStatusView extends GridLayout implements
 	refreshOwnerInfoSize();
 	refreshOwnerInfoFont();
         updateLsClockSettings();
+        updateLottieAnimations();
         updateDateStyles();
         updateClockAlignment();
         updateTextClockPadding();
@@ -890,6 +897,40 @@ public class KeyguardStatusView extends GridLayout implements
         }
     }
 
+    private void updateLottieAnimations() {
+        final ContentResolver resolver = getContext().getContentResolver();
+
+        mClockAnimationSelection = Settings.System.getIntForUser(resolver,
+                Settings.System.LOCKSCREEN_CLOCK_ANIMATION_SELECTION, 0, UserHandle.USER_CURRENT);
+
+        switch (mClockAnimationSelection) {
+            case 1:
+                mClockAnimationLottie.setAnimation(R.raw.explosion_animation);
+                mClockAnimationLottie.playAnimation();
+                break;
+            case 2:
+                mClockAnimationLottie.setAnimation(R.raw.blue_circle_animation);
+                mClockAnimationLottie.playAnimation();
+                break;
+            case 3:
+                mClockAnimationLottie.setAnimation(R.raw.bluev2_circle_animation);
+                mClockAnimationLottie.playAnimation();
+                break;
+            case 4:
+                mClockAnimationLottie.setAnimation(R.raw.rainbow_cirlce_animation);
+                mClockAnimationLottie.playAnimation();
+                break;
+            case 5:
+                mClockAnimationLottie.setAnimation(R.raw.fire_circle_animation);
+                mClockAnimationLottie.playAnimation();
+                break;
+        }
+
+        if (mClockAnimationSelection == 0) {
+            mClockAnimationLottie.setVisibility(View.GONE);
+        }
+    }
+
     private void updateLsClockSettings() {
         final ContentResolver resolver = getContext().getContentResolver();
 
@@ -904,6 +945,7 @@ public class KeyguardStatusView extends GridLayout implements
         mTextClock = findViewById(R.id.custom_text_clock_view);
         mCustomClockView = findViewById(R.id.custom_clock_view);
         mCustomNumClockView = findViewById(R.id.custom_num_clock_view);
+        mClockAnimationLottie = findViewById(R.id.animation_circle_lottie);
 
         switch (mClockSelection) {
             case 1: // hidden
@@ -911,6 +953,7 @@ public class KeyguardStatusView extends GridLayout implements
                 mTextClock.setVisibility(View.GONE);
                 mCustomClockView.setVisibility(View.GONE);
                 mCustomNumClockView.setVisibility(View.GONE);
+                mClockAnimationLottie.setVisibility(View.GONE);
                 params.addRule(RelativeLayout.BELOW, R.id.clock_view);
                 break;
             case 2: // default
@@ -918,6 +961,7 @@ public class KeyguardStatusView extends GridLayout implements
                 mTextClock.setVisibility(View.GONE);
                 mCustomClockView.setVisibility(View.GONE);
                 mCustomNumClockView.setVisibility(View.GONE);
+                mClockAnimationLottie.setVisibility(View.GONE);
                 params.addRule(RelativeLayout.BELOW, R.id.clock_view);
                 break;
             case 3: // default (bold)
@@ -925,6 +969,7 @@ public class KeyguardStatusView extends GridLayout implements
                 mTextClock.setVisibility(View.GONE);
                 mCustomClockView.setVisibility(View.GONE);
                 mCustomNumClockView.setVisibility(View.GONE);
+                mClockAnimationLottie.setVisibility(View.GONE);
                 params.addRule(RelativeLayout.BELOW, R.id.clock_view);
                 break;
             case 4: // sammy
@@ -934,6 +979,7 @@ public class KeyguardStatusView extends GridLayout implements
                 mCustomClockView.setVisibility(View.GONE);
                 mCustomNumClockView.setVisibility(View.GONE);
                 params.addRule(RelativeLayout.BELOW, R.id.clock_view);
+                updateLottieAnimations();
                 break;
             case 5: // sammy (bold)
                 mSmallClockView.setVisibility(View.VISIBLE);
@@ -942,6 +988,7 @@ public class KeyguardStatusView extends GridLayout implements
                 mCustomClockView.setVisibility(View.GONE);
                 mCustomNumClockView.setVisibility(View.GONE);
                 params.addRule(RelativeLayout.BELOW, R.id.clock_view);
+                updateLottieAnimations();
                 break;
             case 6: // sammy (hour accent)
                 mSmallClockView.setVisibility(View.VISIBLE);
@@ -950,6 +997,7 @@ public class KeyguardStatusView extends GridLayout implements
                 mCustomClockView.setVisibility(View.GONE);
                 mCustomNumClockView.setVisibility(View.GONE);
                 params.addRule(RelativeLayout.BELOW, R.id.clock_view);
+                updateLottieAnimations();
                 break;
             case 7: // sammy (minute accent)
                 mSmallClockView.setVisibility(View.VISIBLE);
@@ -958,6 +1006,7 @@ public class KeyguardStatusView extends GridLayout implements
                 mCustomClockView.setVisibility(View.GONE);
                 mCustomNumClockView.setVisibility(View.GONE);
                 params.addRule(RelativeLayout.BELOW, R.id.clock_view);
+                updateLottieAnimations();
                 break;
             case 8: // custom text clock
                 mTextClock.setVisibility(View.VISIBLE);
