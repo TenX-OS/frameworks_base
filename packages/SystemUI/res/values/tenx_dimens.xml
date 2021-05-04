@@ -79,4 +79,7 @@
     <!-- StatusBar & QS Header Weather image -->
     <dimen name="qs_sb_weather_icon_size">32dp</dimen>
 
+    <!-- Lottie animation size -->
+    <dimen name="lottie_animation_width_height">210dp</dimen>
+
 </resources>

@@ -6831,6 +6831,12 @@ public final class Settings {
         public static final String LOCKSCREEN_CLOCK_ANIMATION_SELECTION = "lockscreen_clock_animation_selection";
 
         /**
+         * Lottie animation size
+         * @hide
+         */
+        public static final String LOCKSCREEN_CLOCK_ANIMATION_SIZE = "lockscreen_clock_animation_size";
+
+        /**
          * Whether the phone ringtone should be played in an increasing manner
          * 0 = 0ff, 1 = on
          */

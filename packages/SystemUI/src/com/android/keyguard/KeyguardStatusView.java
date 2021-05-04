@@ -907,22 +907,32 @@ public class KeyguardStatusView extends GridLayout implements
             case 1:
                 mClockAnimationLottie.setAnimation(R.raw.explosion_animation);
                 mClockAnimationLottie.playAnimation();
+                mClockAnimationLottie.getLayoutParams().height = updateLottieAnimationSize();
+                mClockAnimationLottie.getLayoutParams().width = updateLottieAnimationSize();
                 break;
             case 2:
                 mClockAnimationLottie.setAnimation(R.raw.blue_circle_animation);
                 mClockAnimationLottie.playAnimation();
+                mClockAnimationLottie.getLayoutParams().height = updateLottieAnimationSize();
+                mClockAnimationLottie.getLayoutParams().width = updateLottieAnimationSize();
                 break;
             case 3:
                 mClockAnimationLottie.setAnimation(R.raw.bluev2_circle_animation);
                 mClockAnimationLottie.playAnimation();
+                mClockAnimationLottie.getLayoutParams().height = updateLottieAnimationSize();
+                mClockAnimationLottie.getLayoutParams().width = updateLottieAnimationSize();
                 break;
             case 4:
                 mClockAnimationLottie.setAnimation(R.raw.rainbow_cirlce_animation);
                 mClockAnimationLottie.playAnimation();
+                mClockAnimationLottie.getLayoutParams().height = updateLottieAnimationSize();
+                mClockAnimationLottie.getLayoutParams().width = updateLottieAnimationSize();
                 break;
             case 5:
                 mClockAnimationLottie.setAnimation(R.raw.fire_circle_animation);
                 mClockAnimationLottie.playAnimation();
+                mClockAnimationLottie.getLayoutParams().height = updateLottieAnimationSize();
+                mClockAnimationLottie.getLayoutParams().width = updateLottieAnimationSize();
                 break;
         }
 
@@ -1521,4 +1531,9 @@ public class KeyguardStatusView extends GridLayout implements
         }
     }
 
+    private int updateLottieAnimationSize() {
+        final Resources res = mContext.getResources();
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.LOCKSCREEN_CLOCK_ANIMATION_SIZE, res.getDimensionPixelSize(R.dimen.lottie_animation_width_height));
+    }
 }
