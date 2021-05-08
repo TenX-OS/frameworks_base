@@ -66,7 +66,7 @@
             android:scaleType="fitXY"
             app:lottie_scale="0.1"
             android:clickable="false"
-            app:lottie_fileName="explosion_animation.json"
+            app:lottie_rawRes="@raw/explosion_animation"
             app:lottie_loop="true"
             app:lottie_autoPlay="true" />
 
