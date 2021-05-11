@@ -151,13 +151,6 @@ public class ThemesUtils {
         "com.tenx.systemui.wifibar_h",
     };
 
-    // Settings dashboard icons
-    private static final String[] SETTINGS_DASHBOARD = {
-        "com.tenx.settings.dashboard_icons_accent",
-        "com.tenx.settings.dashboard_icons_colorfull",
-        "com.tenx.settings.dashboard_icons_oos",
-    };
-
     public String[] getTheme(int theme) {
         switch (theme) {
             case DEVICE_THEME_LIGHT:
