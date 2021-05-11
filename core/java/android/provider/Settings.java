@@ -6852,6 +6852,11 @@ public final class Settings {
          */
         public static final String INCREASING_RING_RAMP_UP_TIME = "increasing_ring_ramp_up_time";
 
+        /**
+         * QS Tile mask
+         */
+        public static final String QS_TILE_MASK = "qs_tile_mask";
+
 	/**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.

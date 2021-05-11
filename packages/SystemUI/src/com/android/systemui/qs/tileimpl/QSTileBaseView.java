@@ -75,6 +75,7 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
     private boolean mTileState;
     private boolean mCollapsedView;
     private boolean mShowRippleEffect = true;
+    private boolean mQsTileMask;
     private float mStrokeWidthActive;
     private float mStrokeWidthInactive;
 
@@ -102,6 +103,8 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
         mIcon = icon;
         setQsUseNewTint = Settings.System.getIntForUser(context.getContentResolver(),
                     Settings.System.QS_PANEL_BG_USE_NEW_TINT, 0, UserHandle.USER_CURRENT);
+        mQsTileMask = Settings.System.getIntForUser(context.getContentResolver(),
+                    Settings.System.QS_TILE_MASK, 0, UserHandle.USER_CURRENT) == 0;
         setActiveColor(context);
         mColorInactive = Utils.getColorAttrDefaultColor(context, android.R.attr.textColorSecondary);
         mColorDisabled = Utils.getDisabled(context,
@@ -126,7 +129,13 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
         backgroundDrawable = new ShapeDrawable(p);
         // The drawable shown when the tile is active
         foregroundDrawable = new ShapeDrawable(p);
-        if (context.getResources().getBoolean(R.bool.config_useMaskForQs)) {
+        boolean useMaskForQs = context.getResources().getBoolean(R.bool.config_useMaskForQs);
+        if (!mQsTileMask) {
+            useMaskForQs = false;
+        } else {
+            useMaskForQs = true;
+        }
+        if (useMaskForQs) {
             if (setQsUseNewTint == 0) {
                 backgroundDrawable.setTintList(ColorStateList.valueOf(mColorDisabled));
                 backgroundDrawable.setIntrinsicHeight(bgSize);
@@ -329,7 +338,13 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
         setQsUseNewTint = Settings.System.getIntForUser(getContext().getContentResolver(),
                     Settings.System.QS_PANEL_BG_USE_NEW_TINT, 0, UserHandle.USER_CURRENT);
         boolean allowAnimations = animationsEnabled();
-        if (getResources().getBoolean(R.bool.config_useMaskForQs) && setQsUseNewTint == 0) {
+        boolean UseMaskForQs = getResources().getBoolean(R.bool.config_useMaskForQs);
+        if (!mQsTileMask) {
+            UseMaskForQs = false;
+        } else {
+            UseMaskForQs = true;
+        }
+        if (UseMaskForQs && setQsUseNewTint == 0) {
             int newTileState = state.state;
             if (newTileState != mState) {
                 if (allowAnimations) {
