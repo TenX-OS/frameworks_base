@@ -6857,6 +6857,11 @@ public final class Settings {
          */
         public static final String QS_TILE_MASK = "qs_tile_mask";
 
+        /**
+         * Settings dasbhoard icons
+         */
+        public static final String SETTINGS_DASHBOARD_ICONS = "settings_dashboard_icons";
+
 	/**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
@@ -7095,6 +7100,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(INCREASING_RING);
             PRIVATE_SETTINGS.add(INCREASING_RING_START_VOLUME);
             PRIVATE_SETTINGS.add(INCREASING_RING_RAMP_UP_TIME);
+            PRIVATE_SETTINGS.add(SETTINGS_DASHBOARD_ICONS);
         }
 
         /**
