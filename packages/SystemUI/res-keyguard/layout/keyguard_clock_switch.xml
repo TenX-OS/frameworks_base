@@ -29,6 +29,8 @@
          android:id="@+id/clock_view"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
+         android:layout_gravity="center_horizontal"
+         android:layout_marginTop="50dp"
          android:layout_alignParentTop="true">
         <TextClock
              android:id="@+id/default_clock_view"
@@ -62,9 +64,7 @@
             android:id="@+id/animation_circle_lottie"
             android:layout_width="@dimen/lottie_animation_width_height"
             android:layout_height="@dimen/lottie_animation_width_height"
-            android:layout_gravity="center_horizontal"
-            android:scaleType="fitXY"
-            app:lottie_scale="0.1"
+            android:layout_gravity="center"
             android:clickable="false"
             app:lottie_rawRes="@raw/explosion_animation"
             app:lottie_loop="true"
