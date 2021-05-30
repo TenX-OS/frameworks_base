@@ -870,6 +870,7 @@ public class DisplayModeDirector {
         private final Context mContext;
         private float mDefaultPeakRefreshRate;
         private float mDefaultRefreshRate;
+        private float mDefaultMinRefreshRate;
 
         SettingsObserver(@NonNull Context context, @NonNull Handler handler) {
             super(handler);
@@ -878,6 +879,8 @@ public class DisplayModeDirector {
                     R.integer.config_defaultPeakRefreshRate);
             mDefaultRefreshRate =
                     (float) context.getResources().getInteger(R.integer.config_defaultRefreshRate);
+            mDefaultMinRefreshRate =
+                    (float) context.getResources().getInteger(R.integer.config_defaultMinimumRefreshRate);
         }
 
         public void observe() {
@@ -958,7 +961,7 @@ public class DisplayModeDirector {
 
         private void updateRefreshRateSettingLocked() {
             float minRefreshRate = Settings.System.getFloat(mContext.getContentResolver(),
-                    Settings.System.MIN_REFRESH_RATE, 60.00f);
+                    Settings.System.MIN_REFRESH_RATE, mDefaultMinRefreshRate);
             float peakRefreshRate = Settings.System.getFloat(mContext.getContentResolver(),
                     Settings.System.PEAK_REFRESH_RATE, mDefaultPeakRefreshRate);
             float preferredRefreshRate = Settings.System.getFloat(mContext.getContentResolver(),
