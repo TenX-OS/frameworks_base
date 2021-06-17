@@ -26,6 +26,7 @@ import static android.os.BatteryManager.EXTRA_MAX_CHARGING_CURRENT;
 import static android.os.BatteryManager.EXTRA_MAX_CHARGING_VOLTAGE;
 import static android.os.BatteryManager.EXTRA_OEM_FAST_CHARGER;
 import static android.os.BatteryManager.EXTRA_PLUGGED;
+import static android.os.BatteryManager.EXTRA_PRESENT;
 import static android.os.BatteryManager.EXTRA_STATUS;
 import static android.os.BatteryManager.EXTRA_TEMPERATURE;
 import static android.os.BatteryManager.EXTRA_DASH_CHARGER;
@@ -59,13 +60,15 @@ public class BatteryStatus {
     public final int maxChargingVoltage;
     public final int maxChargingWattage;
     public final float temperature;
+    public final boolean present;
     public final boolean oemFastChargeStatus;
     public final boolean dashChargeStatus;
     public final boolean voocChargeStatus;
 
     public BatteryStatus(int status, int level, int plugged, int health,
             int maxChargingCurrent, int maxChargingVoltage, int maxChargingWattage,
-            float temperature, boolean oemFastChargeStatus, boolean dashChargeStatus, boolean voocChargeStatus) {
+            float temperature, boolean oemFastChargeStatus, boolean dashChargeStatus, boolean voocChargeStatus,
+           boolean present) {
         this.status = status;
         this.level = level;
         this.plugged = plugged;
@@ -74,6 +77,7 @@ public class BatteryStatus {
         this.maxChargingVoltage = maxChargingVoltage;
         this.maxChargingWattage = maxChargingWattage;
         this.temperature = temperature;
+        this.present = present;
         this.oemFastChargeStatus = oemFastChargeStatus;
         this.dashChargeStatus = dashChargeStatus;
         this.voocChargeStatus = voocChargeStatus;
@@ -89,6 +93,7 @@ public class BatteryStatus {
         temperature = batteryChangedIntent.getIntExtra(EXTRA_TEMPERATURE, -1);
         dashChargeStatus = batteryChangedIntent.getBooleanExtra(EXTRA_DASH_CHARGER, false);
         voocChargeStatus = batteryChangedIntent.getBooleanExtra(EXTRA_VOOC_CHARGER, false);
+        present = batteryChangedIntent.getBooleanExtra(EXTRA_PRESENT, true);
 
         final int maxChargingMicroAmp = maxChargingCurrent;
         int maxChargingMicroVolt = maxChargingVoltage;
