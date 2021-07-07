@@ -165,6 +165,9 @@
     <!-- Whether device has VOOC charging support -->
     <bool name="config_hasVoocCharger">false</bool>
 
+    <!-- Whether device has SuperDart charging support -->
+    <bool name="config_hasSuperdartCharger">false</bool>
+
     <!-- System info -->
     <string name="config_sysCPUTemp"></string>
     <string name="config_sysBatteryTemp"></string>

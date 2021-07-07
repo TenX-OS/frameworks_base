@@ -209,6 +209,9 @@ public class Utils {
                     default:
                         statusString = res.getString(R.string.battery_info_status_charging);
                         break;
+                    case BatteryStatus.CHARGING_SUPERDART:
+                        statusString = res.getString(R.string.battery_info_status_superdart_charging);
+                        break;
                 }
 
             } else if (status == BatteryManager.BATTERY_STATUS_DISCHARGING) {

@@ -31,6 +31,7 @@ import static android.os.BatteryManager.EXTRA_STATUS;
 import static android.os.BatteryManager.EXTRA_TEMPERATURE;
 import static android.os.BatteryManager.EXTRA_DASH_CHARGER;
 import static android.os.BatteryManager.EXTRA_VOOC_CHARGER;
+import static android.os.BatteryManager.EXTRA_SUPERDART_CHARGER;
 
 import android.content.Context;
 import android.content.Intent;
@@ -51,6 +52,7 @@ public class BatteryStatus {
     public static final int CHARGING_FAST = 2;
     public static final int CHARGING_DASH = 3;
     public static final int CHARGING_VOOC = 4;
+    public static final int CHARGING_SUPERDART = 5;
 
     public final int status;
     public final int level;
@@ -64,11 +66,12 @@ public class BatteryStatus {
     public final boolean oemFastChargeStatus;
     public final boolean dashChargeStatus;
     public final boolean voocChargeStatus;
+    public final boolean superdartChargeStatus;
 
     public BatteryStatus(int status, int level, int plugged, int health,
             int maxChargingCurrent, int maxChargingVoltage, int maxChargingWattage,
             float temperature, boolean oemFastChargeStatus, boolean dashChargeStatus, boolean voocChargeStatus,
-           boolean present) {
+            boolean superdartChargeStatus, boolean present) {
         this.status = status;
         this.level = level;
         this.plugged = plugged;
@@ -81,6 +84,7 @@ public class BatteryStatus {
         this.oemFastChargeStatus = oemFastChargeStatus;
         this.dashChargeStatus = dashChargeStatus;
         this.voocChargeStatus = voocChargeStatus;
+        this.superdartChargeStatus = superdartChargeStatus;
     }
 
     public BatteryStatus(Intent batteryChangedIntent) {
@@ -93,6 +97,7 @@ public class BatteryStatus {
         temperature = batteryChangedIntent.getIntExtra(EXTRA_TEMPERATURE, -1);
         dashChargeStatus = batteryChangedIntent.getBooleanExtra(EXTRA_DASH_CHARGER, false);
         voocChargeStatus = batteryChangedIntent.getBooleanExtra(EXTRA_VOOC_CHARGER, false);
+        superdartChargeStatus = batteryChangedIntent.getBooleanExtra(EXTRA_SUPERDART_CHARGER, false);
         present = batteryChangedIntent.getBooleanExtra(EXTRA_PRESENT, true);
 
         final int maxChargingMicroAmp = maxChargingCurrent;
@@ -177,6 +182,7 @@ public class BatteryStatus {
                 R.integer.config_chargingFastThreshold);
         return dashChargeStatus ? CHARGING_DASH :
                voocChargeStatus ? CHARGING_VOOC :
+                superdartChargeStatus ? CHARGING_SUPERDART :
                 maxChargingWattage <= 0 ? CHARGING_UNKNOWN :
                 maxChargingWattage < slowThreshold ? CHARGING_SLOWLY :
                         maxChargingWattage > fastThreshold ? CHARGING_FAST :
